@@ -500,11 +500,11 @@
                 <!-- Enhanced Mobile Menu -->
                 <div id="mobileMenu" class="md:hidden bg-black/90 backdrop-blur-md rounded-2xl m-4 p-6 shadow-xl border border-gray-700 hidden transform scale-95 transition-all duration-300">
                     <div class="space-y-4">
-                        <button class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
+                        <a href="{% url "blogs_page" %}" class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
                             <i class="ri-book-open-line group-hover:animate-bounce"></i>
                             <span>Blogs</span>
                         </button>
-                        <button class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
+                        <a href="{% url "about_page" %}" class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
                             <i class="ri-star-line group-hover:animate-wiggle"></i>
                             <span>About Us</span>
                         </button>

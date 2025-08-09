@@ -1,0 +1,1413 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Settings</title>
+    <link rel="shortcut icon" href="{% static 'Logo/Logo.png' %}" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .top-bar {
+            height: 3px;
+            background: #1f2937;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            z-index: 60;
+            transition: width 2s ease-out;
+            opacity: 0;
+        }
+        
+        .top-bar.loading {
+            width: 100%;
+            opacity: 1;
+        }
+        
+        .top-bar.complete {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .menu-item {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .menu-item:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+        }
+        
+        .menu-item.active {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            transform: translateX(6px);
+        }
+        
+        .menu-item.active::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 2px;
+        }
+        
+        .pulse-ring {
+            animation: pulse-ring 2s infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2.4);
+                opacity: 0;
+            }
+        }
+        
+        .sidebar-bg {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border-right: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid #e2e8f0;
+            margin-top: 4px;
+        }
+        
+        .time-display {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 2px solid #e2e8f0;
+            z-index: 40;
+        }
+        
+        .main-content {
+            padding-bottom: 60px;
+        }
+        
+        .icon-dashboard {
+            color: #3b82f6;
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+        }
+        
+        .icon-blog {
+            color: #8b5cf6;
+            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
+        }
+        
+        .icon-sms {
+            color: #10b981;
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.4));
+        }
+        
+        .icon-settings {
+            color: #f59e0b;
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.4));
+        }
+        
+        .icon-docs {
+            color: #ef4444;
+            filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4));
+        }
+        
+        .icon-logout {
+            color: #dc2626;
+            filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.4));
+        }
+        
+        .menu-item.active .icon-dashboard,
+        .menu-item.active .icon-blog,
+        .menu-item.active .icon-sms,
+        .menu-item.active .icon-settings,
+        .menu-item.active .icon-docs {
+            color: white;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 90;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .toast {
+            background: white;
+            border-left: 4px solid;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            padding: 16px 20px;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            border-left-color: #10b981;
+        }
+        
+        .toast.error {
+            border-left-color: #ef4444;
+        }
+        
+        .toast::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            width: 0%;
+            transition: width 4s linear;
+        }
+        
+        .toast.show::after {
+            width: 100%;
+        }
+        
+        .toast-close {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #64748b;
+            transition: color 0.2s ease;
+        }
+        
+        .toast-close:hover {
+            color: #334155;
+        }
+        
+        /* Desktop first - default 500px width */
+        .slide-form {
+            position: fixed !important;
+            top: 0 !important;
+            right: -500px !important;
+            width: 500px !important;
+            max-width: 500px !important;
+            min-width: 500px !important;
+            height: 100vh !important;
+            background: white !important;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2) !important;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            z-index: 70 !important;
+            overflow-y: auto !important;
+        }
+        
+        .slide-form.open {
+            right: 0 !important;
+        }
+        
+        .slide-form.closing {
+            right: -500px !important;
+        }
+        
+        .view-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 90;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        
+        .view-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .view-modal-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+        
+        .view-modal.show .view-modal-content {
+            transform: scale(1) translateY(0);
+        }
+        
+        .view-modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: between;
+        }
+        
+        .view-modal-body {
+            padding: 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .sms-content {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            color: #374151;
+        }
+        
+        .sms-signature {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 2px solid #e5e7eb;
+            font-style: italic;
+            color: #6b7280;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+        
+        .upload-area:hover {
+            border-color: #6366f1;
+            background: #f0f9ff;
+        }
+        
+        .upload-area.drag-over {
+            border-color: #6366f1;
+            background: #eff6ff;
+        }
+        
+        .mail-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 1px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .mail-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        
+        .mail-card.selected {
+            background: #f0f9ff;
+            border-color: #3b82f6;
+        }
+        
+        .mail-header {
+            padding: 16px 20px;
+            border-bottom: none;
+            background: transparent;
+        }
+        
+        .mail-preview {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .mail-meta {
+            color: #9ca3af;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .mail-actions {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .mail-card:hover .mail-actions {
+            opacity: 1;
+        }
+        
+        .priority-indicator {
+            width: 4px;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #f59e0b;
+        }
+        
+        .attachment-indicator {
+            width: 16px;
+            height: 16px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 80;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+        
+        /* Only change on mobile */
+        @media screen and (max-width: 768px) {
+            .slide-form {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                min-width: 100vw !important;
+                right: -100vw !important;
+            }
+            
+            .slide-form.closing {
+                right: -100vw !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 50;
+            }
+            
+            #sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                width: 100%;
+                margin-left: 0;
+            }
+            
+            .toast-container {
+                right: 10px;
+                max-width: calc(100% - 20px);
+            }
+        }
+        
+        @media (min-width: 769px) {
+            #sidebar {
+                transform: translateX(0) !important;
+                position: relative !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+    <!-- YouTube-style Top Bar -->
+    <div class="top-bar"></div>
+    
+    <!-- Top Navigation -->
+    <nav class="nav-glass h-12 md:h-16 flex items-center justify-between px-4 md:px-8 sticky top-0 z-50">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2 md:space-x-3">
+            <div class="relative">
+                <div class="w-8 md:w-10 h-8 md:h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
+                    <i data-lucide="zap" class="h-4 md:h-5 w-4 md:w-5 text-white"></i>
+                </div>
+                <div class="absolute -top-0.5 -right-0.5 w-2.5 md:w-3 h-2.5 md:h-3 bg-yellow-400 rounded-full pulse-ring"></div>
+            </div>
+            <div>
+                <h1 class="text-base md:text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    AdminPanel
+                </h1>
+                <p class="text-xs text-slate-500 font-medium hidden md:block">Enterprise Dashboard</p>
+            </div>
+        </div>
+        
+        <!-- User Info -->
+        <div class="flex items-center space-x-2 md:space-x-3">
+            <div class="hidden sm:block text-right">
+                <p class="text-xs md:text-sm font-semibold text-slate-700">Administrator</p>
+                <p class="text-xs text-slate-500 hidden md:block">Super Admin</p>
+            </div>
+            <div class="relative">
+                <img src="{% static 'Logo/Logo.png' %}" 
+                     alt="User" class="h-8 md:h-9 w-8 md:w-9 rounded-full border-2 border-white shadow-md object-cover">
+                <div class="absolute -bottom-0.5 -right-0.5 w-2.5 md:w-3 h-2.5 md:h-3 bg-green-400 border-2 border-white rounded-full"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <button class="md:hidden fixed top-20 left-4 z-50 bg-white p-2 rounded-lg shadow-lg" id="mobileMenuBtn">
+        <i data-lucide="menu" class="h-5 w-5 text-slate-600"></i>
+    </button>
+
+    <div class="flex min-h-screen">
+        <!-- Left Sidebar -->
+        <aside class="w-72 sidebar-bg shadow-xl relative" id="sidebar">
+            <div class="p-4 md:p-6">
+                <div class="mb-6 md:mb-8">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Main Menu</h3>
+                </div>
+                
+                <ul class="space-y-2 md:space-y-3">
+                    <li>
+                        <a href="{% url "admin_dashboard" %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="layout-dashboard" class="h-4 md:h-5 w-4 md:w-5 icon-dashboard"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-medium text-sm md:text-base">Dashboard</span>
+                                <p class="text-xs opacity-70 hidden md:block">Overview & Analytics</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url "manage_blogs" %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="file-text" class="h-4 md:h-5 w-4 md:w-5 icon-blog"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-medium text-sm md:text-base">Manage Blogs</span>
+                                <p class="text-xs opacity-70 hidden md:block">Content Management</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="message-square" class="h-4 md:h-5 w-4 md:w-5 icon-sms"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-medium text-sm md:text-base">Manage SMS</span>
+                                <p class="text-xs opacity-70 hidden md:block">Message Center</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url "sms_settings" %}" class="menu-item active flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="settings" class="h-4 md:h-5 w-4 md:w-5 icon-settings"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-medium text-sm md:text-base">SMS Settings</span>
+                                <p class="text-xs opacity-70 hidden md:block">Configuration</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="book-open" class="h-4 md:h-5 w-4 md:w-5 icon-docs"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-medium text-sm md:text-base">Documentation</span>
+                                <p class="text-xs opacity-70 hidden md:block">Help & Guides</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-slate-200">
+                    <a href="#" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all text-red-600 hover:bg-red-50">
+                        <div class="flex-shrink-0">
+                            <i data-lucide="log-out" class="h-4 md:h-5 w-4 md:w-5 icon-logout"></i>
+                        </div>
+                        <div class="flex-1">
+                            <span class="font-medium text-sm md:text-base">Logout</span>
+                            <p class="text-xs opacity-70 hidden md:block">Sign out safely</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 main-content">
+            <!-- Search and Add SMS Button Bar -->
+            <div class="bg-white border-b-2 border-slate-200 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <form method="GET" class="relative">
+                    <input type="text" 
+                           name="search"
+                           value="{{ search_query }}"
+                           placeholder="Search SMS..." 
+                           class="w-full sm:w-64 pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <i data-lucide="search" class="h-5 w-5 text-slate-400 absolute left-3 top-2.5"></i>
+                    {% if search_query %}
+                        <a href="{% url 'sms_settings' %}" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+                            <i data-lucide="x" class="h-5 w-5"></i>
+                        </a>
+                    {% endif %}
+                </form>
+                <button onclick="openSMSForm()" 
+                        class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all flex items-center space-x-2 shadow-lg">
+                    <i data-lucide="plus" class="h-5 w-5"></i>
+                    <span>Add SMS</span>
+                </button>
+            </div>
+
+            <!-- SMS Content -->
+            <div class="bg-white border-l-2 border-r-2 border-b-2 border-slate-200">
+                {% if mails %}
+                    {% for mail in mails %}
+                        <div class="mail-card {% if mail.selected_for %}selected{% endif %}" data-mail-id="{{ mail.id }}">
+                            {% if mail.selected_for %}
+                                <div class="priority-indicator"></div>
+                            {% endif %}
+                            
+                            <div class="mail-header">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4 flex-1">
+                                        <!-- Checkbox -->
+                                        <input type="checkbox" 
+                                               class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500 cursor-pointer"
+                                               {% if mail.selected_for %}checked{% endif %}
+                                               onchange="toggleSelected({{ mail.id }}, this.checked)">
+                                        
+                                        <!-- SMS Content -->
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-3">
+                                                    <h3 class="font-semibold text-slate-900 text-base">{{ mail.subject }}</h3>
+                                                    {% if mail.template %}
+                                                        <div class="attachment-indicator">
+                                                            <i data-lucide="paperclip" class="h-3 w-3 text-slate-500"></i>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="mail-meta">
+                                                    <span>{{ mail.created_at|date:"M d" }}</span>
+                                                    <span>{{ mail.created_at|date:"h:i A" }}</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mail-preview">
+                                                {{ mail.content|truncatewords:15 }}
+                                                {% if mail.signature %}
+                                                    <span class="text-slate-400">— {{ mail.signature|truncatewords:5 }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="mail-actions flex items-center space-x-2 ml-4">
+                                        <button onclick="viewSMS({{ mail.id }}, '{{ mail.subject|addslashes }}', '{{ mail.content|addslashes }}', '{{ mail.signature|addslashes|default:"" }}', '{{ mail.created_at|date:"M d, Y h:i A" }}')" 
+                                                class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                title="View SMS">
+                                            <i data-lucide="eye" class="h-4 w-4"></i>
+                                        </button>
+                                        <button onclick="editSMS({{ mail.id }}, '{{ mail.subject|addslashes }}', '{{ mail.content|addslashes }}', '{{ mail.signature|addslashes|default:"" }}')" 
+                                                class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                                                title="Edit SMS">
+                                            <i data-lucide="edit-3" class="h-4 w-4"></i>
+                                        </button>
+                                        <button onclick="confirmDelete({{ mail.id }}, '{{ mail.subject|addslashes }}')" 
+                                                class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                title="Delete SMS">
+                                            <i data-lucide="trash-2" class="h-4 w-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <!-- Pagination -->
+                    {% if mails.has_other_pages %}
+                        <div class="p-6 border-t border-slate-200 bg-slate-50">
+                            <div class="flex justify-center">
+                                <nav class="flex space-x-2">
+                                    {% if mails.has_previous %}
+                                        <a href="?page={{ mails.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                                           class="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
+                                            <i data-lucide="chevron-left" class="h-4 w-4"></i>
+                                        </a>
+                                    {% endif %}
+                                    
+                                    {% for num in mails.paginator.page_range %}
+                                        {% if mails.number == num %}
+                                            <span class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium">{{ num }}</span>
+                                        {% else %}
+                                            <a href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                                               class="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
+                                                {{ num }}
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if mails.has_next %}
+                                        <a href="?page={{ mails.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                                           class="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
+                                            <i data-lucide="chevron-right" class="h-4 w-4"></i>
+                                        </a>
+                                    {% endif %}
+                                </nav>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <!-- No SMS Found -->
+                    <div class="text-center py-16">
+                        <div class="mb-4">
+                            {% if search_query %}
+                                <i data-lucide="search-x" class="h-16 w-16 text-slate-300 mx-auto mb-4"></i>
+                                <h3 class="text-lg font-medium text-slate-900 mb-2">No search results found</h3>
+                                <p class="text-slate-500 mb-4">No SMS match your search for "{{ search_query }}"</p>
+                                <a href="{% url 'sms_settings' %}" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                                    Clear search and view all SMS
+                                </a>
+                            {% else %}
+                                <i data-lucide="message-square" class="h-16 w-16 text-slate-300 mx-auto mb-4"></i>
+                                <h3 class="text-lg font-medium text-slate-900 mb-2">No SMS yet</h3>
+                                <p class="text-slate-500 mb-4">Start by creating your first SMS template</p>
+                                <button onclick="openSMSForm()" 
+                                        class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all flex items-center space-x-2 shadow-lg mx-auto">
+                                    <i data-lucide="plus" class="h-5 w-5"></i>
+                                    <span>Create First SMS</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Sliding SMS Form -->
+    <div class="slide-form" id="smsForm">
+        <div class="p-6 h-full">
+            <!-- Form Header -->
+            <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <i data-lucide="message-square" class="h-5 w-5 text-white"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800" id="formTitle">Create New SMS</h2>
+                        <p class="text-sm text-slate-500">Compose and save your message</p>
+                    </div>
+                </div>
+                <button onclick="closeSMSForm()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+                    <i data-lucide="x" class="h-6 w-6 text-slate-500"></i>
+                </button>
+            </div>
+
+            <!-- Form Content -->
+            <form method="POST" enctype="multipart/form-data" class="space-y-6" id="smsFormElement">
+                {% csrf_token %}
+                <input type="hidden" name="mail_id" id="smsId" value="">
+                
+                <!-- Subject -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i data-lucide="type" class="h-5 w-5 text-slate-500"></i>
+                        <label class="text-sm font-medium text-slate-700">Subject</label>
+                    </div>
+                    <input type="text" 
+                           name="subject"
+                           id="smsSubject"
+                           placeholder="Enter SMS subject..." 
+                           required
+                           class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+
+                <!-- Message Content -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i data-lucide="file-text" class="h-5 w-5 text-slate-500"></i>
+                        <label class="text-sm font-medium text-slate-700">Message</label>
+                    </div>
+                    <textarea rows="8" 
+                              name="content"
+                              id="smsContent"
+                              placeholder="Write your SMS message here..." 
+                              required
+                              class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"></textarea>
+                </div>
+
+                <!-- Signature -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i data-lucide="pen-tool" class="h-5 w-5 text-slate-500"></i>
+                        <label class="text-sm font-medium text-slate-700">Signature</label>
+                    </div>
+                    <textarea rows="3" 
+                              name="signature"
+                              id="smsSignature"
+                              placeholder="Your signature..." 
+                              class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"></textarea>
+                </div>
+
+                <!-- Upload Template -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i data-lucide="upload" class="h-5 w-5 text-slate-500"></i>
+                        <label class="text-sm font-medium text-slate-700">Upload Template</label>
+                    </div>
+                    <div class="upload-area" onclick="document.getElementById('templateUpload').click()" id="uploadArea">
+                        <div class="flex flex-col items-center space-y-2">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="cloud-upload" class="h-6 w-6 text-indigo-600"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-sm font-medium text-slate-700">Click to upload template</p>
+                                <p class="text-xs text-slate-500 mt-1">TXT, HTML, DOC, DOCX up to 10MB</p>
+                            </div>
+                        </div>
+                        <div id="uploadedFile" class="hidden">
+                            <div class="flex items-center justify-center space-x-2">
+                                <i data-lucide="file-text" class="h-5 w-5 text-green-600"></i>
+                                <span class="text-sm font-medium text-green-700" id="fileName"></span>
+                                <button type="button" onclick="removeFile()" class="text-red-500 hover:text-red-700">
+                                    <i data-lucide="x" class="h-4 w-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" 
+                           name="template"
+                           id="templateUpload"
+                           accept=".txt,.html,.doc,.docx"
+                           class="hidden">
+                </div>
+
+                <!-- Save Button -->
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all flex items-center justify-center space-x-2 shadow-lg">
+                    <i data-lucide="save" class="h-5 w-5"></i>
+                    <span class="font-medium" id="submitText">Save SMS</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View SMS Modal -->
+    <div class="view-modal" id="viewModal">
+        <div class="view-modal-content">
+            <div class="view-modal-header">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center space-x-3">
+                        <i data-lucide="message-square" class="h-6 w-6"></i>
+                        <div>
+                            <h3 class="text-lg font-bold" id="viewSubject">SMS Subject</h3>
+                            <p class="text-sm opacity-90" id="viewDate">Date</p>
+                        </div>
+                    </div>
+                    <button onclick="closeViewModal()" class="p-1 hover:bg-white/20 rounded-lg transition-colors">
+                        <i data-lucide="x" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="view-modal-body">
+                <div class="sms-content" id="viewContent">
+                    SMS content will appear here...
+                </div>
+                <div class="sms-signature" id="viewSignature" style="display: none;">
+                    Signature will appear here...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Switch SMS Confirmation Modal -->
+    <div class="modal-overlay" id="switchModal">
+        <div class="modal-content">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4">
+                    <i data-lucide="alert-triangle" class="h-6 w-6 text-amber-600"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900">Switch Selected SMS</h3>
+                    <p class="text-sm text-slate-500">Only one SMS can be selected at a time</p>
+                </div>
+            </div>
+            <p class="text-slate-600 mb-6">
+                You have "<span id="currentSelectedSMS" class="font-medium"></span>" selected. 
+                Do you want to switch to "<span id="newSelectedSMS" class="font-medium"></span>"?
+            </p>
+            <div class="flex space-x-3">
+                <button onclick="closeSwitchModal()" 
+                        class="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="confirmSwitch()" 
+                        class="flex-1 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors">
+                    Switch
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-content">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                    <i data-lucide="trash-2" class="h-6 w-6 text-red-600"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900">Delete SMS</h3>
+                    <p class="text-sm text-slate-500">This action cannot be undone</p>
+                </div>
+            </div>
+            <p class="text-slate-600 mb-6">Are you sure you want to delete "<span id="deleteSMSTitle"></span>"?</p>
+            <div class="flex space-x-3">
+                <button onclick="closeDeleteModal()" 
+                        class="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors">
+                    Cancel
+                </button>
+                <form method="POST" class="flex-1" id="deleteForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="mail_id" id="deleteSMSId">
+                    <button type="submit" 
+                            class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer-fixed py-3 px-4 md:px-8 shadow-2xl">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-1">
+                <i data-lucide="zap" class="h-3 w-3 text-indigo-500"></i>
+                <span class="text-slate-500 text-xs">Powered by</span>
+                <a href="#" class="text-indigo-600 font-medium text-xs hover:text-indigo-500 transition-colors">
+                    Finix Dev
+                </a>
+            </div>
+            <div class="text-center">
+                <p class="text-sm font-semibold text-slate-700" id="currentDay">Monday</p>
+            </div>
+            <div class="text-right">
+                <p class="text-sm font-bold time-display text-slate-700" id="currentTime">12:00:00</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Toast notification system
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            toast.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3 flex-1 min-w-0">
+                        <i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="h-5 w-5 text-${type === 'success' ? 'green' : 'red'}-600 flex-shrink-0"></i>
+                        <span class="text-slate-800 font-medium truncate">${message}</span>
+                    </div>
+                    <button class="toast-close ml-4 flex-shrink-0" onclick="closeToast(this)">
+                        <i data-lucide="x" class="h-4 w-4"></i>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                closeToast(toast.querySelector('.toast-close'));
+            }, 4000);
+        }
+        
+        function closeToast(closeBtn) {
+            const toast = closeBtn.closest('.toast');
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 400);
+        }
+
+        // Loading bar functionality
+        function showLoadingBar() {
+            const topBar = document.querySelector('.top-bar');
+            topBar.classList.add('loading');
+            setTimeout(() => {
+                topBar.classList.add('complete');
+                setTimeout(() => {
+                    topBar.classList.remove('loading', 'complete');
+                }, 500);
+            }, 2000);
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            sidebar.classList.toggle('open');
+            const icon = menuBtn.querySelector('i');
+            if (sidebar.classList.contains('open')) {
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        // SMS form functions with validation
+        function openSMSForm() {
+            const form = document.getElementById('smsForm');
+            form.classList.remove('closing');
+            form.classList.add('open');
+            resetForm();
+            showLoadingBar();
+        }
+
+        function closeSMSForm() {
+            const form = document.getElementById('smsForm');
+            form.classList.add('closing');
+            setTimeout(() => {
+                form.classList.remove('open', 'closing');
+            }, 400);
+        }
+
+        function resetForm() {
+            document.getElementById('smsFormElement').reset();
+            document.getElementById('smsId').value = '';
+            document.getElementById('formTitle').textContent = 'Create New SMS';
+            document.getElementById('submitText').textContent = 'Save SMS';
+            
+            // Reset file upload area
+            document.getElementById('uploadedFile').classList.add('hidden');
+            document.getElementById('uploadArea').querySelector('.flex.flex-col').classList.remove('hidden');
+        }
+
+        function editSMS(id, subject, content, signature) {
+            openSMSForm();
+            document.getElementById('smsId').value = id;
+            document.getElementById('smsSubject').value = subject;
+            document.getElementById('smsContent').value = content;
+            document.getElementById('smsSignature').value = signature;
+            document.getElementById('formTitle').textContent = 'Edit SMS';
+            document.getElementById('submitText').textContent = 'Update SMS';
+        }
+
+        // View SMS in modal
+        function viewSMS(id, subject, content, signature, date) {
+            document.getElementById('viewSubject').textContent = subject;
+            document.getElementById('viewDate').textContent = date;
+            document.getElementById('viewContent').innerHTML = content.replace(/\n/g, '<br>');
+            
+            const signatureElement = document.getElementById('viewSignature');
+            if (signature && signature.trim()) {
+                signatureElement.innerHTML = signature.replace(/\n/g, '<br>');
+                signatureElement.style.display = 'block';
+            } else {
+                signatureElement.style.display = 'none';
+            }
+            
+            document.getElementById('viewModal').classList.add('show');
+        }
+
+        function closeViewModal() {
+            document.getElementById('viewModal').classList.remove('show');
+        }
+
+        // Form validation
+        function validateForm() {
+            const subject = document.getElementById('smsSubject').value.trim();
+            const content = document.getElementById('smsContent').value.trim();
+            
+            if (!subject) {
+                showToast('SMS subject is required', 'error');
+                document.getElementById('smsSubject').focus();
+                return false;
+            }
+            
+            if (!content) {
+                showToast('SMS message is required', 'error');
+                document.getElementById('smsContent').focus();
+                return false;
+            }
+            
+            return true;
+        }
+
+        // File upload handling
+        function handleFileUpload() {
+            const fileInput = document.getElementById('templateUpload');
+            const uploadArea = document.getElementById('uploadArea');
+            const uploadedFile = document.getElementById('uploadedFile');
+            const fileName = document.getElementById('fileName');
+            
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Validate file size (10MB max)
+                    if (file.size > 10 * 1024 * 1024) {
+                        showToast('File size must be less than 10MB', 'error');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    // Show uploaded file
+                    fileName.textContent = file.name;
+                    uploadArea.querySelector('.flex.flex-col').classList.add('hidden');
+                    uploadedFile.classList.remove('hidden');
+                    uploadArea.classList.add('drag-over');
+                }
+            });
+            
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+            
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                if (!fileInput.files.length) {
+                    this.classList.remove('drag-over');
+                }
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    fileInput.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        function removeFile() {
+            const fileInput = document.getElementById('templateUpload');
+            const uploadArea = document.getElementById('uploadArea');
+            const uploadedFile = document.getElementById('uploadedFile');
+            
+            fileInput.value = '';
+            uploadedFile.classList.add('hidden');
+            uploadArea.querySelector('.flex.flex-col').classList.remove('hidden');
+            uploadArea.classList.remove('drag-over');
+        }
+
+        // Delete confirmation
+        function confirmDelete(smsId, smsSubject) {
+            document.getElementById('deleteSMSId').value = smsId;
+            document.getElementById('deleteSMSTitle').textContent = smsSubject;
+            document.getElementById('deleteModal').classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+        }
+
+        // Switch confirmation modal variables
+        let pendingSwitchData = null;
+
+        function closeSwitchModal() {
+            document.getElementById('switchModal').classList.remove('show');
+            
+            // Revert the checkbox that triggered the switch
+            if (pendingSwitchData) {
+                const checkbox = document.querySelector(`[data-mail-id="${pendingSwitchData.newSmsId}"] input[type="checkbox"]`);
+                if (checkbox) {
+                    checkbox.checked = false;
+                }
+                pendingSwitchData = null;
+            }
+        }
+
+        function confirmSwitch() {
+            if (!pendingSwitchData) return;
+            
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `action=confirm_switch&new_mail_id=${pendingSwitchData.newSmsId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update UI - unselect all and select new one
+                    document.querySelectorAll('.mail-card').forEach(card => {
+                        card.classList.remove('selected');
+                        const indicator = card.querySelector('.priority-indicator');
+                        if (indicator) indicator.remove();
+                        const checkbox = card.querySelector('input[type="checkbox"]');
+                        if (checkbox) checkbox.checked = false;
+                    });
+                    
+                    // Select the new SMS
+                    const newSmsCard = document.querySelector(`[data-mail-id="${pendingSwitchData.newSmsId}"]`);
+                    if (newSmsCard) {
+                        newSmsCard.classList.add('selected');
+                        const checkbox = newSmsCard.querySelector('input[type="checkbox"]');
+                        if (checkbox) checkbox.checked = true;
+                        
+                        // Add priority indicator
+                        if (!newSmsCard.querySelector('.priority-indicator')) {
+                            const indicator = document.createElement('div');
+                            indicator.className = 'priority-indicator';
+                            newSmsCard.prepend(indicator);
+                        }
+                    }
+                    
+                    showToast(`Switched to "${pendingSwitchData.newSmsSubject}"`);
+                    closeSwitchModal();
+                } else {
+                    showToast('Error switching SMS selection', 'error');
+                    closeSwitchModal();
+                }
+            })
+            .catch(error => {
+                showToast('Error switching SMS selection', 'error');
+                closeSwitchModal();
+            });
+        }
+
+        // Toggle selected status with single selection logic
+        function toggleSelected(smsId, isSelected) {
+            const smsCard = document.querySelector(`[data-mail-id="${smsId}"]`);
+            const smsSubject = smsCard.querySelector('h3').textContent.trim();
+            
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `action=toggle_selected&mail_id=${smsId}&selected=${isSelected}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.action === 'selected') {
+                        // Successfully selected
+                        smsCard.classList.add('selected');
+                        if (!smsCard.querySelector('.priority-indicator')) {
+                            const indicator = document.createElement('div');
+                            indicator.className = 'priority-indicator';
+                            smsCard.prepend(indicator);
+                        }
+                        showToast('SMS selected successfully');
+                    } else {
+                        // Successfully unselected
+                        smsCard.classList.remove('selected');
+                        const indicator = smsCard.querySelector('.priority-indicator');
+                        if (indicator) indicator.remove();
+                        showToast('SMS unselected');
+                    }
+                } else if (data.already_selected && isSelected) {
+                    // Another SMS is selected, show confirmation modal
+                    pendingSwitchData = {
+                        newSmsId: smsId,
+                        newSmsSubject: smsSubject,
+                        currentSmsSubject: data.current_sms.subject
+                    };
+                    
+                    document.getElementById('currentSelectedSMS').textContent = data.current_sms.subject;
+                    document.getElementById('newSelectedSMS').textContent = smsSubject;
+                    document.getElementById('switchModal').classList.add('show');
+                } else {
+                    // Revert checkbox on error
+                    const checkbox = smsCard.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !isSelected;
+                    showToast(data.error || 'Error updating selection', 'error');
+                }
+            })
+            .catch(error => {
+                // Revert checkbox on error
+                const checkbox = smsCard.querySelector('input[type="checkbox"]');
+                checkbox.checked = !isSelected;
+                showToast('Error updating selection', 'error');
+            });
+        }
+
+        // Update time and day
+        function updateDateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+            document.getElementById('currentTime').textContent = timeString;
+            const dayString = now.toLocaleDateString('en-US', { weekday: 'long' });
+            document.getElementById('currentDay').textContent = dayString;
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            showLoadingBar();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
+            // Show Django messages as toasts
+            {% if messages %}
+                {% for message in messages %}
+                    showToast('{{ message|escapejs }}', '{{ message.tags }}');
+                {% endfor %}
+            {% endif %}
+            
+            // Initialize file upload handling
+            handleFileUpload();
+            
+            // Form submission validation
+            document.getElementById('smsFormElement').addEventListener('submit', function(e) {
+                if (!validateForm()) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+            
+            // Auto-submit search form
+            const searchInput = document.querySelector('input[name="search"]');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(this.searchTimeout);
+                    this.searchTimeout = setTimeout(() => {
+                        this.form.submit();
+                    }, 500);
+                });
+            }
+            
+            // Close modals with escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSMSForm();
+                    closeDeleteModal();
+                    closeViewModal();
+                    closeSwitchModal();
+                }
+            });
+            
+            // Close modals when clicking outside
+            document.getElementById('deleteModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDeleteModal();
+                }
+            });
+            
+            document.getElementById('viewModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeViewModal();
+                }
+            });
+            
+            document.getElementById('switchModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSwitchModal();
+                }
+            });
+            
+            // SMS card selection styling
+            document.querySelectorAll('.mail-card input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const smsCard = this.closest('.mail-card');
+                    if (this.checked) {
+                        smsCard.classList.add('selected');
+                    } else {
+                        smsCard.classList.remove('selected');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

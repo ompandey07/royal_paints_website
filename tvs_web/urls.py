@@ -25,7 +25,7 @@ urlpatterns = [
     path('tvsadmin/admin/', admin.site.urls),
 
     # Include the URLs from the backend app
-    path('tvsadmin/', include('backend.routes')),
+    path('admin/', include('backend.routes')),
     
     # Include the URLs from the baseapp
     path('', include('baseapp.routes')),

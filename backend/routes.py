@@ -5,6 +5,14 @@ from . import views
 urlpatterns = [
          
      path('', views.login_view, name='login_view'),
+
+     path('logout/', views.logout_view, name='logout_view'),
+
+     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+
+     path('manage-blogs/', views.manage_blogs, name='manage_blogs'),
+
+     path('sms-settings/', views.sms_settings, name='sms_settings'),
                
 ]
 
