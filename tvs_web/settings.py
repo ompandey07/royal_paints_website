@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ekl2udwz5bqp=%mbinz32-ni8_&1at#5xb6_$d-fy3x#!4or9s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -159,4 +159,4 @@ FILE_UPLOAD_TEMP_DIR = None  # Use default temp directory
 # CSRF Settings (ensure these are set)
 CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
 CSRF_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']  # Add your domains
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']  
