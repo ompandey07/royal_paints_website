@@ -3,8 +3,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 urlpatterns = [
-         
+
+     # Home page    
      path('', views.index_page, name='index_page'),
+
+     # Blog URLs
+     path('blogs/', views.blogs_page, name='blogs_page'),
+     path('blogs/<slug:slug>/', views.blog_detail, name='blog_detail'),
+
+     # Other pages
+     path('about/', views.abuot_page, name='about_page'),
                
 ]
 

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Choice - Expert Bike Care & Service</title>
+    <title>Your Choice </title>
+    <link rel="shortcut icon" href="{% static 'Logo/Logo.png' %}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
     <style>
@@ -466,8 +467,8 @@
                 <div class="flex justify-between items-center h-20">
                     <!-- Logo with animation -->
                     <div class="flex items-center space-x-3">
-                        <a href="/" class="group">
-                            <img src="/Logo/Logo.png" alt="Your Choice Logo" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <a href="{% url "index_page" %}" class="group">
+                            <img src="{% static 'Logo/Logo.png' %}" alt="Your Choice Logo" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <div class="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hidden group-hover:animate-pulse">
                                 <i class="ri-motorbike-line text-white text-xl animate-wiggle"></i>
                             </div>
@@ -476,15 +477,15 @@
 
                     <!-- Enhanced Desktop Menu -->
                     <div class="hidden md:flex items-center space-x-10">
-                        <a href="/blogs" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 flex items-center space-x-2 hover:scale-105 group text-lg">
+                        <a href="{% url "blogs_page" %}" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 flex items-center space-x-2 hover:scale-105 group text-lg">
                             <i class="ri-book-open-line group-hover:animate-bounce"></i>
                             <span>Blogs</span>
                         </a>
-                        <a href="/about" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 flex items-center space-x-2 hover:scale-105 group text-lg">
+                        <a href="{% url "about_page" %}" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 flex items-center space-x-2 hover:scale-105 group text-lg">
                             <i class="ri-star-line group-hover:animate-wiggle"></i>
                             <span>About Us</span>
                         </a>
-                        <a href="#" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 hover:scale-110 p-3 rounded-full group">
+                        <a href="{% url "login_view" %}" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 hover:scale-110 p-3 rounded-full group">
                             <i class="ri-user-line text-2xl group-hover:animate-pulse"></i>
                         </a>
                     </div>
@@ -507,7 +508,7 @@
                             <i class="ri-star-line group-hover:animate-wiggle"></i>
                             <span>About Us</span>
                         </button>
-                        <a href="#" class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
+                        <a href="{% url "login_view" %}" class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
                             <i class="ri-user-line group-hover:animate-pulse"></i>
                             <span>Profile</span>
                         </a>
@@ -577,7 +578,7 @@
                         <div class="space-y-8">
                             <h1 class="text-6xl sm:text-7xl lg:text-8xl text-white tracking-wider">
                                 <span class="block font-light text-4xl sm:text-5xl lg:text-6xl cursive-font text-white/80">premium</span>
-                                <span class="block font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">motorcycle</span>
+                                <span class="block font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Motorcycle</span>
                                 <span class="block font-light text-4xl sm:text-5xl lg:text-6xl cursive-font text-white/80">service</span>
                             </h1>
                         </div>

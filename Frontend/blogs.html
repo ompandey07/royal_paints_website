@@ -1,0 +1,938 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Choice - Blogs</title>
+    <link rel="shortcut icon" href="{% static 'Logo/Logo.png' %}" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .cursive-font {
+            font-family: 'Great Vibes', cursive;
+        }
+        
+        /* Hide scrollbar completely */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        /* Animation keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-80px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(80px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8) rotateY(20deg); }
+            to { opacity: 1; transform: scale(1) rotateY(0deg); }
+        }
+        
+        @keyframes slideInTop {
+            from { opacity: 0; transform: translateY(-100px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInBottom {
+            from { opacity: 0; transform: translateY(100px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes rotateIn {
+            from { opacity: 0; transform: rotate(-180deg) scale(0.5); }
+            to { opacity: 1; transform: rotate(0deg) scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0, -15px, 0); }
+            70% { transform: translate3d(0, -8px, 0); }
+            90% { transform: translate3d(0, -3px, 0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .6; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(2deg); }
+            50% { transform: translateY(-10px) rotate(-1deg); }
+            75% { transform: translateY(-15px) rotate(1deg); }
+        }
+        
+        @keyframes wiggle {
+            0%, 7% { transform: rotateZ(0); }
+            15% { transform: rotateZ(-15deg); }
+            20% { transform: rotateZ(10deg); }
+            25% { transform: rotateZ(-10deg); }
+            30% { transform: rotateZ(6deg); }
+            35% { transform: rotateZ(-4deg); }
+            40%, 100% { transform: rotateZ(0); }
+        }
+        
+        @keyframes heroImageFloat {
+            0%, 100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1); }
+            25% { transform: translateY(-20px) rotateX(5deg) rotateY(5deg) scale(1.02); }
+            50% { transform: translateY(-10px) rotateX(-3deg) rotateY(-3deg) scale(1.01); }
+            75% { transform: translateY(-15px) rotateX(3deg) rotateY(7deg) scale(1.03); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        @keyframes morphing {
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; background: linear-gradient(45deg, #3b82f6, #06b6d4); }
+            25% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; background: linear-gradient(135deg, #8b5cf6, #06b6d4); }
+            50% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; background: linear-gradient(225deg, #06b6d4, #3b82f6); }
+            75% { border-radius: 30% 70% 50% 50% / 50% 30% 70% 50%; background: linear-gradient(315deg, #3b82f6, #8b5cf6); }
+        }
+        
+        /* Animation classes */
+        .fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+        .fade-in-left { animation: fadeInLeft 1s ease-out forwards; }
+        .fade-in-right { animation: fadeInRight 1s ease-out forwards; }
+        .scale-in { animation: scaleIn 0.8s ease-out forwards; }
+        .slide-in-top { animation: slideInTop 0.8s ease-out forwards; }
+        .slide-in-bottom { animation: slideInBottom 0.8s ease-out forwards; }
+        .rotate-in { animation: rotateIn 1s ease-out forwards; }
+        .animate-bounce { animation: bounce 3s infinite; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-wiggle { animation: wiggle 2s ease-in-out infinite; }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .hero-image-float { animation: heroImageFloat 8s ease-in-out infinite; }
+        .shimmer-effect { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
+        .morphing-blob { animation: morphing 8s ease-in-out infinite; }
+        .opacity-0 { opacity: 0; }
+        
+        .loading-dot { animation: pulse 1.5s ease-in-out infinite; }
+        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        .floating-element { animation: float 4s infinite ease-in-out; }
+        .floating-element:nth-child(odd) { animation-direction: reverse; }
+        
+        .mouse-follower { pointer-events: none; transition: all 1s ease-out; }
+        
+        .gradient-text { 
+            background: linear-gradient(45deg, #3b82f6, #06b6d4, #8b5cf6, #3b82f6); 
+            background-size: 300% 300%; 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            background-clip: text; 
+            animation: shimmer 3s ease-in-out infinite; 
+        }
+        
+        .video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.8)); z-index: 2; }
+        .content-layer { position: relative; z-index: 10; }
+        
+        .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05), rgba(255,255,255,0.1)); z-index: 1; }
+        
+        .hidden-initially { opacity: 0; }
+        
+        .hover-lift { transition: all 0.3s ease-out; }
+        .hover-lift:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        
+        .parallax-slow { transform: translateZ(0); transition: transform 0.1s ease-out; }
+        
+        .btn-advanced { position: relative; overflow: hidden; }
+        .btn-advanced::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s ease; }
+        .btn-advanced:hover::before { left: 100%; }
+    </style>
+</head>
+<body class="w-full min-h-screen overflow-x-hidden text-gray-800 bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <!-- Minimalist Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 z-50 min-h-screen bg-black flex items-center justify-center overflow-hidden">
+        <div class="relative">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-32 h-32 border-4 border-white/20 border-t-white animate-spin rounded-full"></div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-24 h-24 border-4 border-blue-500/30 border-r-blue-500 animate-spin rounded-full" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-16 h-16 border-4 border-yellow-500/40 border-b-yellow-500 animate-spin rounded-full" style="animation-duration: 0.8s;"></div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+            </div>
+        </div>
+        <div class="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-64 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 to-yellow-500 rounded-full transition-all duration-300 w-0"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <!-- Enhanced Background effects -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute text-blue-400/20 floating-element" style="left: 5%; top: 15%; animation-delay: 0ms; animation-duration: 8s;">
+                <i class="ri-tools-line text-3xl animate-wiggle"></i>
+            </div>
+            <div class="absolute text-purple-400/20 floating-element" style="left: 15%; top: 65%; animation-delay: 1000ms; animation-duration: 6s;">
+                <i class="ri-settings-line text-2xl animate-pulse"></i>
+            </div>
+            <div class="absolute text-cyan-400/20 floating-element" style="left: 85%; top: 25%; animation-delay: 2000ms; animation-duration: 7s;">
+                <i class="ri-star-line text-2xl animate-bounce"></i>
+            </div>
+            <div class="absolute text-green-400/20 floating-element" style="left: 75%; top: 75%; animation-delay: 1500ms; animation-duration: 9s;">
+                <i class="ri-shield-line text-3xl animate-wiggle"></i>
+            </div>
+            <div class="absolute text-yellow-400/20 floating-element" style="left: 25%; top: 35%; animation-delay: 500ms; animation-duration: 5s;">
+                <i class="ri-flashlight-line text-2xl animate-pulse"></i>
+            </div>
+            <div class="absolute text-pink-400/20 floating-element" style="left: 65%; top: 45%; animation-delay: 3000ms; animation-duration: 8s;">
+                <i class="ri-motorbike-line text-4xl animate-float"></i>
+            </div>
+            <div id="mouseFollower" class="absolute w-96 h-96 bg-gradient-to-r from-blue-500/8 to-cyan-500/8 rounded-full blur-3xl mouse-follower"></div>
+            <div class="absolute top-20 left-20 w-96 h-96 morphing-blob opacity-10 filter blur-3xl"></div>
+            <div class="absolute top-1/2 right-20 w-96 h-96 morphing-blob opacity-8 filter blur-3xl" style="animation-delay: 3s;"></div>
+            <div class="absolute bottom-20 left-1/3 w-96 h-96 morphing-blob opacity-12 filter blur-3xl" style="animation-delay: 6s;"></div>
+        </div>
+
+        <!-- Navigation -->
+        <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-500">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <div class="flex items-center space-x-3">
+                        <a href="{% url "index_page" %}" class="group">
+                            <img src="{% static 'Logo/Logo.png' %}" alt="Your Choice Logo" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hidden group-hover:animate-pulse">
+                                <i class="ri-motorbike-line text-white text-xl animate-wiggle"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-10">
+                        <a href="{% url "blogs_page" %}" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 flex items-center space-x-2 hover:scale-105 group text-lg">
+                            <i class="ri-book-open-line group-hover:animate-bounce"></i>
+                            <span>Blogs</span>
+                        </a>
+                        <a href="/about" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 flex items-center space-x-2 hover:scale-105 group text-lg">
+                            <i class="ri-star-line group-hover:animate-wiggle"></i>
+                            <span>About Us</span>
+                        </a>
+                        <a href="{% url "" %}" class="font-semibold text-white hover:text-yellow-400 transition-all duration-300 hover:scale-110 p-3 rounded-full group">
+                            <i class="ri-user-line text-2xl group-hover:animate-pulse"></i>
+                        </a>
+                    </div>
+                    <button id="mobileMenuBtn" class="md:hidden p-2 text-white transition-all duration-300 hover:bg-white/10 rounded-lg">
+                        <i id="menuIcon" class="ri-menu-line text-3xl"></i>
+                        <i id="closeIcon" class="ri-close-line text-3xl hidden"></i>
+                    </button>
+                </div>
+                <div id="mobileMenu" class="md:hidden bg-black/90 backdrop-blur-md rounded-2xl m-4 p-6 shadow-xl border border-gray-700 hidden transform scale-95 transition-all duration-300">
+                    <div class="space-y-4">
+                        <button class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
+                            <i class="ri-book-open-line group-hover:animate-bounce"></i>
+                            <span>Blogs</span>
+                        </button>
+                        <button class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
+                            <i class="ri-star-line group-hover:animate-wiggle"></i>
+                            <span>About Us</span>
+                        </button>
+                        <a href="{% url "login_view" %}" class="block w-full text-left text-white hover:text-yellow-400 transition-colors py-3 font-medium flex items-center space-x-3 hover:bg-white/10 rounded-lg px-3 group">
+                            <i class="ri-user-line group-hover:animate-pulse"></i>
+                            <span>Profile</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Blogs Hero Section -->
+        <section class="min-h-screen relative overflow-hidden flex items-center justify-center">
+            <video autoplay muted loop class="video-background">
+                <source src="{% static 'Stocks/BlogsHero.mp4' %}" type="video/mp4">
+                <img src="https://images.unsplash.com/photo-1543332164-6e82f355badc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Motorcycle Blogs Background" class="w-full h-full object-cover">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="absolute inset-0 overflow-hidden z-5">
+                <div class="absolute top-20 left-20 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-gradient-to-tl from-purple-500/15 to-transparent rounded-full blur-2xl animate-float"></div>
+                <div class="absolute bottom-1/4 left-1/3 w-80 h-80 bg-gradient-to-tr from-cyan-500/12 to-transparent rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 1200 800">
+                    <path d="M0,400 Q300,100 600,400 T1200,400" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none" class="animate-pulse" />
+                    <path d="M0,300 Q400,600 800,300 T1200,300" stroke="rgba(59,130,246,0.2)" stroke-width="1" fill="none" style="animation: float 8s ease-in-out infinite;" />
+                    <path d="M0,500 Q200,200 400,500 T800,500" stroke="rgba(168,85,247,0.15)" stroke-width="1" fill="none" style="animation: float 6s ease-in-out infinite reverse;" />
+                </svg>
+                <div class="absolute inset-0 opacity-5">
+                    <div class="w-full h-full" style="background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
+                </div>
+            </div>
+            <div class="w-full content-layer">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div id="heroLeft" class="space-y-16 hidden-initially">
+                        <div class="relative">
+                            <div class="w-32 h-32 mx-auto relative">
+                                <div class="absolute inset-0 border-4 border-white/20 rounded-full animate-spin" style="animation-duration: 8s;"></div>
+                                <div class="absolute inset-2 border-2 border-blue-400/40 rounded-full animate-spin" style="animation-duration: 6s; animation-direction: reverse;"></div>
+                                <div class="absolute inset-4 border border-yellow-400/60 rounded-full animate-spin" style="animation-duration: 4s;"></div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <i class="ri-book-open-line text-white text-4xl animate-pulse"></i>
+                                </div>
+                            </div>
+                            <div class="absolute -top-4 -left-4 w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
+                            <div class="absolute -top-2 -right-6 w-1 h-1 bg-white rounded-full animate-pulse"></div>
+                            <div class="absolute -bottom-4 -right-4 w-3 h-3 bg-yellow-400 rounded-full animate-ping" style="animation-delay: 1s;"></div>
+                            <div class="absolute -bottom-2 -left-6 w-1 h-1 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                        </div>
+                        <div class="space-y-8">
+                            <h1 class="text-6xl sm:text-7xl lg:text-8xl text-white tracking-wider">
+                                <span class="block font-light text-4xl sm:text-5xl lg:text-6xl cursive-font text-white/80">explore our</span>
+                                <span class="block font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Motorcycle</span>
+                                <span class="block font-light text-4xl sm:text-5xl lg:text-6xl cursive-font text-white/80">blogs</span>
+                            </h1>
+                        </div>
+                        <div class="pt-8">
+                            <button class="group relative overflow-hidden border-2 border-white/40 hover:border-white text-white font-light px-16 py-4 rounded-full text-lg transition-all duration-500 hover:scale-105 uppercase tracking-widest">
+                                <span class="relative z-10">Read Now</span>
+                                <div class="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 rounded-full"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+                    <div class="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blogs Section -->
+        <section id="blogs" class="py-32 bg-gray-900 relative overflow-hidden border-y border-gray-800">
+            <div id="blogsMouseFollower" class="absolute w-64 h-64 bg-blue-500/10 rounded-full blur-2xl mouse-follower pointer-events-none"></div>
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full animate-float"></div>
+                <div class="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-cyan-500/10 to-pink-500/10 rounded-full animate-float" style="animation-delay: 2s;"></div>
+                <div class="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-r from-green-500/10 to-yellow-500/10 rounded-full animate-pulse"></div>
+                <div class="absolute inset-0 opacity-5">
+                    <div class="w-full h-full" style="background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div id="blogsHeader" class="text-center mb-20 hidden-initially">
+                    <div class="inline-flex items-center space-x-3 bg-black/60 backdrop-blur-sm border border-blue-400/50 rounded-full px-6 py-3 text-blue-400 text-sm font-medium mb-6 hover:scale-105 transition-transform duration-300 cursor-pointer">
+                        <i class="ri-book-open-line animate-wiggle"></i>
+                        <span>Our Motorcycle Blogs</span>
+                        <div class="shimmer-effect absolute inset-0 rounded-full"></div>
+                    </div>
+                    <h2 class="text-5xl lg:text-6xl font-bold text-white mb-6">
+                        Discover Motorcycle Stories
+                    </h2>
+                    <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                        Dive into our collection of engaging blogs about motorcycle maintenance, riding tips, and the latest industry trends, crafted by experts to fuel your passion.
+                    </p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="mb-12 relative">
+                    <div class="max-w-2xl mx-auto">
+                        <div class="relative group">
+                            <input 
+                                type="text" 
+                                id="blogSearch" 
+                                placeholder="Search blogs..." 
+                                class="w-full bg-black/40 backdrop-blur-sm border border-gray-700 text-white placeholder-gray-400 rounded-full py-4 px-8 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 z-20"
+                            >
+                            <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-400 transition-colors duration-300 z-30 pointer-events-auto">
+                                <i class="ri-search-line text-xl group-hover:animate-pulse"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Grid -->
+                <div id="blogsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    {% for blog in blogs %}
+                    <div class="group bg-black/40 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border border-gray-700 hover:border-blue-500/50 relative overflow-hidden hidden-initially hover-lift blog-card">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="relative h-64 overflow-hidden rounded-t-3xl">
+                                {% if blog.image %}
+                                <img 
+                                    src="{{ blog.image.url }}" 
+                                    alt="{{ blog.title }}" 
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 hero-image-float"
+                                    onerror="this.src='https://images.unsplash.com/photo-1543332164-6e82f355badc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80';"
+                                >
+                                {% else %}
+                                <img 
+                                    src="https://images.unsplash.com/photo-1543332164-6e82f355badc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                    alt="{{ blog.title }}" 
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 hero-image-float"
+                                >
+                                {% endif %}
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300 mb-3">
+                                    {{ blog.title }}
+                                </h3>
+                                <p class="text-gray-300 mb-4 leading-relaxed group-hover:text-gray-200 transition-colors duration-300 line-clamp-3">
+                                    {% if blog.content %}
+                                        {{ blog.content|truncatechars:100 }}
+                                    {% else %}
+                                        Discover the latest insights and tips in this exciting motorcycle blog post.
+                                    {% endif %}
+                                </p>
+                                <div class="flex items-center space-x-3 text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                                    <i class="ri-calendar-line text-blue-400 group-hover:scale-125 transition-transform duration-300"></i>
+                                    <span>{{ blog.created_at|date:"F d, Y" }}</span>
+                                </div>
+                                <a 
+                                    href="{% url 'blog_detail' blog.slug %}" 
+                                    class="mt-6 inline-flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors duration-300 group-hover:scale-105"
+                                >
+                                    <span>Read More</span>
+                                    <i class="ri-arrow-right-line group-hover:translate-x-2 transition-transform duration-300"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-full text-center text-gray-400 py-12">
+                        <p class="text-xl">No blogs found. Check back soon for exciting motorcycle content!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" class="bg-gray-900 text-white py-20 relative overflow-hidden">
+            <div class="footer-overlay"></div>
+            <div id="footerMouseFollower" class="absolute w-64 h-64 bg-white/5 rounded-full blur-3xl mouse-follower pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-800/50 to-gray-900/50 z-0"></div>
+            <div class="absolute top-20 left-20 w-48 h-48 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-20 w-64 h-64 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div id="footerContent" class="grid grid-cols-1 lg:grid-cols-2 gap-16 hidden-initially">
+                    <div class="transform transition-all duration-700 hover:scale-105">
+                        <div class="flex items-center space-x-4 mb-8">
+                            <img src="/Logo/Logo.png" alt="Your Choice Logo" class="w-12 h-12 object-contain hover:scale-110 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hidden hover:animate-pulse">
+                                <i class="ri-motorbike-line text-white text-3xl animate-wiggle"></i>
+                            </div>
+                            <span class="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Your Choice</span>
+                        </div>
+                        <p class="text-gray-300 mb-10 text-lg leading-relaxed font-medium">
+                            Your trusted partner for premium motorcycle care and service. We combine expertise, quality, and passion to keep you riding safely with unmatched precision and care.
+                        </p>
+                        <h3 class="text-2xl font-bold mb-8 text-blue-400 flex items-center space-x-2">
+                            <i class="ri-phone-line animate-pulse"></i>
+                            <span>Contact Information</span>
+                        </h3>
+                        <div class="space-y-6 mb-10">
+                            <div class="flex items-center space-x-4 text-gray-300 hover:text-blue-400 transition-all duration-300 cursor-pointer group hover:scale-105">
+                                <div class="p-3 bg-gray-800 rounded-xl group-hover:bg-blue-500 transition-colors duration-300">
+                                    <i class="ri-phone-line text-blue-400 group-hover:text-white text-xl group-hover:animate-bounce"></i>
+                                </div>
+                                <span class="text-lg">+977 9851234567</span>
+                            </div>
+                            <div class="flex items-center space-x-4 text-gray-300 hover:text-blue-400 transition-all duration-300 cursor-pointer group hover:scale-105">
+                                <div class="p-3 bg-gray-800 rounded-xl group-hover:bg-blue-500 transition-colors duration-300">
+                                    <i class="ri-mail-line text-blue-400 group-hover:text-white text-xl group-hover:animate-bounce"></i>
+                                </div>
+                                <span class="text-lg">info@yourchoice.com</span>
+                            </div>
+                            <div class="flex items-center space-x-4 text-gray-300 hover:text-blue-400 transition-all duration-300 cursor-pointer group hover:scale-105">
+                                <div class="p-3 bg-gray-800 rounded-xl group-hover:bg-blue-500 transition-colors duration-300">
+                                    <i class="ri-map-pin-line text-blue-400 group-hover:text-white text-xl group-hover:animate-bounce"></i>
+                                </div>
+                                <span class="text-lg">Teku, Kathmandu, Nepal</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-6">
+                            <button class="p-4 bg-gray-800 hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 rounded-2xl transition-all duration-300 hover:scale-125 hover:rotate-12 group">
+                                <i class="ri-facebook-line text-2xl group-hover:animate-bounce"></i>
+                            </button>
+                            <button class="p-4 bg-gray-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 rounded-2xl transition-all duration-300 hover:scale-125 hover:rotate-12 group">
+                                <i class="ri-twitter-line text-2xl group-hover:animate-bounce"></i>
+                            </button>
+                            <button class="p-4 bg-gray-800 hover:bg-gradient-to-r hover:from-pink-500 hover:to-red-500 rounded-2xl transition-all duration-300 hover:scale-125 hover:rotate-12 group">
+                                <i class="ri-instagram-line text-2xl group-hover:animate-bounce"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="transform transition-all duration-700 hover:scale-105">
+                        <h3 class="text-2xl font-bold mb-8 text-blue-400 flex items-center space-x-2">
+                            <i class="ri-map-pin-line animate-pulse"></i>
+                            <span>Visit Our Workshop</span>
+                        </h3>
+                        <div class="bg-gray-800/80 backdrop-blur-sm rounded-3xl overflow-hidden border-2 border-gray-700 hover:border-blue-500/50 transition-all duration-500 shadow-2xl hover:shadow-blue-500/25">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d883.1828624549808!2d85.30993376963983!3d27.69469388597533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb196af46fa653%3A0x334371933cc42750!2sTVS%20Showroom%20Teku%20(Jagdamba%20Auto%20Engineering%20Pvt%20Ltd)!5e0!3m2!1sne!2snp!4v1754311543819!5m2!1sne!2snp" 
+                                width="100%" 
+                                height="350" 
+                                style="border: 0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                class="rounded-t-3xl hover:scale-105 transition-transform duration-500">
+                            </iframe>
+                            <div class="p-8 bg-gray-800/90 backdrop-blur-sm">
+                                <h4 class="text-xl font-bold mb-3 text-white">TVS Showroom Teku</h4>
+                                <p class="text-gray-400 mb-6 text-base leading-relaxed">
+                                    Modern service facility with state-of-the-art equipment and expert technicians ready to serve your motorcycle needs
+                                </p>
+                                <button class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold px-6 py-3 rounded-2xl transition-all duration-300 hover:scale-110 flex items-center space-x-3 text-base btn-advanced">
+                                    <i class="ri-map-pin-line text-xl animate-pulse"></i>
+                                    <span>Get Directions</span>
+                                    <i class="ri-external-link-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-16 pt-10 text-center text-gray-400">
+                    <p class="text-lg">
+                        Developed By 
+                        <a 
+                            href="https://finixdev.com" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-blue-400 hover:text-blue-300 transition-colors duration-300 font-bold inline-flex items-center space-x-2 hover:scale-110"
+                        >
+                            <span>Finix Dev</span>
+                            <i class="ri-external-link-line text-lg animate-bounce"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // State variables
+        let loading = true;
+        let loadingProgress = 0;
+        let mobileMenuOpen = false;
+        let mousePosition = { x: 0, y: 0 };
+        let contentLoaded = false;
+
+        // DOM elements
+        const loadingScreen = document.getElementById('loadingScreen');
+        const mainContent = document.getElementById('mainContent');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+        const closeIcon = document.getElementById('closeIcon');
+        const progressBar = document.getElementById('progressBar');
+        const mouseFollower = document.getElementById('mouseFollower');
+        const blogsMouseFollower = document.getElementById('blogsMouseFollower');
+        const footerMouseFollower = document.getElementById('footerMouseFollower');
+        const blogSearch = document.getElementById('blogSearch');
+
+        // Loading simulation
+        function startLoading() {
+            const timer = setInterval(() => {
+                if (loadingProgress >= 100) {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        loading = false;
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            mainContent.classList.remove('hidden');
+                            mainContent.style.opacity = '0';
+                            mainContent.style.transform = 'scale(0.95)';
+                            setTimeout(() => {
+                                mainContent.style.transition = 'all 0.8s ease-out';
+                                mainContent.style.opacity = '1';
+                                mainContent.style.transform = 'scale(1)';
+                                setTimeout(() => {
+                                    contentLoaded = true;
+                                    showContent();
+                                }, 300);
+                            }, 50);
+                        }, 500);
+                    }, 300);
+                    return;
+                }
+                const diff = Math.random() * 15;
+                loadingProgress = Math.min(loadingProgress + diff, 100);
+                if (progressBar) {
+                    progressBar.style.width = loadingProgress + '%';
+                }
+            }, 120);
+        }
+
+        // Show content with animations
+        function showContent() {
+            const elementsToShow = [
+                { id: 'heroLeft', delay: 0, animation: 'fade-in-up' },
+                { id: 'blogsHeader', delay: 400, animation: 'fade-in-up' },
+                { id: 'footerContent', delay: 800, animation: 'fade-in-up' }
+            ];
+
+            elementsToShow.forEach((item) => {
+                const element = document.getElementById(item.id);
+                if (element) {
+                    setTimeout(() => {
+                        element.classList.remove('hidden-initially');
+                        element.classList.add(item.animation);
+                    }, item.delay);
+                }
+            });
+
+            // Animate blog cards
+            const blogCards = document.querySelectorAll('#blogsGrid .hidden-initially');
+            blogCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.remove('hidden-initially');
+                    if (index % 3 === 0) {
+                        card.classList.add('scale-in');
+                    } else if (index % 3 === 1) {
+                        card.classList.add('slide-in-bottom');
+                    } else {
+                        card.classList.add('rotate-in');
+                    }
+                }, 1000 + (index * 150));
+            });
+        }
+
+        // Handle scroll for parallax effects
+        function handleScroll() {
+            const scrollSpeed = window.scrollY * 0.5;
+            const parallaxElements = document.querySelectorAll('.parallax-slow');
+            parallaxElements.forEach(element => {
+                element.style.transform = `translateY(${scrollSpeed}px)`;
+            });
+
+            const sections = ['blogs', 'footer'];
+            sections.forEach(sectionId => {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                    if (isVisible && !element.classList.contains('section-animated')) {
+                        element.classList.add('section-animated');
+                        const cards = element.querySelectorAll('.hidden-initially:not(.fade-in-up):not(.scale-in):not(.slide-in-top):not(.slide-in-bottom):not(.rotate-in)');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                if (card.classList.contains('hidden-initially')) {
+                                    card.classList.remove('hidden-initially');
+                                    card.classList.add('fade-in-up');
+                                }
+                            }, index * 100);
+                        });
+                    }
+                }
+            });
+        }
+
+        // Handle mouse movement
+        function handleMouseMove(e) {
+            mousePosition.x = e.clientX;
+            mousePosition.y = e.clientY;
+
+            const followers = [
+                { element: mouseFollower, size: 192, intensity: 1 },
+                { element: blogsMouseFollower, size: 128, intensity: 0.6 },
+                { element: footerMouseFollower, size: 128, intensity: 0.5 }
+            ];
+
+            followers.forEach(follower => {
+                if (follower.element) {
+                    const x = (mousePosition.x - follower.size) * follower.intensity;
+                    const y = (mousePosition.y - follower.size) * follower.intensity;
+                    follower.element.style.transform = `translate(${x}px, ${y}px)`;
+                }
+            });
+
+            const interactiveCards = document.querySelectorAll('.hover-lift');
+            interactiveCards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cardX = rect.left + rect.width / 2;
+                const cardY = rect.top + rect.height / 2;
+                const distanceX = mousePosition.x - cardX;
+                const distanceY = mousePosition.y - cardY;
+                const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                
+                if (distance < 200) {
+                    const intensity = (200 - distance) / 200;
+                    const tiltX = (distanceY / 200) * 10 * intensity;
+                    const tiltY = -(distanceX / 200) * 10 * intensity;
+                    card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${1 + intensity * 0.05})`;
+                } else {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+                }
+            });
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            mobileMenuOpen = !mobileMenuOpen;
+            if (mobileMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.style.transform = 'scale(0.95)';
+                mobileMenu.style.opacity = '0';
+                setTimeout(() => {
+                    mobileMenu.style.transition = 'all 0.3s ease-out';
+                    mobileMenu.style.transform = 'scale(1)';
+                    mobileMenu.style.opacity = '1';
+                }, 10);
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.style.transform = 'scale(0.95)';
+                mobileMenu.style.opacity = '0';
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 300);
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        // Blog search functionality
+        function setupBlogSearch() {
+            if (blogSearch) {
+                blogSearch.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const blogCards = document.querySelectorAll('#blogsGrid .blog-card');
+                    blogCards.forEach(card => {
+                        const title = card.querySelector('h3').textContent.toLowerCase();
+                        const content = card.querySelector('p').textContent.toLowerCase();
+                        if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                            card.style.display = 'block';
+                            card.classList.remove('hidden-initially');
+                            card.classList.add('fade-in-up');
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        }
+
+        // Intersection observer
+        function setupIntersectionObserver() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        if (element.classList.contains('blog-card')) {
+                            element.style.animationDelay = `${Math.random() * 0.5}s`;
+                            element.classList.add('animate-float');
+                        }
+                        createParticleEffect(element);
+                    }
+                });
+            }, observerOptions);
+            const elementsToObserve = document.querySelectorAll('.hover-lift, .blog-card');
+            elementsToObserve.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Particle effect
+        function createParticleEffect(element) {
+            const rect = element.getBoundingClientRect();
+            const particleCount = 5;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.left = `${rect.left + Math.random() * rect.width}px`;
+                particle.style.top = `${rect.top + Math.random() * rect.height}px`;
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                particle.style.opacity = '0';
+                particle.style.transition = 'all 1s ease-out';
+                document.body.appendChild(particle);
+                setTimeout(() => {
+                    particle.style.opacity = '1';
+                    particle.style.transform = `translateY(-${Math.random() * 100 + 50}px) scale(0)`;
+                }, 10);
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+
+        // Smooth scrolling
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const targetPosition = target.offsetTop - 80;
+                        const startPosition = window.pageYOffset;
+                        const distance = targetPosition - startPosition;
+                        const duration = 1000;
+                        let start = null;
+                        function animation(currentTime) {
+                            if (start === null) start = currentTime;
+                            const timeElapsed = currentTime - start;
+                            const run = easeInOutQuart(timeElapsed, startPosition, distance, duration);
+                            window.scrollTo(0, run);
+                            if (timeElapsed < duration) requestAnimationFrame(animation);
+                        }
+                        function easeInOutQuart(t, b, c, d) {
+                            t /= d / 2;
+                            if (t < 1) return c / 2 * t * t * t * t + b;
+                            t -= 2;
+                            return -c / 2 * (t * t * t * t - 2) + b;
+                        }
+                        requestAnimationFrame(animation);
+                    }
+                });
+            });
+        }
+
+        // Keyboard navigation
+        function setupKeyboardNavigation() {
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileMenuOpen) {
+                    toggleMobileMenu();
+                }
+                if (e.key === 'Tab') {
+                    document.body.classList.add('keyboard-navigation');
+                }
+            });
+            document.addEventListener('mousedown', () => {
+                document.body.classList.remove('keyboard-navigation');
+            });
+        }
+
+        // Performance optimization
+        function optimizePerformance() {
+            let scrollTimeout;
+            const originalHandleScroll = handleScroll;
+            handleScroll = function() {
+                if (scrollTimeout) {
+                    return;
+                }
+                scrollTimeout = setTimeout(() => {
+                    originalHandleScroll();
+                    scrollTimeout = null;
+                }, 10);
+            };
+            let mouseMoveTimeout;
+            const originalHandleMouseMove = handleMouseMove;
+            handleMouseMove = function(e) {
+                if (mouseMoveTimeout) {
+                    return;
+                }
+                mouseMoveTimeout = setTimeout(() => {
+                    originalHandleMouseMove(e);
+                    mouseMoveTimeout = null;
+                }, 16);
+            };
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            window.addEventListener('mousemove', handleMouseMove, { passive: true });
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            window.addEventListener('resize', () => {
+                if (contentLoaded) {
+                    setTimeout(showContent, 100);
+                }
+            }, { passive: true });
+            document.addEventListener('focusin', (e) => {
+                if (e.target.matches('button, a, input, textarea, select')) {
+                    e.target.style.outline = '2px solid #3b82f6';
+                    e.target.style.outlineOffset = '2px';
+                }
+            });
+            document.addEventListener('focusout', (e) => {
+                if (e.target.matches('button, a, input, textarea, select')) {
+                    e.target.style.outline = '';
+                    e.target.style.outlineOffset = '';
+                }
+            });
+            setupBlogSearch();
+        }
+
+        // Initialization
+        function initialize() {
+            startLoading();
+            optimizePerformance();
+            setupEventListeners();
+            setupSmoothScrolling();
+            setupKeyboardNavigation();
+            setTimeout(() => {
+                if (contentLoaded) {
+                    setupIntersectionObserver();
+                }
+            }, 2000);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            initialize();
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                document.body.style.animationPlayState = 'paused';
+            } else {
+                document.body.style.animationPlayState = 'running';
+            }
+        });
+
+        window.addEventListener('error', (e) => {
+            console.warn('Animation error caught:', e.error);
+        });
+
+        function preloadResources() {
+            const criticalImages = [
+                'https://images.unsplash.com/photo-1543332164-6e82f355badc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+            ];
+            criticalImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        }
+
+        preloadResources();
+    </script>
+</body>
+</html>
