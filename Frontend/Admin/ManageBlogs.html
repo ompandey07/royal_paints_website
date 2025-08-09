@@ -426,7 +426,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                        <a href="{% url 'manage_customer_sms' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
                             <div class="flex-shrink-0">
                                 <i data-lucide="message-square" class="h-4 md:h-5 w-4 md:w-5 icon-sms"></i>
                             </div>
@@ -448,7 +448,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                        <a href="{% url "full_documentation" %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
                             <div class="flex-shrink-0">
                                 <i data-lucide="book-open" class="h-4 md:h-5 w-4 md:w-5 icon-docs"></i>
                             </div>
@@ -461,7 +461,7 @@
                 </ul>
                 
                 <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-slate-200">
-                    <a href="#" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all text-red-600 hover:bg-red-50">
+                    <a href="{% url "logout_view" %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all text-red-600 hover:bg-red-50">
                         <div class="flex-shrink-0">
                             <i data-lucide="log-out" class="h-4 md:h-5 w-4 md:w-5 icon-logout"></i>
                         </div>
