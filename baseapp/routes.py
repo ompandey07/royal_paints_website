@@ -24,6 +24,12 @@ urlpatterns = [
     # ==================== STATIC PAGES URLS ====================
     # About page - Company/organization information
     path('about/', views.abuot_page, name='about_page'),
+
+    # Services page - Company/organization services
+    path('services/', views.services_page, name='services_page'),
+
+    # Contacts page - Company/organization contact information
+    path('contacts/', views.contacts_page, name='contacts_page'),
                
 ]
 

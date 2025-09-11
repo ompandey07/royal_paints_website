@@ -22,8 +22,12 @@ def index_page(request):
     Returns:
         HttpResponse: Rendered index.html template
     """
+    recent_blogs = BlogModel.objects.all().order_by('-created_at')[:3]
+    context = {
+        'recent_blogs': recent_blogs
+    }
      #**  Render the index.html template     
-    return render(request, 'index.html')
+    return render(request, 'Client/index.html' , context)
 
 
 # ======================================================================
@@ -49,7 +53,7 @@ def blogs_page(request):
     context = {
         'blogs': BlogModel.objects.all()  
     }
-    return render(request, 'blogs.html' , context)
+    return render(request, 'Client/blogs.html' , context)
 
 
 def blog_detail(request, slug):
@@ -75,11 +79,11 @@ def blog_detail(request, slug):
     context = {
         'blog': blog
     }
-    return render(request, 'blog_detail.html', context)
+    return render(request, 'Client/blog_detail.html', context)
 
 
 # ======================================================================
-# STATIC PAGES
+# About Us Page
 # ======================================================================
 
 def abuot_page(request):
@@ -98,4 +102,51 @@ def abuot_page(request):
         HttpResponse: Rendered about.html template
     """
     #** Render the about.html template
-    return render(request, 'about.html')
+    return render(request, 'Client/about.html')
+
+
+
+# ======================================================================
+# Services Page
+# ======================================================================
+
+def services_page(request):
+    """
+    Services page view - renders company/organization information
+    
+    Features:
+    - Static services page rendering
+    - Company information display
+    - No authentication required
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        HttpResponse: Rendered services.html template
+    """
+    #** Render the services.html template
+    return render(request, 'Client/services.html')
+
+
+# ======================================================================
+# Contacts Us Page
+# ======================================================================
+
+def contacts_page(request):
+    """
+    Contacts page view - renders company/organization information
+    
+    Features:
+    - Static contacts page rendering
+    - Company information display
+    - No authentication required
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        HttpResponse: Rendered contacts.html template
+    """
+    #** Render the contacts.html template
+    return render(request, 'Client/contacts.html')

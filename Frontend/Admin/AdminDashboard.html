@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="shortcut icon" href="{% static 'Logo/Logo.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'Logo/Logo.jpg' %}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
@@ -253,7 +253,7 @@
                 <p class="text-xs text-slate-500 hidden md:block">Super Admin</p>
             </div>
             <div class="relative">
-                <img src="{% static 'Logo/Logo.png' %}" 
+                <img src="{% static 'Logo/Logo.jpg' %}" 
                      alt="User" class="h-8 md:h-9 w-8 md:w-9 rounded-full border-2 border-white shadow-md object-cover">
                 <div class="absolute -bottom-0.5 -right-0.5 w-2.5 md:w-3 h-2.5 md:h-3 bg-green-400 border-2 border-white rounded-full"></div>
             </div>
@@ -295,40 +295,7 @@
                                 <p class="text-xs opacity-70 hidden md:block">Content Management</p>
                             </div>
                         </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'manage_customer_sms' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all" onclick="setActive(this)">
-                            <div class="flex-shrink-0">
-                                <i data-lucide="message-square" class="h-4 md:h-5 w-4 md:w-5 icon-sms"></i>
-                            </div>
-                            <div class="flex-1">
-                                <span class="font-medium text-sm md:text-base">Manage SMS</span>
-                                <p class="text-xs opacity-70 hidden md:block">Message Center</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url "sms_settings" %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all" onclick="setActive(this)">
-                            <div class="flex-shrink-0">
-                                <i data-lucide="settings" class="h-4 md:h-5 w-4 md:w-5 icon-settings"></i>
-                            </div>
-                            <div class="flex-1">
-                                <span class="font-medium text-sm md:text-base">SMS Settings</span>
-                                <p class="text-xs opacity-70 hidden md:block">Configuration</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url "full_documentation" %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all" onclick="setActive(this)">
-                            <div class="flex-shrink-0">
-                                <i data-lucide="book-open" class="h-4 md:h-5 w-4 md:w-5 icon-docs"></i>
-                            </div>
-                            <div class="flex-1">
-                                <span class="font-medium text-sm md:text-base">Documentation</span>
-                                <p class="text-xs opacity-70 hidden md:block">Help & Guides</p>
-                            </div>
-                        </a>
-                    </li>
+                    </li>                  
                 </ul>
                 
                 <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-slate-200">
@@ -403,7 +370,7 @@
                         <div class="flex-1">
                             <div class="flex items-center space-x-2 mb-2">
                                 <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                                <p class="text-slate-600 text-xs md:text-sm font-semibold uppercase tracking-wider">SMS Sent</p>
+                                <p class="text-slate-600 text-xs md:text-sm font-semibold uppercase tracking-wider">Recent Blogs</p>
                             </div>
                             <p class="text-2xl md:text-4xl font-bold stat-number mt-2 mb-3">1,847</p>
                             <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-1 sm:space-y-0">
@@ -435,15 +402,6 @@
                         </div>
                     </button>
                     
-                    <button class="group flex items-center space-x-3 md:space-x-4 p-4 md:p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl hover:from-green-100 hover:to-emerald-100 transition-all duration-300 border border-green-100">
-                        <div class="flex-shrink-0 bg-green-500 p-2 md:p-3 rounded-xl group-hover:scale-110 transition-transform">
-                            <i data-lucide="send" class="h-4 md:h-5 w-4 md:w-5 text-white"></i>
-                        </div>
-                        <div class="text-left">
-                            <span class="text-green-800 font-semibold block text-sm md:text-base">Send SMS</span>
-                            <span class="text-green-600 text-xs md:text-sm">Bulk messaging</span>
-                        </div>
-                    </button>
                     
                     <button class="group flex items-center space-x-3 md:space-x-4 p-4 md:p-6 bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl hover:from-purple-100 hover:to-violet-100 transition-all duration-300 border border-purple-100">
                         <div class="flex-shrink-0 bg-purple-500 p-2 md:p-3 rounded-xl group-hover:scale-110 transition-transform">
@@ -467,7 +425,7 @@
                 <i data-lucide="zap" class="h-3 w-3 text-indigo-500"></i>
                 <span class="text-slate-500 text-xs">Powered by</span>
                 <a href="#" class="text-indigo-600 font-medium text-xs hover:text-indigo-500 transition-colors">
-                    Finix Dev
+                    Pioneer Software Soutions Pvt. Ltd.
                 </a>
             </div>
             
