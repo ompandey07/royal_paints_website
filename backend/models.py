@@ -26,3 +26,13 @@ class BlogModel(models.Model):
     def __str__(self):
         return self.title
     
+
+
+class ContactModel(models.Model):
+    your_name = models.CharField(max_length=255)
+    your_email = models.EmailField()
+    your_message = models.TextField()
+    sended_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.your_name} - {self.your_email}"

@@ -22,7 +22,7 @@ from django.conf.urls import include
 
 
 urlpatterns = [
-    path('tvsadmin/admin/', admin.site.urls),
+    path('roayladmin/admin/', admin.site.urls),
 
     # Include the URLs from the backend app
     path('admin/', include('backend.routes')),
