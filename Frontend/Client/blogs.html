@@ -28,6 +28,172 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'Assests/css/style.css' %}" rel="stylesheet">
+
+    <!-- Custom Blog Styles -->
+    <style>
+        .blog-card {
+            transition: all 0.3s ease;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .blog-image {
+            position: relative;
+            overflow: hidden;
+            height: 250px;
+        }
+        
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .blog-card:hover .blog-image img {
+            transform: scale(1.05);
+        }
+        
+        .blog-date-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #007bff, #6610f2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .blog-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            height: 60px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .blog-title a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        
+        .blog-title a:hover {
+            color: #007bff;
+        }
+        
+        .blog-excerpt {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            height: 80px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        
+        .blog-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #f1f1f1;
+            margin-top: auto;
+        }
+        
+        .read-more-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 0;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .read-more-btn:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .author-info {
+            display: flex;
+            align-items: center;
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        
+        .category-tag {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 0;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #007bff, #6610f2);
+            border-radius: 0;
+        }
+        
+        .no-blogs-container {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 0;
+            margin: 50px 0;
+        }
+        
+        .no-blogs-icon {
+            font-size: 4rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,25 +203,25 @@
             <div class="row">
                 <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
                     <div class="d-inline-flex align-items-center">
-                        <a class="text-dark py-2 pe-3 border-end border-white" href=""><i class="bi bi-telephone text-secondary me-2"></i>056-420026</a>
-                        <a class="text-dark py-2 px-3" href=""><i class="bi bi-envelope text-secondary me-2"></i>royalpaintsnepal@gmail.com</a>
+                        <a class="text-dark py-2 pe-3 border-end border-white" href="tel:056-420026"><i class="bi bi-telephone text-secondary me-2"></i>056-420026</a>
+                        <a class="text-dark py-2 px-3" href="mailto:royalpaintsnepal@gmail.com"><i class="bi bi-envelope text-secondary me-2"></i>royalpaintsnepal@gmail.com</a>
                     </div>
                 </div>
                 <div class="col-md-6 text-center text-lg-end">
                     <div class="d-inline-flex align-items-center">
-                        <a class="text-body py-2 px-3 border-end border-white" href="">
+                        <a class="text-body py-2 px-3 border-end border-white" href="https://facebook.com/royalpaintsnepal">
                             <i class="fab fa-facebook-f text-secondary"></i>
                         </a>
-                        <a class="text-body py-2 px-3 border-end border-white" href="">
+                        <a class="text-body py-2 px-3 border-end border-white" href="https://twitter.com/royalpaintsnepal">
                             <i class="fab fa-twitter text-secondary"></i>
                         </a>
-                        <a class="text-body py-2 px-3 border-end border-white" href="">
+                        <a class="text-body py-2 px-3 border-end border-white" href="https://linkedin.com/company/royalpaintsnepal">
                             <i class="fab fa-linkedin-in text-secondary"></i>
                         </a>
-                        <a class="text-body py-2 px-3 border-end border-white" href="">
+                        <a class="text-body py-2 px-3 border-end border-white" href="https://instagram.com/royalpaintsnepal">
                             <i class="fab fa-instagram text-secondary"></i>
                         </a>
-                        <a class="text-body py-2 ps-3" href="">
+                        <a class="text-body py-2 ps-3" href="https://youtube.com/royalpaintsnepal">
                             <i class="fab fa-youtube text-secondary"></i>
                         </a>
                     </div>
@@ -111,35 +277,66 @@
     <!-- Blog Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
-            <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                <h1 class="display-5">Latest Articles From Royal Paints</h1>
-                <hr class="w-25 mx-auto text-primary" style="opacity: 1;">
+            <div class="text-center mx-auto mb-5" style="max-width: 600px;">
+                <h1 class="display-5 section-title">Latest Articles From Royal Paints</h1>
+                <p class="text-muted mt-4">Stay updated with the latest painting trends, tips, and techniques from our experts</p>
             </div>
-            <div class="row g-3">
+            
+            <div class="row g-4">
                 {% for blog in blogs %}
-                <div class="col-xl-4 col-lg-6">
-                    <div class="blog-item bg-primary">
-                        {% if blog.image %}
-                            <img class="img-fluid w-100" src="{{ blog.image.url }}" alt="{{ blog.title }}">
-                        {% else %}
-                            <img class="img-fluid w-100" src="{% static 'img/blog-placeholder.jpg' %}" alt="Placeholder">
-                        {% endif %}
-                        <div class="d-flex align-items-center">
-                            <div class="bg-secondary mt-n4 d-flex flex-column flex-shrink-0 justify-content-center text-center me-4" style="width: 60px; height: 100px;">
-                                <i class="fa fa-calendar-alt text-primary mb-2"></i>
-                                <p class="m-0 text-white">{{ blog.created_at|date:"M d" }}</p>
-                                <small class="text-white">{{ blog.created_at|date:"Y" }}</small>
+                <div class="col-xl-4 col-lg-6 col-md-6">
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            {% if blog.image %}
+                                <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                            {% else %}
+                                <img src="{% static 'Assests/img/blog-placeholder.jpg' %}" alt="Royal Paints Blog">
+                            {% endif %}
+                            <div class="blog-date-badge">
+                                <i class="fa fa-calendar me-1"></i>
+                                {{ blog.created_at|date:"M d, Y" }}
                             </div>
-                            <a class="h4 m-0 text-truncate me-4" href="{% url 'blog_detail' slug=blog.slug %}">{{ blog.title }}</a>
                         </div>
-                        <div class="p-4">
-                            <a href="{% url 'blog_detail' slug=blog.slug %}" class="btn btn-secondary rounded-pill py-2 px-4">Read More</a>
+                        
+                        <div class="blog-content">
+                            <div class="mb-3">
+                                <span class="category-tag">Painting Tips</span>
+                            </div>
+                            
+                            <h3 class="blog-title">
+                                <a href="{% url 'blog_detail' slug=blog.slug %}">
+                                    {{ blog.title|truncatechars:65 }}
+                                </a>
+                            </h3>
+                            
+                            <p class="blog-excerpt">
+                                {{ blog.content|striptags|truncatechars:120 }}
+                            </p>
+                            
+                            <div class="blog-footer">
+                                <div class="author-info">
+                                    <i class="fa fa-user me-2"></i>
+                                    <span>Royal Paints Team</span>
+                                </div>
+                                <a href="{% url 'blog_detail' slug=blog.slug %}" class="read-more-btn">
+                                    Read More <i class="fa fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 {% empty %}
-                <div class="col-12 text-center">
-                    <p>No blogs available at the moment.</p>
+                <div class="col-12">
+                    <div class="no-blogs-container">
+                        <div class="no-blogs-icon">
+                            <i class="fa fa-blog"></i>
+                        </div>
+                        <h3 class="text-muted mb-3">No Blogs Available</h3>
+                        <p class="text-muted mb-4">We're working on bringing you the latest painting tips and insights. Check back soon!</p>
+                        <a href="{% url 'contacts_page' %}" class="btn btn-primary py-2 px-4">
+                            <i class="fa fa-envelope me-2"></i>Contact Us
+                        </a>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -153,7 +350,7 @@
             <div class="row g-0 justify-content-start">
                 <div class="col-lg-6">
                     <h1 class="display-5 mb-4">Do You Have Any Project?</h1>
-                    <p class="fs-4 fw-normal">Whether it’s a home renovation or a commercial project, Royal Paints delivers vibrant, long-lasting colors that bring your vision to life. Our expert team ensures every space looks perfect, from walls to finishing touches.</p>
+                    <p class="fs-4 fw-normal">Whether it's a home renovation or a commercial project, Royal Paints delivers vibrant, long-lasting colors that bring your vision to life. Our expert team ensures every space looks perfect, from walls to finishing touches.</p>
                     <a href="{% url 'contacts_page' %}" class="btn btn-secondary rounded-pill py-md-3 px-md-5 mt-4">Contact Us</a>
                 </div>
             </div>
@@ -168,21 +365,21 @@
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-primary">Get In Touch</h4>
                     <hr class="w-25 text-secondary mb-4" style="opacity: 1;">
-                    <p class="mb-4">No dolore ipsum accusam no lorem. Invidunt sed clita kasd clita et et dolor sed dolor</p>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>info@example.com</p>
-                    <p class="mb-0"><i class="fa fa-phone-alt text-primary me-3"></i>+012 345 67890</p>
+                    <p class="mb-4">Connect with us for premium painting solutions tailored to your needs.</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Bharatpur, Chitwan, Nepal</p>
+                    <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>royalpaintsnepal@gmail.com</p>
+                    <p class="mb-0"><i class="fa fa-phone-alt text-primary me-3"></i>056-420026</p>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-primary">Our Services</h4>
                     <hr class="w-25 text-secondary mb-4" style="opacity: 1;">
                     <div class="d-flex flex-column justify-content-start">
-                        <p class="text-light mb-2" href="#"><i class="fa fa-angle-right me-2"></i>Regular Painting</p>
-                        <p class="text-light mb-2" href="#"><i class="fa fa-angle-right me-2"></i>Wall Painting</p>
-                        <p class="text-light mb-2" href="#"><i class="fa fa-angle-right me-2"></i>Floor Coating</p>
-                        <p class="text-light mb-2" href="#"><i class="fa fa-angle-right me-2"></i>Graffiti Removal</p>
-                        <p class="text-light mb-2" href="#"><i class="fa fa-angle-right me-2"></i>Mildew Removal</p>
-                        <p class="text-light" href="#"><i class="fa fa-angle-right me-2"></i>Window Washing</p>
+                        <a class="text-light mb-2" href="{% url 'services_page' %}"><i class="fa fa-angle-right me-2"></i>Regular Painting</a>
+                        <a class="text-light mb-2" href="{% url 'services_page' %}"><i class="fa fa-angle-right me-2"></i>Wall Painting</a>
+                        <a class="text-light mb-2" href="{% url 'services_page' %}"><i class="fa fa-angle-right me-2"></i>Floor Coating</a>
+                        <a class="text-light mb-2" href="{% url 'services_page' %}"><i class="fa fa-angle-right me-2"></i>Graffiti Removal</a>
+                        <a class="text-light mb-2" href="{% url 'services_page' %}"><i class="fa fa-angle-right me-2"></i>Mildew Removal</a>
+                        <a class="text-light" href="{% url 'services_page' %}"><i class="fa fa-angle-right me-2"></i>Window Washing</a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -199,10 +396,10 @@
                 <div class="col-lg-3 col-md-6">
                     <h6 class="text-primary mt-4 mb-3">Follow Us</h6>
                     <div class="d-flex">
-                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="https://twitter.com/royalpaintsnepal"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="https://facebook.com/royalpaintsnepal"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="https://linkedin.com/company/royalpaintsnepal"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="https://instagram.com/royalpaintsnepal"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -211,8 +408,7 @@
     <div class="container-fluid bg-primary text-dark py-4">
         <div class="container">
             <div class="row g-0">
-                <div class="col-md-6 text-center text-md-start">
-                </div>
+                <div class="col-md-6 text-center text-md-start"></div>
                 <div class="col-md-6 text-center text-md-end">
                     <p class="mb-0">Developed By <a class="text-dark fw-bold" href="https://pioneersoftware.com.np">Pioneer Software Solutions</a></p>
                 </div>
