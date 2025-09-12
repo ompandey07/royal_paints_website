@@ -27,6 +27,9 @@ urlpatterns = [
     # Blog posts creation, editing, and management
     path('manage-blogs/', views.manage_blogs, name='manage_blogs'),
 
+    # Contact form management
+    path('manage-contacts/', views.customer_contact_view, name='customer_contact_view'),
+
 
                
 ]

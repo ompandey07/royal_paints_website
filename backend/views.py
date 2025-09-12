@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.conf import settings
-from .models import BlogModel 
+from .models import BlogModel , ContactModel
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.db.models import Q
@@ -296,3 +296,19 @@ def manage_blogs(request):
 
 
 
+# ======================================================================
+# CUSTOMER CONTACT VIEWS
+# ======================================================================
+def customer_contact_view(request):
+    search_query = request.GET.get('search', '')
+    CustomerContacts = ContactModel.objects.all()
+    if search_query:
+        CustomerContacts = CustomerContacts.filter(
+            Q(your_name__icontains=search_query) | 
+            Q(your_email__icontains=search_query)
+        )
+    context = {
+        'CustomerContacts': CustomerContacts,
+        'search_query': search_query
+    }
+    return render(request, 'Admin/ManageContacts.html', context)
