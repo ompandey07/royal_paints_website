@@ -25,23 +25,37 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Wave backgrounds */
-        .wave-top {
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff'%3E%3C/path%3E%3C/svg%3E") no-repeat center top;
-            background-size: cover;
-            padding-top: 60px;
-        }
-        
-        .wave-bottom {
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z' fill='%23ffffff'%3E%3C/path%3E%3C/svg%3E") no-repeat center bottom;
-            background-size: cover;
-            padding-bottom: 60px;
+        /* Wavy effect at the bottom of hero section */
+        .wave-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%; /* Extends to middle of hero section */
+            overflow: hidden;
+            z-index: 5;
         }
 
-        /* Rainbow wave for Hero section */
-        .rainbow-wave {
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113.64,31.08,1200,41.05V0H0Z' fill='url(%23rainbow-gradient)'%3E%3C/path%3E%3Cdefs%3E%3ClinearGradient id='rainbow-gradient' x1='0%' y1='0%' x2='100%' y2='0%'%3E%3Cstop offset='0%' stop-color='%23ff6b6b'/%3E%3Cstop offset='16.67%' stop-color='%234ecdc4'/%3E%3Cstop offset='33.33%' stop-color='%2345b7d1'/%3E%3Cstop offset='50%' stop-color='%2396ceb4'/%3E%3Cstop offset='66.67%' stop-color='%23feca57'/%3E%3Cstop offset='83.33%' stop-color='%23ff9ff3'/%3E%3Cstop offset='100%' stop-color='%2354a0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E") no-repeat center center;
-            background-size: cover;
+        .wave {
+            position: absolute;
+            bottom: 0;
+            width: 200%; /* Double width for seamless horizontal flow */
+            height: 100%; /* Match container height */
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200' preserveAspectRatio='none'%3E%3Cpath d='M0,200 C150,100 350,50 600,100 C850,150 1050,100 1200,50 V200 H0 Z' fill='url(%23wave-gradient)'/%3E%3Cdefs%3E%3ClinearGradient id='wave-gradient' x1='0%' y1='0%' x2='100%' y2='0%'%3E%3Cstop offset='0%' stop-color='%237e22ce'/%3E%3Cstop offset='50%' stop-color='%23ec4899'/%3E%3Cstop offset='100%' stop-color='%23f43f5e'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+            background-size: 50% 100%; /* Adjust for seamless tiling */
+            animation: wave-flow 12s linear infinite; /* Smooth horizontal flow with oscillation */
+        }
+
+        @keyframes wave-flow {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                transform: translateX(-25%) translateY(-20px); /* Subtle up-down oscillation */
+            }
+            100% {
+                transform: translateX(-50%) translateY(0); /* Complete horizontal cycle */
+            }
         }
 
         /* Simplified service card hover effect */
@@ -54,10 +68,165 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.15);
         }
 
+        /* Timeline styles */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #7e22ce, #ec4899);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            min-height: 400px;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+        }
+
+        .timeline-image {
+            width: 45%;
+            padding: 20px;
+        }
+
+        .timeline-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(to right, #7e22ce, #ec4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start;
+            }
+
+            .timeline-content, .timeline-image {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .timeline-content {
+                min-height: auto;
+            }
+
+            .timeline-image img {
+                height: 300px;
+            }
+
+            .timeline-icon {
+                left: 20px;
+                transform: translateX(0);
+            }
+        }
+
         /* Ensure links are clickable */
         nav a {
             pointer-events: auto !important;
             cursor: pointer !important;
+        }
+
+        /* Hero animations */
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoom-in {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 1.2s ease-out forwards;
+        }
+
+        .animate-zoom-in {
+            animation: zoom-in 1.5s ease-out forwards;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-600 {
+            animation-delay: 0.6s;
+        }
+    </style>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
         }
     </style>
 </head>
@@ -104,10 +273,10 @@
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <a href="{% url 'index_page' %}" class="flex items-center">
-                    <i class="fas fa-paint-roller text-3xl text-purple-600 mr-3"></i>
-                    <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Royal Paints</h1>
-                </a>
-                
+                    <img src="{% static 'Assests/img/RedLogo.png' %}" 
+                     alt="Royal Paints Logo" 
+                     class="h-14 w-auto object-contain" />
+                </a>                
                 <div class="hidden lg:flex space-x-8">
                     <a href="{% url 'index_page' %}" class="flex items-center text-purple-600 font-semibold border-b-2 border-purple-600 pb-1 hover:text-purple-800 transition-colors">
                         <i class="fas fa-home mr-2"></i>Home
@@ -171,21 +340,21 @@
     </nav>
 
     <!-- Hero -->
-    <div class="relative min-h-screen rainbow-wave">
-        <!-- Content -->
+    <div class="relative min-h-screen">
         <div class="relative z-10 container mx-auto px-4 py-20 lg:py-32">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="max-w-lg">
-                    <h1 class="text-5xl lg:text-7xl font-extrabold text-gray-800 mb-6 leading-tight">
-                        Paint Your World 
-                        <span class="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Vibrant</span>
+                    <h1 class="text-5xl lg:text-7xl font-extrabold text-gray-800 mb-6 leading-tight animate-fade-in-up">
+                        Transform Your Space with
+                        <span class="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Vibrant Artistry</span>
                     </h1>
-                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                        Elevate your spaces with Royal Paints' premium, eco-friendly colors. Our expert team delivers flawless finishes that inspire and endure, tailored to your unique vision.
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed animate-fade-in-up delay-200">
+                        Bring your vision to life with Royal Paints. Our eco-friendly colors and expert craftsmanship transform any space with lasting beauty and style.
                     </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="{% url 'contacts_page' %}" class="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-2xl transition-transform hover:scale-105">
-                            Get A Quote
+                    <div class="flex flex-wrap gap-4 animate-fade-in-up delay-400">
+                        <a href="{% url 'contacts_page' %}" class="relative bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-2xl transition-transform hover:scale-105 overflow-hidden">
+                            <span class="relative z-10">Get A Quote</span>
+                            <span class="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-600 opacity-0 hover:opacity-50 transition-opacity"></span>
                         </a>
                         <a href="{% url 'contacts_page' %}" class="border-2 border-purple-600 text-purple-600 px-8 py-4 rounded-full font-semibold hover:bg-purple-600 hover:text-white transition-colors">
                             Contact Us
@@ -193,89 +362,110 @@
                     </div>
                 </div>
                 
-                <div class="relative overflow-hidden shadow-2xl">
-                    <img class="w-full h-[500px] object-cover" src="https://scontent.fktm3-1.fna.fbcdn.net/v/t39.30808-6/379175786_792218196244046_4190161014555953947_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHOCJ20EMpp98J_GInSO4ldpR0Yjmkl0VWlHRiOaSXRVXKXwCbO5ylwHIwTXkyH4L80KQS31MqHrLaqmUIscNaq&_nc_ohc=uTxSMav8XBEQ7kNvwFIaqd1&_nc_oc=Adnj8iHqu6fzZAu2LDenBnV8Jkz7O7xV8mzLgBTrNzSFbsHXpdJbTsYBuH8ADZQVTEfJO2pA0_QUeXop-fmMRrKa&_nc_zt=23&_nc_ht=scontent.fktm3-1.fna&_nc_gid=ff9KQRocmEeHi5Nx5tZtng&oh=00_AfaPInMrWJzdpR1HBp13A0BKTmAabTDkCvQNoGS38kuPCA&oe=68C8D9DF" alt="Royal Paints Showcase">
+                <div class="relative flex items-center justify-center mb-8">
+                    <!-- Wavy outer div -->
+                    <div class="relative w-[450px] h-[450px] overflow-hidden animate-float" 
+                         style="clip-path: polygon(0 20%, 10% 15%, 25% 25%, 40% 10%, 55% 20%, 70% 5%, 85% 15%, 100% 0, 100% 100%, 0 100%); 
+                                background: linear-gradient(135deg, #f3e7e9, #e3f2fd);">
+                        <!-- Inner image div -->
+                        <img 
+                            src="{% static 'Assests/img/HeroBg.jpg' %}" 
+                            alt="Royal Paints Showcase"
+                            class="w-full h-full object-contain"
+                        >
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Wave Bottom -->
-        <div class="absolute bottom-0 left-0 w-full wave-bottom"></div>
+        <!-- Music-like Wavy Effect at Bottom -->
+        <div class="wave-container">
+            <div class="wave"></div>
+        </div>
     </div>
 
-    <!-- About -->
+    <!-- About (Timeline) -->
     <div class="py-20">
         <div class="container mx-auto px-4">
-            <div class="grid lg:grid-cols-2 gap-12 items-center mb-20">
-                <div class="bg-gradient-to-br from-teal-400 to-blue-500 p-8 text-white relative overflow-hidden rounded-3xl">
-                    <div class="relative z-10">
-                        <div class="flex items-center mb-6">
-                            <i class="fas fa-crown text-4xl text-yellow-300 mr-4"></i>
-                            <h2 class="text-4xl font-bold">Welcome To Royal Paints</h2>
-                        </div>
-                        <p class="text-lg mb-6 leading-relaxed">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+                    Our Story & Values
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-500 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="timeline">
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-content text-center flex flex-col items-center justify-center space-y-6">
+                        <h3 class="text-3xl font-bold text-gray-800">Welcome To Royal Paints</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-xl">
                             At Royal Paints, we bring color and life to every space. From homes to offices, our premium paints are designed to last, giving walls a vibrant finish that reflects quality and style.
                         </p>
-                        <div class="flex space-x-4 mb-6">
-                            <div class="flex items-center">
-                                <i class="fas fa-check-circle text-green-300 mr-2"></i>
+                    
+                        <div class="flex space-x-6 justify-center">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-check-circle text-green-500"></i>
                                 <span>Premium Quality</span>
                             </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-leaf text-green-300 mr-2"></i>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-leaf text-green-500"></i>
                                 <span>Eco-Friendly</span>
                             </div>
                         </div>
-                        <a href="{% url 'contacts_page' %}" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-transform hover:scale-105 inline-flex items-center">
+                    
+                        <a href="{% url 'contacts_page' %}" 
+                           class="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-transform hover:scale-105 inline-flex items-center">
                             <i class="fas fa-phone mr-2"></i>Contact Us
                         </a>
                     </div>
-                </div>
-                
-                <div class="relative">
-                    <div class="overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500 rounded-3xl">
-                        <img class="w-full h-96 object-cover" src="https://scontent.fktm3-1.fna.fbcdn.net/v/t39.30808-6/379175786_792218196244046_4190161014555953947_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHOCJ20EMpp98J_GInSO4ldpR0Yjmkl0VWlHRiOaSXRVXKXwCbO5ylwHIwTXkyH4L80KQS31MqHrLaqmUIscNaq&_nc_ohc=uTxSMav8XBEQ7kNvwFIaqd1&_nc_oc=Adnj8iHqu6fzZAu2LDenBnV8Jkz7O7xV8mzLgBTrNzSFbsHXpdJbTsYBuH8ADZQVTEfJO2pA0_QUeXop-fmMRrKa&_nc_zt=23&_nc_ht=scontent.fktm3-1.fna&_nc_gid=ff9KQRocmEeHi5Nx5tZtng&oh=00_AfaPInMrWJzdpR1HBp13A0BKTmAabTDkCvQNoGS38kuPCA&oe=68C8D9DF" alt="Royal Paints Work">
+
+                    <div class="timeline-icon">
+                        <i class="fas fa-crown"></i>
                     </div>
-                </div>
-            </div>
-            
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="relative lg:order-2">
-                    <div class="overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500 rounded-3xl">
-                        <img class="w-full h-96 object-cover" src="{% static 'Assests/img/about-2.jpg' %}" alt="Why Choose Us">
+                    <div class="timeline-image">
+                        <img src="{% static 'Assests/img/Intro.png' %}" alt="Royal Paints Work">
                     </div>
                 </div>
                 
-                <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-8 text-white relative overflow-hidden rounded-3xl lg:order-1">
-                    <div class="relative z-10">
-                        <div class="flex items-center mb-6">
-                            <i class="fas fa-star text-4xl text-yellow-300 mr-4"></i>
-                            <h2 class="text-4xl font-bold">Why Choose Us?</h2>
-                        </div>
-                        <p class="text-lg mb-6 leading-relaxed">
+                <!-- Timeline Item 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-content text-center flex flex-col items-center justify-center space-y-6">
+                        <h3 class="text-3xl font-bold text-gray-800">Why Choose Us?</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-xl">
                             Royal Paints is trusted for quality, durability, and innovation. Our paints are crafted to protect and beautify your spaces with rich colors that last.
                         </p>
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <div class="flex items-center">
-                                <i class="fas fa-shield-alt text-green-300 mr-2"></i>
+                    
+                        <div class="grid grid-cols-2 gap-6 justify-items-center">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-shield-alt text-green-500"></i>
                                 <span>Long Lasting</span>
                             </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-palette text-green-300 mr-2"></i>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-palette text-green-500"></i>
                                 <span>Wide Selection</span>
                             </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-users text-green-300 mr-2"></i>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-users text-green-500"></i>
                                 <span>Expert Team</span>
                             </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-thumbs-up text-green-300 mr-2"></i>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-thumbs-up text-green-500"></i>
                                 <span>Trusted Brand</span>
                             </div>
                         </div>
-                        <a href="{% url 'contacts_page' %}" class="bg-white text-purple-600 px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-transform hover:scale-105 inline-flex items-center">
+                    
+                        <a href="{% url 'contacts_page' %}" 
+                           class="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-transform hover:scale-105 inline-flex items-center">
                             <i class="fas fa-quote-left mr-2"></i>Get A Quote
                         </a>
+                    </div>
+
+                    <div class="timeline-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="timeline-image">
+                        <img src="{% static 'Assests/img/Intro2.jpg' %}" alt="Why Choose Us">
                     </div>
                 </div>
             </div>
@@ -284,77 +474,84 @@
 
     <!-- Services -->
     <div class="py-20 bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
-                    Professional Painting Services
-                </h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-500 mx-auto rounded-full"></div>
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+                        Services We Offer
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Interior Paints -->
+                    <div class="service-card bg-gradient-to-br from-red-400 to-pink-500 p-8 text-white text-center shadow-xl">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
+                            <i class="fas fa-home text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Interior Paints</h3>
+                        <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
+                            View Detail <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- Exterior Paints -->
+                    <div class="service-card bg-gradient-to-br from-blue-400 to-indigo-500 p-8 text-white text-center shadow-xl">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500">
+                            <i class="fas fa-building text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Exterior Paints</h3>
+                        <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
+                            View Detail <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                
+                    <!-- Emulsion Paints -->
+                    <div class="service-card bg-gradient-to-br from-green-400 to-teal-500 p-8 text-white text-center shadow-xl">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+                            <i class="fas fa-palette text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Emulsion Paints</h3>
+                        <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
+                            View Detail <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                
+                    <!-- Decorative Paints -->
+                    <div class="service-card bg-gradient-to-br from-yellow-400 to-orange-500 p-8 text-white text-center shadow-xl">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-yellow-600">
+                            <i class="fas fa-sparkles text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Decorative Paints</h3>
+                        <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-100 transition-colors font-semibold">
+                            View Detail <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                
+                    <!-- Enamel Paints -->
+                    <div class="service-card bg-gradient-to-br from-purple-400 to-indigo-500 p-8 text-white text-center shadow-xl">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-purple-500">
+                            <i class="fas fa-brush text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Enamel Paints</h3>
+                        <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
+                            View Detail <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                
+                    <!-- Wall Putty & Waterproof Paints -->
+                    <div class="service-card bg-gradient-to-br from-teal-400 to-cyan-500 p-8 text-white text-center shadow-xl">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-teal-500">
+                            <i class="fas fa-water text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Wall Putty & Waterproof Paints</h3>
+                        <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
+                            View Detail <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="service-card bg-gradient-to-br from-red-400 to-pink-500 p-8 rounded-3xl text-white text-center shadow-xl">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
-                        <i class="fas fa-paint-brush text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Regular Painting</h3>
-                    <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
-                        View Detail <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <div class="service-card bg-gradient-to-br from-blue-400 to-indigo-500 p-8 rounded-3xl text-white text-center shadow-xl">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500">
-                        <i class="fas fa-paint-roller text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Wall Painting</h3>
-                    <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
-                        View Detail <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <div class="service-card bg-gradient-to-br from-green-400 to-teal-500 p-8 rounded-3xl text-white text-center shadow-xl">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
-                        <i class="fas fa-brush text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Floor Coating</h3>
-                    <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
-                        View Detail <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <div class="service-card bg-gradient-to-br from-yellow-400 to-orange-500 p-8 rounded-3xl text-white text-center shadow-xl">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-yellow-600">
-                        <i class="fas fa-eraser text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Graffiti Removal</h3>
-                    <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-100 transition-colors font-semibold">
-                        View Detail <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <div class="service-card bg-gradient-to-br from-purple-400 to-indigo-500 p-8 rounded-3xl text-white text-center shadow-xl">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-purple-500">
-                        <i class="fas fa-spray-can text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Mildew Removal</h3>
-                    <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
-                        View Detail <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <div class="service-card bg-gradient-to-br from-teal-400 to-cyan-500 p-8 rounded-3xl text-white text-center shadow-xl">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-teal-500">
-                        <i class="fas fa-city text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Window Washing</h3>
-                    <a href="{% url 'services_page' %}" class="inline-flex items-center text-white hover:text-yellow-300 transition-colors font-semibold">
-                        View Detail <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
+
 
     <!-- Quote -->
     <div class="py-20 bg-gradient-to-br from-orange-400 via-red-500 to-pink-500">
@@ -415,14 +612,14 @@
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent">
-                    Latest Articles From Painting Blog
+                    Latest Blogs From Royal Paints
                 </h2>
                 <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-500 mx-auto rounded-full"></div>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {% for blog in recent_blogs %}
-                <div class="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-transform hover:scale-105">
+                <div class="bg-white overflow-hidden shadow-xl hover:shadow-2xl transition-transform hover:scale-105">
                     <div class="relative">
                         {% if blog.image %}
                         <img class="w-full h-48 object-cover" src="{{ blog.image.url }}" alt="{{ blog.title }}">

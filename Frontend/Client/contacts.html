@@ -4,32 +4,60 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Royal Paints Nepal Pvt. Ltd. </title>
+    <title>Royal Paints Nepal Pvt. Ltd.</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
+    <meta content="Painting Services, Royal Paints, Contact Us" name="keywords">
+    <meta content="Connect with Royal Paints Nepal for premium painting solutions tailored to your needs." name="description">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'Logo/Logo.jpg' %}" type="image/x-icon">
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">  
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="{% static 'Assests/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{% static 'Assests/css/bootstrap.min.css' %}" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="{% static 'Assests/css/style.css' %}" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Wave backgrounds */
+        .wave-top {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff'%3E%3C/path%3E%3C/svg%3E") no-repeat center top;
+            background-size: cover;
+            padding-top: 60px;
+        }
+        
+        .wave-bottom {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z' fill='%23ffffff'%3E%3C/path%3E%3C/svg%3E") no-repeat center bottom;
+            background-size: cover;
+            padding-bottom: 60px;
+        }
+
+        /* Vibrant rainbow wave for Hero section */
+        .rainbow-wave {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113.64,31.08,1200,41.05V0H0Z' fill='url(%23vibrant-rainbow-gradient)'%3E%3C/path%3E%3Cdefs%3E%3ClinearGradient id='vibrant-rainbow-gradient' x1='0%' y1='0%' x2='100%' y2='0%'%3E%3Cstop offset='0%' stop-color='%23ff0000'/%3E%3Cstop offset='20%' stop-color='%23ff9900'/%3E%3Cstop offset='40%' stop-color='%23ffff00'/%3E%3Cstop offset='60%' stop-color='%2300ff00'/%3E%3Cstop offset='80%' stop-color='%230000ff'/%3E%3Cstop offset='100%' stop-color='%238b00ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E") no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Contact card styles */
+        .contact-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;            
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Form styles */
         .alert {
             animation: fadeIn 1s ease-in-out;
             margin-bottom: 20px;
@@ -44,266 +72,393 @@
             margin-top: 5px;
             display: block;
         }
+
+        /* Ensure links are clickable */
+        nav a {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+        }
     </style>
 </head>
 
-<body>
-    <!-- Topbar Start -->
-    <div class="container-fluid bg-primary d-none d-lg-block">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
-                    <div class="d-inline-flex align-items-center">
-                        <a class="text-dark py-2 pe-3 border-end border-white" href="tel:056-420026"><i class="bi bi-telephone text-secondary me-2"></i>056-420026</a>
-                        <a class="text-dark py-2 px-3" href="mailto:royalpaintsnepal@gmail.com"><i class="bi bi-envelope text-secondary me-2"></i>royalpaintsnepal@gmail.com</a>
+<body class="bg-gray-50">
+    <!-- Topbar -->
+    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-3 hidden lg:block">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-8">
+                    <a href="tel:056-420026" class="flex items-center hover:text-yellow-300 transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-phone-alt mr-2"></i>056-420026
+                    </a>
+                    <a href="mailto:royalpaintsnepal@gmail.com" class="flex items-center hover:text-yellow-300 transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-envelope mr-2"></i>royalpaintsnepal@gmail.com
+                    </a>
+                    <div class="flex items-center text-yellow-200">
+                        <i class="fas fa-map-marker-alt mr-2"></i>Bharatpur, Chitwan, Nepal
                     </div>
                 </div>
-                <div class="col-md-6 text-center text-lg-end">
-                    <div class="d-inline-flex align-items-center">
-                        <a class="text-body py-2 px-3 border-end border-white" href="https://facebook.com/royalpaintsnepal">
-                            <i class="fab fa-facebook-f text-secondary"></i>
-                        </a>
-                        <a class="text-body py-2 px-3 border-end border-white" href="https://twitter.com/royalpaintsnepal">
-                            <i class="fab fa-twitter text-secondary"></i>
-                        </a>
-                        <a class="text-body py-2 px-3 border-end border-white" href="https://linkedin.com/company/royalpaintsnepal">
-                            <i class="fab fa-linkedin-in text-secondary"></i>
-                        </a>
-                        <a class="text-body py-2 px-3 border-end border-white" href="https://instagram.com/royalpaintsnepal">
-                            <i class="fab fa-instagram text-secondary"></i>
-                        </a>
-                        <a class="text-body py-2 ps-3" href="https://youtube.com/royalpaintsnepal">
-                            <i class="fab fa-youtube text-secondary"></i>
-                        </a>
-                    </div>
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com/royalpaintsnepal" class="hover:text-yellow-300 transition-transform duration-300 hover:scale-125">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/royalpaintsnepal" class="hover:text-yellow-300 transition-transform duration-300 hover:scale-125">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://linkedin.com/company/royalpaintsnepal" class="hover:text-yellow-300 transition-transform duration-300 hover:scale-125">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://instagram.com/royalpaintsnepal" class="hover:text-yellow-300 transition-transform duration-300 hover:scale-125">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://youtube.com/royalpaintsnepal" class="hover:text-yellow-300 transition-transform duration-300 hover:scale-125">
+                        <i class="fab fa-youtube"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Topbar End -->
 
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm px-5 py-3 py-lg-0">
-        <a href="{% url 'index_page' %}" class="navbar-brand p-0">
-            <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-paint-roller text-secondary me-3"></i>Royal Paints</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0 pe-4 border-end border-5 border-primary">
-                <a href="{% url "index_page" %}" class="nav-item nav-link">Home</a>
-                <a href="{% url "about_page" %}" class="nav-item nav-link">About</a>
-                <a href="{% url "services_page" %}" class="nav-item nav-link">Service</a>
-                <a href="{% url "blogs_page" %}" class="nav-item nav-link">Blogs</a>
-                <a href="{% url "contacts_page" %}" class="nav-item nav-link active">Contact</a>
+    <!-- Navbar -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="{% url 'index_page' %}" class="flex items-center">
+                    <img src="{% static 'Assests/img/RedLogo.png' %}" 
+                     alt="Royal Paints Logo" 
+                     class="h-14 w-auto object-contain" />
+                </a>  
+                
+                <div class="hidden lg:flex space-x-8">
+                    <a href="{% url 'index_page' %}" class="flex items-center text-gray-700 hover:text-purple-600 transition-colors">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="{% url 'about_page' %}" class="flex items-center text-gray-700 hover:text-purple-600 transition-colors">
+                        <i class="fas fa-info-circle mr-2"></i>About
+                    </a>
+                    <a href="{% url 'services_page' %}" class="flex items-center text-gray-700 hover:text-purple-600 transition-colors">
+                        <i class="fas fa-tools mr-2"></i>Services
+                    </a>
+                    <a href="{% url 'blogs_page' %}" class="flex items-center text-gray-700 hover:text-purple-600 transition-colors">
+                        <i class="fas fa-blog mr-2"></i>Blogs
+                    </a>
+                    <a href="{% url 'contacts_page' %}" class="flex items-center text-purple-600 font-semibold border-b-2 border-purple-600 pb-1 hover:text-purple-800 transition-colors">
+                        <i class="fas fa-phone mr-2"></i>Contact
+                    </a>
+                </div>
+                
+                <div class="hidden lg:flex items-center">
+                    <i class="fas fa-mobile-alt text-2xl text-purple-600 mr-3"></i>
+                    <div>
+                        <p class="text-sm text-purple-600 font-semibold">Call Now</p>
+                        <p class="text-gray-700 font-bold">056-420026</p>
+                    </div>
+                </div>
+                
+                <button id="mobile-menu-toggle" class="lg:hidden text-gray-700">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
             </div>
-            <div class="d-none d-lg-flex align-items-center ps-4">
-                <i class="fa fa-2x fa-mobile-alt text-secondary me-3"></i>
-                <div>
-                    <h5 class="text-primary mb-1"><small>Call Now</small></h5>
-                    <h6 class="text-light m-0">056-420026</h6>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-white z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+            <div class="flex flex-col h-full">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <span class="text-xl font-bold text-purple-600">Menu</span>
+                    <button id="mobile-menu-close" class="text-gray-700">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+                <div class="flex flex-col space-y-6 p-6">
+                    <a href="{% url 'index_page' %}" class="flex items-center text-gray-700 text-lg hover:text-purple-600 transition-colors">
+                        <i class="fas fa-home mr-3"></i>Home
+                    </a>
+                    <a href="{% url 'about_page' %}" class="flex items-center text-gray-700 text-lg hover:text-purple-600 transition-colors">
+                        <i class="fas fa-info-circle mr-3"></i>About
+                    </a>
+                    <a href="{% url 'services_page' %}" class="flex items-center text-gray-700 text-lg hover:text-purple-600 transition-colors">
+                        <i class="fas fa-tools mr-3"></i>Services
+                    </a>
+                    <a href="{% url 'blogs_page' %}" class="flex items-center text-gray-700 text-lg hover:text-purple-600 transition-colors">
+                        <i class="fas fa-blog mr-3"></i>Blogs
+                    </a>
+                    <a href="{% url 'contacts_page' %}" class="flex items-center text-purple-600 font-semibold text-lg hover:text-purple-800">
+                        <i class="fas fa-phone mr-3"></i>Contact
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
-    <!-- Navbar End -->
 
-    <!-- Hero Start -->
-    <div class="container-fluid bg-primary py-5 bg-hero" style="margin-bottom: 90px;">
-        <div class="container py-5">
-            <div class="row justify-content-start">
-                <div class="col-lg-8 text-center text-lg-start">
-                    <h1 class="display-1 text-dark">Contact Us</h1>
-                    <div class="pt-2">
-                        <a href="{% url 'index_page' %}" class="btn btn-secondary rounded-pill py-2 px-4 mx-2">Home</a>
-                        <a href="{% url 'contacts_page' %}" class="btn btn-secondary rounded-pill py-2 px-4 mx-2">Contact Us</a>
+    <!-- Hero -->
+    <div class="relative min-h-[50vh] rainbow-wave">
+        <div class="relative z-10 container mx-auto px-4 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="max-w-lg">
+                    <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-800 mb-6 leading-tight">
+                        Contact Us
+                    </h1>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="{% url 'index_page' %}" class="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-2xl transition-transform hover:scale-105">
+                            Home
+                        </a>
+                        <a href="{% url 'contacts_page' %}" class="border-2 border-purple-600 text-purple-600 px-8 py-4 rounded-full font-semibold hover:bg-purple-600 hover:text-white transition-colors">
+                            Contact Us
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="absolute bottom-0 left-0 w-full wave-bottom"></div>
     </div>
-    <!-- Hero End -->
 
-    <!-- Contact Start -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                <h1 class="display-5">Please Feel Free To Contact Us</h1>
-                <hr class="w-25 mx-auto text-primary" style="opacity: 1;">
+    <!-- Contact -->
+    <div class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+                    Please Feel Free To Contact Us
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-500 mx-auto rounded-full"></div>
             </div>
-            <div class="row g-3 mb-5">
-                <div class="col-lg-4 col-md-6 pt-5">
-                    <div class="contact-item d-flex flex-column align-items-center justify-content-center text-center pb-5">
-                        <div class="contact-icon p-3">
-                            <div><i class="fa fa-2x fa-map-marker-alt"></i></div>
-                        </div>
-                        <h4 class="mt-5">Bharatpur-9, Gondrang, Bharatpur, Nepal</h4>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <div class="contact-card p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-map-marker-alt text-2xl text-white"></i>
                     </div>
+                    <h3 class="text-xl font-bold mb-4">Address</h3>
+                    <p class="text-gray-600">Bharatpur-9, Gondrang, Bharatpur, Nepal</p>
                 </div>
-                <div class="col-lg-4 col-md-6 pt-5">
-                    <div class="contact-item d-flex flex-column align-items-center justify-content-center text-center pb-5">
-                        <div class="contact-icon p-3">
-                            <div><i class="fa fa-2x fa-phone"></i></div>
-                        </div>
-                        <h4 class="mt-5">056-420026</h4>
+                
+                <div class="contact-card p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-phone text-2xl text-white"></i>
                     </div>
+                    <h3 class="text-xl font-bold mb-4">Phone</h3>
+                    <p class="text-gray-600">056-420026</p>
                 </div>
-                <div class="col-lg-4 col-md-6 pt-5">
-                    <div class="contact-item d-flex flex-column align-items-center justify-content-center text-center pb-5">
-                        <div class="contact-icon p-3">
-                            <div><i class="fa fa-2x fa-envelope-open"></i></div>
-                        </div>
-                        <h4 class="mt-5">royalpaintsnepal@gmail.com</h4>
+                
+                <div class="contact-card p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-envelope-open text-2xl text-white"></i>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12" style="height: 500px;">
-                    <div class="position-relative h-100">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3534.085824246511!2d84.44403688767781!3d27.652816266576714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3994fba6385bea2f%3A0x1ab74f87d9c3cddd!2sRoyal%20paints%20pvt%20LTD!5e0!3m2!1sne!2snp!4v1757605444483!5m2!1sne!2snp" width="1300" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
+                    <h3 class="text-xl font-bold mb-4">Email</h3>
+                    <p class="text-gray-600">royalpaintsnepal@gmail.com</p>
                 </div>
             </div>
-            <div class="row justify-content-center position-relative" style="margin-top: -200px; z-index: 1;">
-                <div class="col-lg-8">
-                    <div class="bg-primary p-5 m-5 mb-0">
-                        
-                        <!-- Success Message -->
-                        {% if success %}
-                        <div class="alert alert-success" role="alert">
-                            <i class="fa fa-check-circle me-2"></i>Your message has been sent successfully!
+
+            <div class="mb-12">
+                <div class="w-full h-[500px] overflow-hidden shadow-xl">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3534.085824246511!2d84.44403688767781!3d27.652816266576714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3994fba6385bea2f%3A0x1ab74f87d9c3cddd!2sRoyal%20paints%20pvt%20LTD!5e0!3m2!1sne!2snp!4v1757605444483!5m2!1sne!2snp" 
+                            width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <div class="max-w-3xl mx-auto bg-white p-8  shadow-xl">
+                <!-- Success Message -->
+                {% if success %}
+                <div class="alert bg-green-100 text-green-800 p-4  flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>Your message has been sent successfully!
+                </div>
+                {% endif %}
+
+                <!-- General Error Message -->
+                {% if errors.general %}
+                <div class="alert bg-red-100 text-red-800 p-4  flex items-center">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>{{ errors.general }}
+                </div>
+                {% endif %}
+
+                <!-- Contact Form -->
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <input type="text" name="your_name" class="w-full p-4 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-purple-600" 
+                                   placeholder="Your Name" value="{% if form_data %}{{ form_data.name }}{% endif %}">
+                            {% if errors.name %}
+                            <small class="error-text">{{ errors.name }}</small>
+                            {% endif %}
                         </div>
+                        <div>
+                            <input type="email" name="your_email" class="w-full p-4 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-purple-600" 
+                                   placeholder="Your Email" value="{% if form_data %}{{ form_data.email }}{% endif %}">
+                            {% if errors.email %}
+                            <small class="error-text">{{ errors.email }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <textarea name="your_message" class="w-full p-4 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-purple-600" 
+                                  rows="5" placeholder="Message">{% if form_data %}{{ form_data.message }}{% endif %}</textarea>
+                        {% if errors.message %}
+                        <small class="error-text">{{ errors.message }}</small>
                         {% endif %}
+                    </div>
+                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-4  font-semibold hover:shadow-xl transition-transform hover:scale-105">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-                        <!-- General Error Message -->
-                        {% if errors.general %}
-                        <div class="alert alert-danger" role="alert">
-                            <i class="fa fa-exclamation-triangle me-2"></i>{{ errors.general }}
-                        </div>
-                        {% endif %}
+    <!-- Call To Action -->
+    <div class="py-20 bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl">
+                <h2 class="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    Do You Have Any 
+                    <span class="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">Project?</span>
+                </h2>
+                <p class="text-xl text-white mb-8 leading-relaxed max-w-3xl">
+                    Whether it's a home renovation or a commercial project, Royal Paints delivers vibrant, long-lasting colors that bring your vision to life.
+                </p>
+                <a href="{% url 'contacts_page' %}" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-transform hover:scale-105">
+                    Contact Us Now
+                </a>
+            </div>
+        </div>
+    </div>
 
-                        <!-- Contact Form -->
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="row g-3">
-                                <div class="col-12 col-sm-6">
-                                    <input type="text" name="your_name" class="form-control bg-light border-0" 
-                                           placeholder="Your Name" style="height: 55px;" 
-                                           value="{% if form_data %}{{ form_data.name }}{% endif %}">
-                                    {% if errors.name %}
-                                    <small class="error-text">{{ errors.name }}</small>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <input type="email" name="your_email" class="form-control bg-light border-0" 
-                                           placeholder="Your Email" style="height: 55px;" 
-                                           value="{% if form_data %}{{ form_data.email }}{% endif %}">
-                                    {% if errors.email %}
-                                    <small class="error-text">{{ errors.email }}</small>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12">
-                                    <textarea name="your_message" class="form-control bg-light border-0" 
-                                              rows="5" placeholder="Message">{% if form_data %}{{ form_data.message }}{% endif %}</textarea>
-                                    {% if errors.message %}
-                                    <small class="error-text">{{ errors.message }}</small>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-secondary w-100 py-3" type="submit">Send Message</button>
-                                </div>
-                            </div>
-                        </form>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Get In Touch</h3>
+                    <div class="w-16 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mb-6 rounded-full"></div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">Connect with us for premium painting solutions tailored to your needs.</p>
+                    <div class="space-y-3">
+                        <p class="flex items-center text-gray-300"><i class="fas fa-map-marker-alt text-purple-400 mr-3"></i>Bharatpur, Chitwan, Nepal</p>
+                        <p class="flex items-center text-gray-300"><i class="fas fa-envelope text-purple-400 mr-3"></i>royalpaintsnepal@gmail.com</p>
+                        <p class="flex items-center text-gray-300"><i class="fas fa-phone-alt text-purple-400 mr-3"></i>056-420026</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">Our Services</h3>
+                    <div class="w-16 h-1 bg-gradient-to-r from-blue-400 to-teal-400 mb-6 rounded-full"></div>
+                    <div class="space-y-3">
+                        <a href="{% url 'services_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-blue-400"></i>Regular Painting</a>
+                        <a href="{% url 'services_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-blue-400"></i>Wall Painting</a>
+                        <a href="{% url 'services_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-blue-400"></i>Floor Coating</a>
+                        <a href="{% url 'services_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-blue-400"></i>Graffiti Removal</a>
+                        <a href="{% url 'services_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-blue-400"></i>Mildew Removal</a>
+                        <a href="{% url 'services_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-blue-400"></i>Window Washing</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 bg-gradient-to-r from-green-400 to-yellow-400 bg-clip-text text-transparent">Quick Links</h3>
+                    <div class="w-16 h-1 bg-gradient-to-r from-green-400 to-yellow-400 mb-6 rounded-full"></div>
+                    <div class="space-y-3">
+                        <a href="{% url 'index_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-green-400"></i>Home</a>
+                        <a href="{% url 'about_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-green-400"></i>About Us</a>
+                        <a href="{% url 'services_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-green-400"></i>Our Services</a>
+                        <a href="{% url 'blogs_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-green-400"></i>Latest Blog</a>
+                        <a href="{% url 'contacts_page' %}" class="block text-gray-300 hover:text-white transition-colors"><i class="fas fa-angle-right mr-2 text-green-400"></i>Contact Us</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 bg-gradient-to-r from-red-400 to-pink-400 bg-clip-text text-transparent">Follow Us</h3>
+                    <div class="w-16 h-1 bg-gradient-to-r from-red-400 to-pink-400 mb-6 rounded-full"></div>
+                    <p class="text-gray-300 mb-6">Stay connected for the latest updates and offers!</p>
+                    <div class="flex space-x-4">
+                        <a href="https://twitter.com/royalpaintsnepal" class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center hover:shadow-lg transition-transform hover:scale-110"><i class="fab fa-twitter"></i></a>
+                        <a href="https://facebook.com/royalpaintsnepal" class="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center hover:shadow-lg transition-transform hover:scale-110"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://linkedin.com/company/royalpaintsnepal" class="w-12 h-12 bg-gradient-to-r from-blue-700 to-blue-800 rounded-full flex items-center justify-center hover:shadow-lg transition-transform hover:scale-110"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://instagram.com/royalpaintsnepal" class="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center hover:shadow-lg transition-transform hover:scale-110"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Contact End -->
+    </footer>
 
-    <!-- Call To Action Start -->
-    <div class="container-fluid bg-primary bg-call-to-action py-5" style="margin-top: 90px;">
-        <div class="container py-5">
-            <div class="row g-0 justify-content-start">
-                <div class="col-lg-6">
-                    <h1 class="display-5 mb-4">Do You Have Any Project?</h1>
-                    <p class="fs-4 fw-normal">Whether it's a home renovation or a commercial project, Royal Paints delivers vibrant, long-lasting colors that bring your vision to life. Our expert team ensures every space looks perfect, from walls to finishing touches.</p>
-                    <a href="{% url 'contacts_page' %}" class="btn btn-secondary rounded-pill py-md-3 px-md-5 mt-4">Contact Us</a>
-                </div>
-            </div>
+    <div class="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-0">Developed By <a href="https://pioneersoftware.com.np" class="font-bold hover:text-yellow-300 transition-colors">Pioneer Software Solutions</a></p>
         </div>
     </div>
-    <!-- Call To Action End -->
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark bg-footer text-light py-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary">Get In Touch</h4>
-                    <hr class="w-25 text-secondary mb-4" style="opacity: 1;">
-                    <p class="mb-4">No dolore ipsum accusam no lorem. Invidunt sed clita kasd clita et et dolor sed dolor</p>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>info@example.com</p>
-                    <p class="mb-0"><i class="fa fa-phone-alt text-primary me-3"></i>+012 345 67890</p>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary">Our Services</h4>
-                    <hr class="w-25 text-secondary mb-4" style="opacity: 1;">
-                    <div class="d-flex flex-column justify-content-start">
-                        <p class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>Regular Painting</p>
-                        <p class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>Wall Painting</p>
-                        <p class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>Floor Coating</p>
-                        <p class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>Graffiti Removal</p>
-                        <p class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>Mildew Removal</p>
-                        <p class="text-light"><i class="fa fa-angle-right me-2"></i>Window Washing</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary">Quick Links</h4>
-                    <hr class="w-25 text-secondary mb-4" style="opacity: 1;">
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-light mb-2" href="{% url "index_page" %}"><i class="fa fa-angle-right me-2"></i>Home</a>
-                        <a class="text-light mb-2" href="{% url "about_page" %}"><i class="fa fa-angle-right me-2"></i>About Us</a>
-                        <a class="text-light mb-2" href="{% url "services_page" %}"><i class="fa fa-angle-right me-2"></i>Our Services</a>
-                        <a class="text-light mb-2" href="{% url "blogs_page" %}"><i class="fa fa-angle-right me-2"></i>Latest Blog</a>
-                        <a class="text-light" href="{% url "contacts_page" %}"><i class="fa fa-angle-right me-2"></i>Contact Us</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h6 class="text-primary mt-4 mb-3">Follow Us</h6>
-                    <div class="d-flex">
-                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="https://twitter.com/royalpaintsnepal"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="https://facebook.com/royalpaintsnepal"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-2" href="https://linkedin.com/company/royalpaintsnepal"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="https://instagram.com/royalpaintsnepal"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid bg-primary text-dark py-4">
-        <div class="container">
-            <div class="row g-0">
-                <div class="col-md-6 text-center text-md-start">
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <p class="mb-0">Developed By <a class="text-dark fw-bold" href="https://pioneersoftware.com.np">Pioneer Software Solutions </a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-secondary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" id="back-to-top" class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl transition-transform hover:scale-110 opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </a>
 
-    <!-- JavaScript files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'Assests/lib/owlcarousel/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'Assests/js/main.js' %}"></script>
+    <script>
+        // Back to top functionality
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.remove('opacity-0', 'invisible');
+                backToTop.classList.add('opacity-100', 'visible');
+            } else {
+                backToTop.classList.remove('opacity-100', 'visible');
+                backToTop.classList.add('opacity-0', 'invisible');
+            }
+        });
+
+        document.getElementById('back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenu.classList.add('translate-x-0');
+            mobileMenu.classList.remove('-translate-x-full');
+            document.body.style.overflow = 'hidden';
+        });
+
+        mobileMenuClose.addEventListener('click', function() {
+            mobileMenu.classList.add('-translate-x-full');
+            mobileMenu.classList.remove('translate-x-0');
+            document.body.style.overflow = '';
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.add('-translate-x-full');
+                mobileMenu.classList.remove('translate-x-0');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        mobileMenu.addEventListener('click', function(e) {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.add('-translate-x-full');
+                mobileMenu.classList.remove('translate-x-0');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Ensure navigation links are clickable
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        // Add active state to navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('nav a').forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('text-purple-600', 'font-semibold', 'border-b-2', 'border-purple-600', 'pb-1');
+                    link.classList.remove('text-gray-700');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
