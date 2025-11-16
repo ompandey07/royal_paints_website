@@ -1,24 +1,13 @@
-from django.shortcuts import render , get_object_or_404, redirect
-from django.http import HttpResponse
-from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.conf import settings
-from .models import BlogModel , ContactModel
-from django.core.paginator import Paginator
-from django.http import JsonResponse
-from django.db.models import Q
-import pandas as pd
-from io import BytesIO
-from django.utils.decorators import method_decorator
-from django.views import View
-from openpyxl import Workbook
-from openpyxl.styles import PatternFill, Font, Alignment
 from django.db import transaction
+from django.db.models import Q
 import os
+
+from .models import BlogModel, ContactModel
 
 
 # ======================================================================
