@@ -7,7 +7,7 @@ from django.db import transaction
 from django.db.models import Q
 import os
 
-from .models import BlogModel, ContactModel
+from .models import BlogModel, ContactModel, CarrierModel
 
 
 # ======================================================================
@@ -170,9 +170,16 @@ def admin_dashboard(request):
         messages.error(request, 'Please log in to access the admin dashboard')
         return redirect('login_view')
     
+    # Counts Of Data 
+    total_carriers = CarrierModel.objects.count()
+    total_blogs = BlogModel.objects.count()
+    total_contacts = ContactModel.objects.count()
     context = {
         'user': request.user,
         'dashboard_title': 'Admin Dashboard',
+        'total_carriers': total_carriers,
+        'total_blogs': total_blogs,
+        'total_contacts': total_contacts,
     }
     return render(request, 'Admin/AdminDashboard.html', context)
 
@@ -288,6 +295,7 @@ def manage_blogs(request):
 # ======================================================================
 # CUSTOMER CONTACT VIEWS
 # ======================================================================
+@login_required(login_url='unauthorized_acess')
 def customer_contact_view(request):
     search_query = request.GET.get('search', '')
     CustomerContacts = ContactModel.objects.all()
@@ -301,3 +309,118 @@ def customer_contact_view(request):
         'search_query': search_query
     }
     return render(request, 'Admin/ManageContacts.html', context)
+
+
+
+
+
+# ======================================================================
+# CARRIER MANAGEMENT VIEWS
+# ======================================================================
+
+@login_required(login_url='unauthorized_acess')
+def manage_carriers(request):
+    """
+    Comprehensive carrier management view for CRUD operations
+    
+    Features:
+    - Create new carriers with title, description, deadline, and image
+    - Update existing carriers
+    - Delete carriers with file cleanup
+    - Search functionality across title and description
+    - Image file management (upload/delete)
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        HttpResponse: Carrier management template with carrier list
+    """
+    search_query = request.GET.get('search', '')
+    
+    # ==================== POST Request Handling ====================
+    if request.method == 'POST':
+        action = request.POST.get('action', 'create')
+        
+        # ========== Delete Carrier ==========
+        if action == 'delete':
+            carrier_id = request.POST.get('carrier_id')
+            try:
+                carrier = get_object_or_404(CarrierModel, id=carrier_id)
+                carrier_title = carrier.carrier_title
+                
+                # Delete image file if exists
+                if carrier.carrier_image and os.path.isfile(carrier.carrier_image.path):
+                    os.remove(carrier.carrier_image.path)
+                
+                carrier.delete()
+                messages.success(request, f'Carrier "{carrier_title}" has been deleted successfully.')
+            except Exception as e:
+                messages.error(request, f'Error deleting carrier: {str(e)}')
+        
+        # ========== Create/Update Carrier ==========
+        else:
+            carrier_id = request.POST.get('carrier_id')
+            carrier_title = request.POST.get('carrier_title', '').strip()
+            description = request.POST.get('description', '').strip()
+            deadline_date = request.POST.get('deadline_date', '').strip()
+            carrier_image = request.FILES.get('carrier_image')
+            
+            # Basic validation
+            if not carrier_title:
+                messages.error(request, 'Carrier title is required.')
+                return redirect('manage_carriers')
+            
+            if not deadline_date:
+                messages.error(request, 'Deadline date is required.')
+                return redirect('manage_carriers')
+            
+            try:
+                if carrier_id:  # Update existing carrier
+                    carrier = get_object_or_404(CarrierModel, id=carrier_id)
+                    old_image = carrier.carrier_image
+                    
+                    carrier.carrier_title = carrier_title
+                    carrier.description = description
+                    carrier.deadline_date = deadline_date
+                    
+                    if carrier_image:
+                        # Delete old image if exists
+                        if old_image and os.path.isfile(old_image.path):
+                            os.remove(old_image.path)
+                        carrier.carrier_image = carrier_image
+                    
+                    carrier.save()
+                    messages.success(request, f'Carrier "{carrier_title}" has been updated successfully.')
+                
+                else:  # Create new carrier
+                    carrier = CarrierModel.objects.create(
+                        carrier_title=carrier_title,
+                        description=description,
+                        deadline_date=deadline_date,
+                        carrier_image=carrier_image
+                    )
+                    messages.success(request, f'Carrier "{carrier_title}" has been created successfully.')
+            
+            except Exception as e:
+                messages.error(request, f'Error saving carrier: {str(e)}')
+        
+        return redirect('manage_carriers')
+    
+    # ==================== GET Request Handling ====================
+    # GET request - Display carriers
+    carriers = CarrierModel.objects.all().order_by('-created_at')
+    
+    # Search functionality
+    if search_query:
+        carriers = carriers.filter(
+            Q(carrier_title__icontains=search_query) | 
+            Q(description__icontains=search_query)
+        )
+    
+    context = {
+        'carriers': carriers,
+        'search_query': search_query,
+    }
+    
+    return render(request, 'Admin/ManageCarriers.html', context)

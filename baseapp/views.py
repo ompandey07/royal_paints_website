@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from backend.models import BlogModel, ContactModel
+from backend.models import BlogModel, ContactModel , CarrierModel
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
@@ -235,3 +235,55 @@ def contacts_page(request):
     
     # GET request - just show the page
     return render(request, 'Client/contacts.html')
+
+
+
+
+# ======================================================================
+# CARRIER VIEWS
+# ======================================================================
+
+def carriers_page(request):
+    """
+    Carrier listing page - displays all available career opportunities
+    
+    Features:
+    - Fetches all carrier posts from database
+    - Shows deadline dates for applications
+    - Public access to career opportunities
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        HttpResponse: Rendered carriers.html template with carrier list
+    """
+    context = {
+        'carriers': CarrierModel.objects.all().order_by('-created_at')  
+    }
+    return render(request, 'Client/carriers.html', context)
+
+def carrier_detail(request, slug):
+    """
+    Individual carrier post detail view
+    
+    Features:
+    - Displays single carrier opportunity by ID
+    - 404 error handling for non-existent carriers
+    - Shows full job description and application deadline
+    
+    Args:
+        request: HTTP request object
+        id: Carrier ID parameter for identification
+        
+    Returns:
+        HttpResponse: Rendered carrier_detail.html template with carrier data
+        
+    Raises:
+        Http404: If carrier with given ID doesn't exist
+    """
+    carrier = get_object_or_404(CarrierModel, slug=slug)
+    context = {
+        'carrier': carrier
+    }
+    return render(request, 'Client/carrier_detail.html', context)

@@ -396,61 +396,72 @@
 
     <div class="flex min-h-screen">
         <!-- Left Sidebar -->
-        <aside class="w-72 sidebar-bg shadow-xl relative" id="sidebar">
-            <div class="p-4 md:p-6">
-                <div class="mb-6 md:mb-8">
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Main Menu</h3>
-                </div>
-                
-                <ul class="space-y-2 md:space-y-3">
-                    <li>
-                        <a href="{% url "admin_dashboard" %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
-                            <div class="flex-shrink-0">
-                                <i data-lucide="layout-dashboard" class="h-4 md:h-5 w-4 md:w-5 icon-dashboard"></i>
-                            </div>
-                            <div class="flex-1">
-                                <span class="font-medium text-sm md:text-base">Dashboard</span>
-                                <p class="text-xs opacity-70 hidden md:block">Overview & Analytics</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url "manage_blogs" %}" class="menu-item active flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
-                            <div class="flex-shrink-0">
-                                <i data-lucide="file-text" class="h-4 md:h-5 w-4 md:w-5 icon-blog"></i>
-                            </div>
-                            <div class="flex-1">
-                                <span class="font-medium text-sm md:text-base">Manage Blogs</span>
-                                <p class="text-xs opacity-70 hidden md:block">Content Management</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'customer_contact_view' %}" class="menu-item  flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
-                            <div class="flex-shrink-0">
-                                <i data-lucide="mail" class="h-4 md:h-5 w-4 md:w-5 icon-contact"></i>
-                            </div>
-                            <div class="flex-1">
-                                <span class="font-medium text-sm md:text-base">Manage Contacts</span>
-                                <p class="text-xs opacity-70 hidden md:block">Customer Messages</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                
-                <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-slate-200">
-                    <a href="{% url "logout_view" %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all text-red-600 hover:bg-red-50">
-                        <div class="flex-shrink-0">
-                            <i data-lucide="log-out" class="h-4 md:h-5 w-4 md:w-5 icon-logout"></i>
-                        </div>
-                        <div class="flex-1">
-                            <span class="font-medium text-sm md:text-base">Logout</span>
-                            <p class="text-xs opacity-70 hidden md:block">Sign out safely</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </aside>
+         <aside class="w-72 sidebar-bg shadow-xl relative" id="sidebar">
+             <div class="p-4 md:p-6">
+                 <div class="mb-6 md:mb-8">
+                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Main Menu</h3>
+                 </div>
+                 
+                 <ul class="space-y-2 md:space-y-3">
+                     <li>
+                         <a href="{% url 'admin_dashboard' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                             <div class="flex-shrink-0">
+                                 <i data-lucide="layout-dashboard" class="h-4 md:h-5 w-4 md:w-5 icon-dashboard"></i>
+                             </div>
+                             <div class="flex-1">
+                                 <span class="font-medium text-sm md:text-base">Dashboard</span>
+                                 <p class="text-xs opacity-70 hidden md:block">Overview & Analytics</p>
+                             </div>
+                         </a>
+                     </li>
+                     <li>
+                         <a href="{% url 'manage_blogs' %}" class="menu-item active flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                             <div class="flex-shrink-0">
+                                 <i data-lucide="file-text" class="h-4 md:h-5 w-4 md:w-5 icon-blog"></i>
+                             </div>
+                             <div class="flex-1">
+                                 <span class="font-medium text-sm md:text-base">Manage Blogs</span>
+                                 <p class="text-xs opacity-70 hidden md:block">Content Management</p>
+                             </div>
+                         </a>
+                     </li>
+                     <li>
+                         <a href="{% url 'manage_carriers' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                             <div class="flex-shrink-0">
+                                 <i data-lucide="briefcase" class="h-4 md:h-5 w-4 md:w-5 icon-carrier"></i>
+                             </div>
+                             <div class="flex-1">
+                                 <span class="font-medium text-sm md:text-base">Manage Carriers</span>
+                                 <p class="text-xs opacity-70 hidden md:block">Job Postings</p>
+                             </div>
+                         </a>
+                     </li>
+                     <li>
+                         <a href="{% url 'customer_contact_view' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                             <div class="flex-shrink-0">
+                                 <i data-lucide="mail" class="h-4 md:h-5 w-4 md:w-5 icon-contact"></i>
+                             </div>
+                             <div class="flex-1">
+                                 <span class="font-medium text-sm md:text-base">Manage Contacts</span>
+                                 <p class="text-xs opacity-70 hidden md:block">Customer Messages</p>
+                             </div>
+                         </a>
+                     </li>
+                 </ul>
+                 
+                 <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-slate-200">
+                     <a href="{% url 'logout_view' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all text-red-600 hover:bg-red-50">
+                         <div class="flex-shrink-0">
+                             <i data-lucide="log-out" class="h-4 md:h-5 w-4 md:w-5 icon-logout"></i>
+                         </div>
+                         <div class="flex-1">
+                             <span class="font-medium text-sm md:text-base">Logout</span>
+                             <p class="text-xs opacity-70 hidden md:block">Sign out safely</p>
+                         </div>
+                     </a>
+                 </div>
+             </div>
+         </aside>
 
         <!-- Main Content -->
         <main class="flex-1 main-content">

@@ -36,3 +36,28 @@ class ContactModel(models.Model):
 
     def __str__(self):
         return f"{self.your_name} - {self.your_email}"
+    
+
+
+
+class CarrierModel(models.Model):
+    carrier_title = models.CharField(max_length=255)
+    carrier_image = models.ImageField(upload_to="Admin/CarrierImages/", blank=True, null=True)
+    deadline_date = models.DateField()
+    description = models.TextField()
+    slug = models.SlugField(max_length=250, unique=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.carrier_title)
+            slug = base_slug
+            counter = 1
+            while CarrierModel.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.carrier_title

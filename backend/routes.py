@@ -31,6 +31,10 @@ urlpatterns = [
     path('manage-contacts/', views.customer_contact_view, name='customer_contact_view'),
 
 
+    # Manage  Carrier Opition
+    path('manage-carriers/', views.manage_carriers, name='manage_carriers'),
+
+
                
 ]
 

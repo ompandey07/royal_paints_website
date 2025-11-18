@@ -16,9 +16,12 @@ urlpatterns = [
     # Blog listing page - Shows all published blogs
     path('blogs/', views.blogs_page, name='blogs_page'),
     
-    # Individual blog post detail - SEO-friendly slug-based URLs
     # Example: /blogs/my-blog-post-title/
     path('blogs/<slug:slug>/', views.blog_detail, name='blog_detail'),
+
+
+    path('careers/', views.carriers_page, name='carriers_page'),
+    path('career/<slug:slug>/', views.carrier_detail, name='carrier_detail'),
 
     # ==================== STATIC PAGES URLS ====================
     # About page - Company/organization information
