@@ -455,7 +455,7 @@
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 border-b border-slate-200">
                                     <button
-                                        onclick="viewContact('{{ contact.id }}', '{{ contact.your_name|addslashes }}', '{{ contact.your_email|addslashes }}', '{{ contact.your_message|addslashes }}', '{{ contact.sended_at|date:'M d, Y h:i A' }}')"
+                                        onclick="viewContact('{{ contact.id }}', '{{ contact.your_name|escapejs }}', '{{ contact.your_email|escapejs }}', '{{ contact.your_message|escapejs }}', '{{ contact.sended_at|date:'M d, Y h:i A' }}')"
                                         class="text-indigo-600 hover:text-indigo-900 transition-colors">
                                         <i data-lucide="eye" class="h-5 w-5"></i>
                                     </button>

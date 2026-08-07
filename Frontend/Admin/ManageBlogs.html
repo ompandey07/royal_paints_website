@@ -563,11 +563,11 @@
                                     class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 border-b border-slate-200">
                                     <div class="flex space-x-3">
                                         <button
-                                            onclick="editBlog({{ blog.id }}, '{{ blog.title|addslashes }}', '{{ blog.content|addslashes|default:"" }}', '{% if blog.image %}{{ blog.image.url }}{% endif %}')"
+                                            onclick="editBlog({{ blog.id }}, '{{ blog.title|escapejs }}', '{{ blog.content|escapejs|default:'' }}', '{% if blog.image %}{{ blog.image.url }}{% endif %}')"
                                             class="text-indigo-600 hover:text-indigo-900 transition-colors">
                                             <i data-lucide="edit" class="h-5 w-5"></i>
                                         </button>
-                                        <button onclick="confirmDelete({{ blog.id }}, '{{ blog.title|addslashes }}')"
+                                        <button onclick="confirmDelete({{ blog.id }}, '{{ blog.title|escapejs }}')"
                                             class="text-red-600 hover:text-red-900 transition-colors">
                                             <i data-lucide="trash-2" class="h-5 w-5"></i>
                                         </button>
