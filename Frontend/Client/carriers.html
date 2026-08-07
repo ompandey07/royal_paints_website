@@ -384,8 +384,7 @@
                     </div>
                     <div class="career-content">
                         <h3 class="career-title">
-                            <a href="{% url 'carrier_detail' carrier.slug %}">{{ carrier.carrier_title|truncatechars:65
-                                }}</a>
+                            <a href="{% if carrier.slug %}{% url 'carrier_detail' carrier.slug %}{% else %}#{% endif %}">{{ carrier.carrier_title|truncatechars:65 }}</a>
                         </h3>
                         <p class="career-excerpt">{{ carrier.description|striptags|truncatechars:120 }}</p>
                         <div class="career-footer">
@@ -393,7 +392,7 @@
                                 <i class="fas fa-calendar-alt mr-2"></i>
                                 <span>Posted: {{ carrier.created_at|date:"M d, Y" }}</span>
                             </div>
-                            <a href="{% url 'carrier_detail' carrier.slug %}" class="apply-btn">
+                            <a href="{% if carrier.slug %}{% url 'carrier_detail' carrier.slug %}{% else %}#{% endif %}" class="apply-btn">
                                 View Details <i class="fas fa-arrow-right ms-1"></i>
                             </a>
                         </div>

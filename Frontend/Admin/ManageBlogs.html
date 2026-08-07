@@ -546,8 +546,7 @@
                                 </td>
                                 <td class="px-6 py-4 border-b border-r border-slate-200">
                                     <div class="text-sm font-medium text-slate-900">{{ blog.title }}</div>
-                                    <div class="text-sm text-slate-500">{{ blog.content|truncatewords:8|default:"No
-                                        content" }}</div>
+                                    <div class="text-sm text-slate-500">{{ blog.content|striptags|truncatewords:8|default:"No content" }}</div>
                                 </td>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 border-b border-r border-slate-200">

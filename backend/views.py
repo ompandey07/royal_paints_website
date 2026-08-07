@@ -6,6 +6,20 @@ from django.contrib import messages
 from django.db import transaction
 from django.db.models import Q
 import os
+import bleach
+
+# Allowed HTML tags & attributes for rich text content from CKEditor
+ALLOWED_TAGS = [
+    'a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i', 'li', 'ol', 'p', 'strong',
+    'ul', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'span', 'img', 'table', 'thead', 'tbody',
+    'tr', 'th', 'td', 'div', 'u', 's', 'sub', 'sup', 'hr'
+]
+ALLOWED_ATTRIBUTES = {
+    '*': ['class'],
+    'a': ['href', 'title', 'target', 'rel'],
+    'img': ['src', 'alt', 'width', 'height', 'class'],
+}
+
 
 from .models import BlogModel, ContactModel, CarrierModel
 
@@ -363,6 +377,13 @@ def manage_carriers(request):
             carrier_id = request.POST.get('carrier_id')
             carrier_title = request.POST.get('carrier_title', '').strip()
             description = request.POST.get('description', '').strip()
+            if description:
+                description = bleach.clean(
+                    description,
+                    tags=ALLOWED_TAGS,
+                    attributes=ALLOWED_ATTRIBUTES,
+                    strip=True
+                )
             deadline_date = request.POST.get('deadline_date', '').strip()
             carrier_image = request.FILES.get('carrier_image')
             

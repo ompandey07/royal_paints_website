@@ -44,42 +44,18 @@
             background-size: cover;
         }
 
-        /* Career content styles */
-        .career-content img {
+        /* Article content image & typography styles */
+        .article-body img {
             max-width: 100%;
             height: auto;
-            margin-bottom: 1.5rem;
-            height: 400px;
-            border-radius: 10px;
+            border-radius: 0 !important;
+            margin: 1.5rem 0;
+            object-fit: contain;
         }
 
-        .career-content p {
+        .article-body p {
             margin-bottom: 1.5rem;
             line-height: 1.8;
-        }
-
-        .info-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            padding: 25px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            margin-bottom: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .info-item i {
-            font-size: 1.5rem;
-            margin-right: 15px;
-            color: #fbbf24;
         }
 
         /* Ensure links are clickable */
@@ -224,129 +200,113 @@
         </div>
     </nav>
 
-    <!-- Hero -->
-    <div class="relative min-h-[50vh] rainbow-wave">
-        <div class="relative z-10 container mx-auto px-4 py-20">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="max-w-lg">
-                    <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-800 mb-6 leading-tight">
-                        {{ carrier.carrier_title }}
-                    </h1>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="{% url 'index_page' %}"
-                            class="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-2xl transition-transform hover:scale-105">
-                            Home
-                        </a>
-                        <a href="{% url 'carriers_page' %}"
-                            class="border-2 border-purple-600 text-purple-600 px-8 py-4 rounded-full font-semibold hover:bg-purple-600 hover:text-white transition-colors">
-                            Careers
-                        </a>
+    <!-- Flat Editorial Article Layout (No Rounded Corners, Natural Image, Single Scrollable Reading Stream) -->
+    <article class="py-12 bg-white min-h-screen">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center text-xs sm:text-sm text-gray-500 mb-8 space-x-2">
+                <a href="{% url 'index_page' %}" class="hover:text-purple-600 transition-colors">Home</a>
+                <i class="fas fa-chevron-right text-[10px] text-gray-400"></i>
+                <a href="{% url 'carriers_page' %}" class="hover:text-purple-600 transition-colors">Careers</a>
+                <i class="fas fa-chevron-right text-[10px] text-gray-400"></i>
+                <span class="text-gray-900 font-medium truncate">{{ carrier.carrier_title }}</span>
+            </nav>
+
+            <!-- 1. Top Title & Meta Info Header -->
+            <header class="mb-8 pb-6 border-b border-gray-200">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-purple-100 text-purple-800 text-xs font-bold uppercase tracking-widest px-3 py-1">
+                        <i class="fas fa-briefcase mr-1.5"></i>Job Vacancy
+                    </span>
+                    {% now "Y-m-d" as today %}
+                    {% if carrier.deadline_date|date:"Y-m-d" < today %}
+                    <span class="bg-red-100 text-red-800 text-xs font-bold uppercase tracking-widest px-3 py-1">
+                        <i class="fas fa-clock mr-1.5"></i>Expired
+                    </span>
+                    {% else %}
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-widest px-3 py-1">
+                        <i class="fas fa-check-circle mr-1.5"></i>Actively Hiring
+                    </span>
+                    {% endif %}
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-6">
+                    {{ carrier.carrier_title }}
+                </h1>
+
+                <!-- Flat Meta Details Bar (No Rounded Corners) -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-gray-50 border-t border-b border-gray-200 text-xs sm:text-sm text-gray-700">
+                    <div>
+                        <span class="block text-gray-400 text-[11px] uppercase font-semibold">Posted Date</span>
+                        <strong class="text-gray-900 font-bold"><i class="fas fa-calendar-alt text-purple-600 mr-1"></i>{{ carrier.created_at|date:"F d, Y" }}</strong>
                     </div>
+                    <div>
+                        <span class="block text-gray-400 text-[11px] uppercase font-semibold">Deadline Date</span>
+                        <strong class="text-gray-900 font-bold"><i class="fas fa-hourglass-half text-amber-600 mr-1"></i>{{ carrier.deadline_date|date:"F d, Y" }}</strong>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-[11px] uppercase font-semibold">Company</span>
+                        <strong class="text-gray-900 font-bold"><i class="fas fa-building text-blue-600 mr-1"></i>Royal Paints Nepal</strong>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-[11px] uppercase font-semibold">Location</span>
+                        <strong class="text-gray-900 font-bold"><i class="fas fa-map-marker-alt text-rose-600 mr-1"></i>Bharatpur, Chitwan</strong>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 2. Featured Image (Flat, Sharp Rectangle, No Radius, Unstretched) -->
+            {% if carrier.carrier_image %}
+            <div class="mb-10 w-full bg-slate-100 border border-gray-200 overflow-hidden flex items-center justify-center">
+                <img src="{{ carrier.carrier_image.url }}" alt="{{ carrier.carrier_title }}"
+                    class="w-full h-auto max-h-[600px] object-contain mx-auto block">
+            </div>
+            {% endif %}
+
+            <!-- 3. Detail Content Body (Single Stream Scrollable Article) -->
+            <div class="article-body prose prose-lg max-w-none text-gray-800 leading-relaxed mb-12">
+                {{ carrier.description|safe }}
+            </div>
+
+            <!-- Share & Information Bar -->
+            <div class="py-6 border-t border-b border-gray-200 flex flex-wrap items-center justify-between gap-4 mb-12">
+                <div class="flex items-center space-x-3 text-sm text-gray-600">
+                    <span class="font-bold text-gray-900 uppercase text-xs tracking-wider">Share this role:</span>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"
+                        class="w-9 h-9 bg-blue-600 text-white flex items-center justify-center hover:opacity-90 transition">
+                        <i class="fab fa-facebook-f text-sm"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ carrier.carrier_title }}" target="_blank"
+                        class="w-9 h-9 bg-sky-500 text-white flex items-center justify-center hover:opacity-90 transition">
+                        <i class="fab fa-twitter text-sm"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank"
+                        class="w-9 h-9 bg-blue-700 text-white flex items-center justify-center hover:opacity-90 transition">
+                        <i class="fab fa-linkedin-in text-sm"></i>
+                    </a>
+                </div>
+                <div class="text-xs text-gray-500">
+                    <i class="fas fa-shield-alt text-emerald-600 mr-1"></i> Verified Official Job Listing
                 </div>
             </div>
-        </div>
-        <div class="absolute bottom-0 left-0 w-full wave-bottom"></div>
-    </div>
 
-    <!-- Career Detail -->
-    <div class="py-20">
-        <div class="container mx-auto px-4">
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Main Content -->
-                <div class="lg:col-span-2">
-                    <div class="bg-white rounded-2xl shadow-lg p-8 career-content">
-                        {% if carrier.carrier_image %}
-                        <img src="{{ carrier.carrier_image.url }}" alt="{{ carrier.carrier_title }}"
-                            class="w-full mb-8 rounded-2xl shadow-md">
-                        {% else %}
-                        <div
-                            class="w-full h-64 sm:h-80 lg:h-96 mb-8 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center text-slate-400 shadow-inner">
-                            <i class="fas fa-briefcase text-6xl mb-3 text-slate-400"></i>
-                            <span class="text-sm font-semibold uppercase tracking-wider text-slate-500">Image Not
-                                Found</span>
-                        </div>
-                        {% endif %}
-
-                        <h1 class="text-3xl lg:text-4xl font-bold mb-6 text-gray-800">{{ carrier.carrier_title }}</h1>
-
-                        <div class="prose prose-lg text-gray-600 mb-6">
-                            {{ carrier.description|safe }}
-                        </div>
-
-                        <div class="mt-8 pt-8 border-t border-gray-200">
-                            <p class="text-gray-500 text-sm mb-4">
-                                <i class="fas fa-calendar-alt mr-2"></i>Posted on {{ carrier.created_at|date:"F d, Y" }}
-                            </p>
-                            <a href="{% url 'contacts_page' %}"
-                                class="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-transform hover:scale-105 inline-block">
-                                <i class="fas fa-paper-plane mr-2"></i>Apply Now
-                            </a>
-                        </div>
-                    </div>
+            <!-- 4. Apply Now CTA Box at Bottom -->
+            <div class="bg-gradient-to-r from-gray-900 to-purple-950 text-white p-8 sm:p-10 border-l-4 border-purple-500 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Ready to apply for this position?</h3>
+                    <p class="text-gray-300 text-sm max-w-xl">
+                        Application deadline is <strong class="text-yellow-400">{{ carrier.deadline_date|date:"F d, Y" }}</strong>. Click below to submit your application details.
+                    </p>
                 </div>
-
-                <!-- Sidebar -->
-                <div class="lg:col-span-1">
-                    <div class="info-card sticky top-24">
-                        <h3 class="text-2xl font-bold mb-6">Job Information</h3>
-
-                        <div class="info-item">
-                            <i class="fas fa-clock"></i>
-                            <div>
-                                <p class="text-sm opacity-80">Application Deadline</p>
-                                <p class="font-bold text-lg">{{ carrier.deadline_date|date:"F d, Y" }}</p>
-                            </div>
-                        </div>
-
-                        <div class="info-item">
-                            <i class="fas fa-calendar-check"></i>
-                            <div>
-                                <p class="text-sm opacity-80">Posted Date</p>
-                                <p class="font-bold text-lg">{{ carrier.created_at|date:"F d, Y" }}</p>
-                            </div>
-                        </div>
-
-                        <div class="info-item">
-                            <i class="fas fa-building"></i>
-                            <div>
-                                <p class="text-sm opacity-80">Company</p>
-                                <p class="font-bold text-lg">Royal Paints Nepal</p>
-                            </div>
-                        </div>
-
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <p class="text-sm opacity-80">Location</p>
-                                <p class="font-bold text-lg">Bharatpur, Chitwan</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 pt-6 border-t border-white border-opacity-20">
-                            <h4 class="font-bold mb-3">Share this opportunity</h4>
-                            <div class="flex space-x-3">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
-                                    target="_blank"
-                                    class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ carrier.carrier_title }}"
-                                    target="_blank"
-                                    class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}"
-                                    target="_blank"
-                                    class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <a href="{% url 'contacts_page' %}"
+                    class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 font-bold text-sm uppercase tracking-wider hover:from-purple-500 hover:to-pink-500 transition-all flex items-center justify-center shadow-lg whitespace-nowrap">
+                    <i class="fas fa-paper-plane mr-2"></i>Apply Now
+                </a>
             </div>
         </div>
-    </div>
+    </article>
+
+
 
     <!-- Call To Action -->
     <div class="py-20 bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600">

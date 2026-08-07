@@ -258,8 +258,12 @@ def carriers_page(request):
     Returns:
         HttpResponse: Rendered carriers.html template with carrier list
     """
+    carriers = CarrierModel.objects.all().order_by('-created_at')
+    for carrier in carriers:
+        if not carrier.slug:
+            carrier.save()
     context = {
-        'carriers': CarrierModel.objects.all().order_by('-created_at')  
+        'carriers': carriers
     }
     return render(request, 'Client/carriers.html', context)
 

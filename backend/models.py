@@ -50,12 +50,18 @@ class CarrierModel(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base_slug = slugify(self.carrier_title)
+            base_slug = slugify(self.carrier_title) or "carrier"
             slug = base_slug
             counter = 1
-            while CarrierModel.objects.filter(slug=slug).exists():
+            query = CarrierModel.objects.filter(slug=slug)
+            if self.id:
+                query = query.exclude(id=self.id)
+            while query.exists():
                 slug = f"{base_slug}-{counter}"
                 counter += 1
+                query = CarrierModel.objects.filter(slug=slug)
+                if self.id:
+                    query = query.exclude(id=self.id)
             self.slug = slug
         super().save(*args, **kwargs)
 
