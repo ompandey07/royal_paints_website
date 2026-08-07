@@ -1,20 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - AdminPanel</title>
-    <link rel="shortcut icon" href="{% static 'Logo/Logo.jpg' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'Assests/img/RedLogo.png' %}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+
         * {
             font-family: 'Inter', sans-serif;
         }
-        
+
         .top-bar {
             height: 3px;
             background: #1f2937;
@@ -26,37 +27,38 @@
             transition: width 2s ease-out;
             opacity: 0;
         }
-        
+
         .top-bar.loading {
             width: 100%;
             opacity: 1;
         }
-        
+
         .top-bar.complete {
             opacity: 0;
             transition: opacity 0.5s ease-out;
         }
-        
+
         .pulse-ring {
             animation: pulse-ring 2s infinite;
         }
-        
+
         @keyframes pulse-ring {
             0% {
                 transform: scale(0.8);
                 opacity: 1;
             }
+
             100% {
                 transform: scale(2.4);
                 opacity: 0;
             }
         }
-        
+
         .time-display {
             font-variant-numeric: tabular-nums;
             letter-spacing: 0.05em;
         }
-        
+
         .footer-fixed {
             position: fixed;
             bottom: 0;
@@ -66,53 +68,53 @@
             border-top: 2px solid #e2e8f0;
             z-index: 40;
         }
-        
+
         .main-content {
             padding-bottom: 60px;
             min-height: calc(100vh - 60px);
         }
-        
+
         .login-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(148, 163, 184, 0.2);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
         }
-        
+
         .login-button {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
         }
-        
+
         .login-button:hover {
             background: linear-gradient(135deg, #5855f7 0%, #7c3aed 100%);
             transform: translateY(-2px);
             box-shadow: 0 12px 35px rgba(99, 102, 241, 0.4);
         }
-        
+
         .login-button:disabled {
             background: #9ca3af;
             transform: none;
             box-shadow: none;
             cursor: not-allowed;
         }
-        
+
         .input-field {
             transition: all 0.3s ease;
             border: 2px solid #e2e8f0;
         }
-        
+
         .input-field:focus {
             border-color: #6366f1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
             transform: translateY(-1px);
         }
-        
+
         .input-field:invalid {
             border-color: #ef4444;
         }
-        
+
         .floating-shapes {
             position: absolute;
             top: 0;
@@ -123,14 +125,13 @@
             pointer-events: none;
             z-index: -1;
         }
-        
+
         .shape {
             position: absolute;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
-            border-radius: 50%;
             animation: float 6s ease-in-out infinite;
         }
-        
+
         .shape:nth-child(1) {
             width: 80px;
             height: 80px;
@@ -138,7 +139,7 @@
             left: 10%;
             animation-delay: 0s;
         }
-        
+
         .shape:nth-child(2) {
             width: 120px;
             height: 120px;
@@ -146,7 +147,7 @@
             right: 15%;
             animation-delay: 2s;
         }
-        
+
         .shape:nth-child(3) {
             width: 100px;
             height: 100px;
@@ -154,18 +155,21 @@
             left: 20%;
             animation-delay: 4s;
         }
-        
+
         @keyframes float {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0px) rotate(0deg);
                 opacity: 0.3;
             }
+
             50% {
                 transform: translateY(-20px) rotate(180deg);
                 opacity: 0.6;
             }
         }
-        
+
         .toast-container {
             position: fixed;
             top: 20px;
@@ -174,7 +178,7 @@
             max-width: 400px;
             width: 100%;
         }
-        
+
         .toast {
             background: white;
             border-left: 4px solid;
@@ -186,22 +190,21 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            border-radius: 8px;
         }
-        
+
         .toast.show {
             transform: translateX(0);
             opacity: 1;
         }
-        
+
         .toast.success {
             border-left-color: #10b981;
         }
-        
+
         .toast.error {
             border-left-color: #ef4444;
         }
-        
+
         .toast::after {
             content: '';
             position: absolute;
@@ -212,11 +215,11 @@
             width: 0%;
             transition: width 4s linear;
         }
-        
+
         .toast.show::after {
             width: 100%;
         }
-        
+
         .toast-close {
             position: absolute;
             top: 50%;
@@ -226,28 +229,31 @@
             color: #64748b;
             transition: color 0.2s ease;
         }
-        
+
         .toast-close:hover {
             color: #334155;
         }
-        
+
         .login-icon {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
                 opacity: 1;
             }
+
             50% {
                 transform: scale(1.05);
                 opacity: 0.9;
             }
         }
-        
+
         .spinner {
             border: 2px solid #f3f4f6;
             border-top: 2px solid #6366f1;
@@ -256,27 +262,32 @@
             height: 20px;
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
+
         @media (max-width: 768px) {
             .main-content {
                 min-height: calc(100vh - 100px);
                 padding: 20px;
             }
-            
+
             .login-card {
                 margin: 20px;
                 padding: 24px;
             }
-            
+
             .shape {
                 display: none;
             }
-            
+
             .toast-container {
                 right: 10px;
                 max-width: calc(100% - 20px);
@@ -284,10 +295,11 @@
         }
     </style>
 </head>
+
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen relative overflow-hidden">
     <!-- YouTube-style Top Bar -->
     <div class="top-bar"></div>
-    
+
     <!-- Floating Background Shapes -->
     <div class="floating-shapes">
         <div class="shape"></div>
@@ -297,14 +309,13 @@
 
     <!-- Main Content -->
     <main class="main-content flex items-center justify-center px-4">
-        <div class="login-card rounded-2xl p-8 md:p-12 max-w-md w-full">
+        <div class="login-card p-8 md:p-12 max-w-md w-full">
             <!-- Login Image -->
             <div class="flex justify-center mb-8">
-                <div class="login-icon w-16 md:w-20 h-16 md:h-20 rounded-full flex items-center justify-center">
-                    <img src="{% static 'Logo/Logo.jpg' %}" alt="Admin Logo" class="w-full h-full object-cover rounded-full">
-                </div>
+                <img src="{% static 'Assests/img/Logo.svg' %}" alt="Royal Paints Logo"
+                    class="h-16 md:h-20 w-auto object-contain">
             </div>
-            
+
             <!-- Main Heading -->
             <div class="text-center mb-8">
                 <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
@@ -314,24 +325,20 @@
                     Sign in to access the admin dashboard
                 </p>
             </div>
-            
+
             <!-- Login Form -->
             <form method="POST" id="loginForm" class="space-y-6">
                 {% csrf_token %}
-                
+
                 <!-- Email Field -->
                 <div>
                     <div class="flex items-center space-x-2 mb-2">
                         <i data-lucide="mail" class="h-5 w-5 text-slate-500"></i>
                         <label class="text-sm font-medium text-slate-700">Email Address</label>
                     </div>
-                    <input type="email" 
-                           name="email"
-                           id="email"
-                           placeholder="Enter your email address..." 
-                           required
-                           autocomplete="email"
-                           class="input-field w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-0">
+                    <input type="email" name="email" id="email" placeholder="Enter your email address..." required
+                        autocomplete="email"
+                        class="input-field w-full px-4 py-3 border focus:outline-none focus:ring-0">
                 </div>
 
                 <!-- Password Field -->
@@ -341,31 +348,25 @@
                         <label class="text-sm font-medium text-slate-700">Password</label>
                     </div>
                     <div class="relative">
-                        <input type="password" 
-                               name="password"
-                               id="password"
-                               placeholder="Enter your password..." 
-                               required
-                               autocomplete="current-password"
-                               class="input-field w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-0 pr-12">
-                        <button type="button" 
-                                onclick="togglePassword()"
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                        <input type="password" name="password" id="password" placeholder="Enter your password..."
+                            required autocomplete="current-password"
+                            class="input-field w-full px-4 py-3 border focus:outline-none focus:ring-0 pr-12">
+                        <button type="button" onclick="togglePassword()"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600">
                             <i data-lucide="eye" id="eyeIcon" class="h-5 w-5"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Login Button -->
-                <button type="submit" 
-                        id="loginButton"
-                        class="login-button w-full text-white py-3 rounded-lg font-semibold text-lg flex items-center justify-center space-x-2">
+                <button type="submit" id="loginButton"
+                    class="login-button w-full text-white py-3 font-semibold text-lg flex items-center justify-center space-x-2">
                     <span id="loginText">Sign In</span>
                     <i data-lucide="log-in" class="h-5 w-5" id="loginIcon"></i>
                     <div class="spinner hidden" id="loginSpinner"></div>
                 </button>
             </form>
-            
+
             <!-- Additional Info -->
             <div class="mt-6 text-center text-xs text-slate-500">
                 <div class="flex items-center justify-center space-x-2">
@@ -385,8 +386,9 @@
             <div class="flex items-center space-x-1">
                 <i data-lucide="zap" class="h-3 w-3 text-indigo-500"></i>
                 <span class="text-slate-500 text-xs">Powered by</span>
-                <a href="#" class="text-indigo-600 font-medium text-xs hover:text-indigo-500 transition-colors">
-                    Finix Dev
+                <a href="https://pioneersoftware.com.np/" target="_blank"
+                    class="text-indigo-600 font-medium text-xs hover:text-indigo-500 transition-colors">
+                    Pioneer Software
                 </a>
             </div>
             <div class="text-center">
@@ -407,7 +409,7 @@
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            
+
             toast.innerHTML = `
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3 flex-1 min-w-0">
@@ -419,19 +421,19 @@
                     </button>
                 </div>
             `;
-            
+
             container.appendChild(toast);
             lucide.createIcons();
-            
+
             setTimeout(() => {
                 toast.classList.add('show');
             }, 100);
-            
+
             setTimeout(() => {
                 closeToast(toast.querySelector('.toast-close'));
             }, 4000);
         }
-        
+
         function closeToast(closeBtn) {
             const toast = closeBtn.closest('.toast');
             toast.classList.remove('show');
@@ -458,7 +460,7 @@
         function togglePassword() {
             const passwordField = document.getElementById('password');
             const eyeIcon = document.getElementById('eyeIcon');
-            
+
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
                 eyeIcon.setAttribute('data-lucide', 'eye-off');
@@ -466,24 +468,24 @@
                 passwordField.type = 'password';
                 eyeIcon.setAttribute('data-lucide', 'eye');
             }
-            
+
             lucide.createIcons();
         }
 
         // Login form submission
         function handleLoginSubmission() {
-            document.getElementById('loginForm').addEventListener('submit', function(e) {
+            document.getElementById('loginForm').addEventListener('submit', function (e) {
                 const loginButton = document.getElementById('loginButton');
                 const loginText = document.getElementById('loginText');
                 const loginIcon = document.getElementById('loginIcon');
                 const loginSpinner = document.getElementById('loginSpinner');
-                
+
                 // Show loading state
                 loginButton.disabled = true;
                 loginText.textContent = 'Signing In...';
                 loginIcon.classList.add('hidden');
                 loginSpinner.classList.remove('hidden');
-                
+
                 // Form will submit normally, loading state will be reset on page reload/redirect
             });
         }
@@ -491,7 +493,7 @@
         // Update time and day
         function updateDateTime() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
+            const timeString = now.toLocaleTimeString('en-US', {
                 hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'
             });
             document.getElementById('currentTime').textContent = timeString;
@@ -500,24 +502,25 @@
         }
 
         // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             showLoadingBar();
             updateDateTime();
             setInterval(updateDateTime, 1000);
-            
+
             // Show Django messages as toasts
             {% if messages %}
-                {% for message in messages %}
-                    showToast('{{ message|escapejs }}', '{{ message.tags }}');
-                {% endfor %}
+            {% for message in messages %}
+            showToast('{{ message|escapejs }}', '{{ message.tags }}');
+            {% endfor %}
             {% endif %}
-            
+
             // Initialize form submission handling
             handleLoginSubmission();
-            
+
             // Focus on email field
             document.getElementById('email').focus();
         });
     </script>
 </body>
+
 </html>

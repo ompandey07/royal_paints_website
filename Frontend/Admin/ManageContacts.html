@@ -1,20 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Contacts</title>
-    <link rel="shortcut icon" href="{% static 'Logo/Logo.jpg' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'Assests/img/RedLogo.png' %}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+
         * {
             font-family: 'Inter', sans-serif;
         }
-        
+
         .top-bar {
             height: 3px;
             background: #1f2937;
@@ -26,36 +27,36 @@
             transition: width 2s ease-out;
             opacity: 0;
         }
-        
+
         .top-bar.loading {
             width: 100%;
             opacity: 1;
         }
-        
+
         .top-bar.complete {
             opacity: 0;
             transition: opacity 0.5s ease-out;
         }
-        
+
         .menu-item {
             position: relative;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(10px);
         }
-        
+
         .menu-item:hover {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
             transform: translateX(4px);
             box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
         }
-        
+
         .menu-item.active {
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             color: white;
             box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
             transform: translateX(6px);
         }
-        
+
         .menu-item.active::before {
             content: '';
             position: absolute;
@@ -67,39 +68,40 @@
             background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
             border-radius: 2px;
         }
-        
+
         .pulse-ring {
             animation: pulse-ring 2s infinite;
         }
-        
+
         @keyframes pulse-ring {
             0% {
                 transform: scale(0.8);
                 opacity: 1;
             }
+
             100% {
                 transform: scale(2.4);
                 opacity: 0;
             }
         }
-        
+
         .sidebar-bg {
             background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
             border-right: 1px solid rgba(148, 163, 184, 0.2);
         }
-        
+
         .nav-glass {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 2px solid #e2e8f0;
             margin-top: 4px;
         }
-        
+
         .time-display {
             font-variant-numeric: tabular-nums;
             letter-spacing: 0.05em;
         }
-        
+
         .footer-fixed {
             position: fixed;
             bottom: 0;
@@ -109,38 +111,38 @@
             border-top: 2px solid #e2e8f0;
             z-index: 40;
         }
-        
+
         .main-content {
             padding-bottom: 60px;
         }
-        
+
         .icon-dashboard {
             color: #3b82f6;
             filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
         }
-        
+
         .icon-blog {
             color: #8b5cf6;
             filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
         }
-        
+
         .icon-contact {
             color: #10b981;
             filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.4));
         }
-        
+
         .icon-logout {
             color: #dc2626;
             filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.4));
         }
-        
+
         .menu-item.active .icon-dashboard,
         .menu-item.active .icon-blog,
         .menu-item.active .icon-contact {
             color: white;
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
         }
-        
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -156,12 +158,12 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-        
+
         .modal-overlay.show {
             opacity: 1;
             visibility: visible;
         }
-        
+
         .modal-content {
             background: white;
             border-radius: 12px;
@@ -173,12 +175,12 @@
             width: 90%;
             opacity: 0;
         }
-        
+
         .modal-overlay.show .modal-content {
             transform: scale(1);
             opacity: 1;
         }
-        
+
         .toast-container {
             position: fixed;
             top: 100px;
@@ -187,7 +189,7 @@
             max-width: 400px;
             width: 100%;
         }
-        
+
         .toast {
             background: white;
             border-left: 4px solid;
@@ -202,20 +204,20 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }
-        
+
         .toast.show {
             transform: translateX(0);
             opacity: 1;
         }
-        
+
         .toast.success {
             border-left-color: #10b981;
         }
-        
+
         .toast.error {
             border-left-color: #ef4444;
         }
-        
+
         .toast::after {
             content: '';
             position: absolute;
@@ -226,11 +228,11 @@
             width: 0%;
             transition: width 4s linear;
         }
-        
+
         .toast.show::after {
             width: 100%;
         }
-        
+
         .toast-close {
             position: absolute;
             top: 50%;
@@ -240,11 +242,11 @@
             color: #64748b;
             transition: color 0.2s ease;
         }
-        
+
         .toast-close:hover {
             color: #334155;
         }
-        
+
         /* Sidebar mobile adjustments */
         .sidebar-mobile {
             transform: translateX(-100%);
@@ -256,11 +258,11 @@
             z-index: 50;
             width: 72;
         }
-        
+
         .sidebar-mobile.open {
             transform: translateX(0);
         }
-        
+
         @media (min-width: 768px) {
             .sidebar-mobile {
                 transform: translateX(0);
@@ -269,28 +271,33 @@
         }
     </style>
 </head>
+
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
     <!-- YouTube-style Top Bar -->
     <div class="top-bar"></div>
-    
+
     <!-- Top Navigation -->
     <nav class="nav-glass h-12 md:h-16 flex items-center justify-between px-4 md:px-8 sticky top-0 z-50">
         <!-- Logo -->
         <div class="flex items-center space-x-2 md:space-x-3">
             <div class="relative">
-                <div class="w-8 md:w-10 h-8 md:h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
+                <div
+                    class="w-8 md:w-10 h-8 md:h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
                     <i data-lucide="zap" class="h-4 md:h-5 w-4 md:w-5 text-white"></i>
                 </div>
-                <div class="absolute -top-0.5 -right-0.5 w-2.5 md:w-3 h-2.5 md:h-3 bg-yellow-400 rounded-full pulse-ring"></div>
+                <div
+                    class="absolute -top-0.5 -right-0.5 w-2.5 md:w-3 h-2.5 md:h-3 bg-yellow-400 rounded-full pulse-ring">
+                </div>
             </div>
             <div>
-                <h1 class="text-base md:text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                <h1
+                    class="text-base md:text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                     AdminPanel
                 </h1>
                 <p class="text-xs text-slate-500 font-medium hidden md:block">Enterprise Dashboard</p>
             </div>
         </div>
-        
+
         <!-- User Info -->
         <div class="flex items-center space-x-2 md:space-x-3">
             <div class="hidden sm:block text-right">
@@ -298,9 +305,11 @@
                 <p class="text-xs text-slate-500 hidden md:block">Super Admin</p>
             </div>
             <div class="relative">
-                <img src="{% static 'Logo/Logo.jpg' %}" 
-                     alt="User" class="h-8 md:h-9 w-8 md:w-9 rounded-full border-2 border-white shadow-md object-cover">
-                <div class="absolute -bottom-0.5 -right-0.5 w-2.5 md:w-3 h-2.5 md:h-3 bg-green-400 border-2 border-white rounded-full"></div>
+                <img src="{% static 'Assests/img/RedLogo.png' %}" alt="User"
+                    class="h-8 md:h-9 w-8 md:w-9 rounded-full border-2 border-white shadow-md object-cover">
+                <div
+                    class="absolute -bottom-0.5 -right-0.5 w-2.5 md:w-3 h-2.5 md:h-3 bg-green-400 border-2 border-white rounded-full">
+                </div>
             </div>
         </div>
     </nav>
@@ -317,10 +326,11 @@
                 <div class="mb-6 md:mb-8">
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Main Menu</h3>
                 </div>
-                
+
                 <ul class="space-y-2 md:space-y-3">
                     <li>
-                        <a href="{% url 'admin_dashboard' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                        <a href="{% url 'admin_dashboard' %}"
+                            class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
                             <div class="flex-shrink-0">
                                 <i data-lucide="layout-dashboard" class="h-4 md:h-5 w-4 md:w-5 icon-dashboard"></i>
                             </div>
@@ -331,7 +341,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'manage_blogs' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                        <a href="{% url 'manage_blogs' %}"
+                            class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
                             <div class="flex-shrink-0">
                                 <i data-lucide="file-text" class="h-4 md:h-5 w-4 md:w-5 icon-blog"></i>
                             </div>
@@ -342,7 +353,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'manage_carriers' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                        <a href="{% url 'manage_carriers' %}"
+                            class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
                             <div class="flex-shrink-0">
                                 <i data-lucide="briefcase" class="h-4 md:h-5 w-4 md:w-5 icon-carrier"></i>
                             </div>
@@ -353,7 +365,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'customer_contact_view' %}" class="menu-item active flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
+                        <a href="{% url 'customer_contact_view' %}"
+                            class="menu-item active flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all">
                             <div class="flex-shrink-0">
                                 <i data-lucide="mail" class="h-4 md:h-5 w-4 md:w-5 icon-contact"></i>
                             </div>
@@ -364,9 +377,10 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-slate-200">
-                    <a href="{% url 'logout_view' %}" class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all text-red-600 hover:bg-red-50">
+                    <a href="{% url 'logout_view' %}"
+                        class="menu-item flex items-center space-x-3 md:space-x-4 p-3 md:p-4 rounded-xl transition-all text-red-600 hover:bg-red-50">
                         <div class="flex-shrink-0">
                             <i data-lucide="log-out" class="h-4 md:h-5 w-4 md:w-5 icon-logout"></i>
                         </div>
@@ -382,18 +396,17 @@
         <!-- Main Content -->
         <main class="flex-1 main-content">
             <!-- Search Bar -->
-            <div class="bg-white border-b-2 border-slate-200 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div
+                class="bg-white border-b-2 border-slate-200 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <form method="GET" class="relative">
-                    <input type="text" 
-                           name="search"
-                           value="{{ search_query }}"
-                           placeholder="Search contacts..." 
-                           class="w-full sm:w-64 pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <input type="text" name="search" value="{{ search_query }}" placeholder="Search contacts..."
+                        class="w-full sm:w-64 pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                     <i data-lucide="search" class="h-5 w-5 text-slate-400 absolute left-3 top-2.5"></i>
                     {% if search_query %}
-                        <a href="{% url 'manage_contacts' %}" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
-                            <i data-lucide="x" class="h-5 w-5"></i>
-                        </a>
+                    <a href="{% url 'manage_contacts' %}"
+                        class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+                        <i data-lucide="x" class="h-5 w-5"></i>
+                    </a>
                     {% endif %}
                 </form>
             </div>
@@ -402,54 +415,74 @@
             <div class="bg-white border-l-2 border-r-2 border-b-2 border-slate-200">
                 <div class="overflow-x-auto">
                     {% if CustomerContacts %}
-                        <table class="w-full border-collapse">
-                            <thead class="bg-slate-50">
-                                <tr>
-                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-r border-slate-200">SN</th>
-                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-r border-slate-200">Name</th>
-                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-r border-slate-200">Email</th>
-                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-r border-slate-200">Sent At</th>
-                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white">
-                                {% for contact in CustomerContacts %}
-                                    <tr class="hover:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 border-b border-r border-slate-200">{{ forloop.counter }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900 border-b border-r border-slate-200">{{ contact.your_name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900 border-b border-r border-slate-200">{{ contact.your_email }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 border-b border-r border-slate-200">
-                                            <div class="text-sm text-slate-900">{{ contact.sended_at|date:"M d, Y" }}</div>
-                                            <div class="text-xs text-slate-500">{{ contact.sended_at|time:"h:i A" }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 border-b border-slate-200">
-                                            <button onclick="viewContact('{{ contact.id }}', '{{ contact.your_name|addslashes }}', '{{ contact.your_email|addslashes }}', '{{ contact.your_message|addslashes }}', '{{ contact.sended_at|date:'M d, Y h:i A' }}')" 
-                                                    class="text-indigo-600 hover:text-indigo-900 transition-colors">
-                                                <i data-lucide="eye" class="h-5 w-5"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <table class="w-full border-collapse">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-r border-slate-200">
+                                    SN</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-r border-slate-200">
+                                    Name</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-r border-slate-200">
+                                    Email</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-r border-slate-200">
+                                    Sent At</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            {% for contact in CustomerContacts %}
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 border-b border-r border-slate-200">
+                                    {{ forloop.counter }}</td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-900 border-b border-r border-slate-200">
+                                    {{ contact.your_name }}</td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-900 border-b border-r border-slate-200">
+                                    {{ contact.your_email }}</td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 border-b border-r border-slate-200">
+                                    <div class="text-sm text-slate-900">{{ contact.sended_at|date:"M d, Y" }}</div>
+                                    <div class="text-xs text-slate-500">{{ contact.sended_at|time:"h:i A" }}</div>
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 border-b border-slate-200">
+                                    <button
+                                        onclick="viewContact('{{ contact.id }}', '{{ contact.your_name|addslashes }}', '{{ contact.your_email|addslashes }}', '{{ contact.your_message|addslashes }}', '{{ contact.sended_at|date:'M d, Y h:i A' }}')"
+                                        class="text-indigo-600 hover:text-indigo-900 transition-colors">
+                                        <i data-lucide="eye" class="h-5 w-5"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                     {% else %}
-                        <!-- No Contacts Found -->
-                        <div class="text-center py-16">
-                            <div class="mb-4">
-                                {% if search_query %}
-                                    <i data-lucide="search-x" class="h-16 w-16 text-slate-300 mx-auto mb-4"></i>
-                                    <h3 class="text-lg font-medium text-slate-900 mb-2">No search results found</h3>
-                                    <p class="text-slate-500 mb-4">No contacts match your search for "{{ search_query }}"</p>
-                                    <a href="{% url 'manage_contacts' %}" class="text-indigo-600 hover:text-indigo-800 font-medium">
-                                        Clear search and view all contacts
-                                    </a>
-                                {% else %}
-                                    <i data-lucide="mail" class="h-16 w-16 text-slate-300 mx-auto mb-4"></i>
-                                    <h3 class="text-lg font-medium text-slate-900 mb-2">No contacts yet</h3>
-                                    <p class="text-slate-500 mb-4">No customer messages available</p>
-                                {% endif %}
-                            </div>
+                    <!-- No Contacts Found -->
+                    <div class="text-center py-16">
+                        <div class="mb-4">
+                            {% if search_query %}
+                            <i data-lucide="search-x" class="h-16 w-16 text-slate-300 mx-auto mb-4"></i>
+                            <h3 class="text-lg font-medium text-slate-900 mb-2">No search results found</h3>
+                            <p class="text-slate-500 mb-4">No contacts match your search for "{{ search_query }}"</p>
+                            <a href="{% url 'manage_contacts' %}"
+                                class="text-indigo-600 hover:text-indigo-800 font-medium">
+                                Clear search and view all contacts
+                            </a>
+                            {% else %}
+                            <i data-lucide="mail" class="h-16 w-16 text-slate-300 mx-auto mb-4"></i>
+                            <h3 class="text-lg font-medium text-slate-900 mb-2">No contacts yet</h3>
+                            <p class="text-slate-500 mb-4">No customer messages available</p>
+                            {% endif %}
                         </div>
+                    </div>
                     {% endif %}
                 </div>
             </div>
@@ -525,7 +558,7 @@
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            
+
             toast.innerHTML = `
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3 flex-1 min-w-0">
@@ -537,19 +570,19 @@
                     </button>
                 </div>
             `;
-            
+
             container.appendChild(toast);
             lucide.createIcons();
-            
+
             setTimeout(() => {
                 toast.classList.add('show');
             }, 100);
-            
+
             setTimeout(() => {
                 closeToast(toast.querySelector('.toast-close'));
             }, 4000);
         }
-        
+
         function closeToast(closeBtn) {
             const toast = closeBtn.closest('.toast');
             toast.classList.remove('show');
@@ -603,7 +636,7 @@
         // Update time and day
         function updateDateTime() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
+            const timeString = now.toLocaleTimeString('en-US', {
                 hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit'
             });
             document.getElementById('currentTime').textContent = timeString;
@@ -612,39 +645,39 @@
         }
 
         // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             showLoadingBar();
             updateDateTime();
             setInterval(updateDateTime, 1000);
-            
+
             // Show Django messages as toasts
             {% if messages %}
-                {% for message in messages %}
-                    showToast('{{ message|escapejs }}', '{{ message.tags }}');
-                {% endfor %}
+            {% for message in messages %}
+            showToast('{{ message|escapejs }}', '{{ message.tags }}');
+            {% endfor %}
             {% endif %}
-            
+
             document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
-            
+
             // Auto-submit search form
             const searchInput = document.querySelector('input[name="search"]');
             if (searchInput) {
-                searchInput.addEventListener('input', function() {
+                searchInput.addEventListener('input', function () {
                     clearTimeout(this.searchTimeout);
                     this.searchTimeout = setTimeout(() => {
                         this.form.submit();
                     }, 500);
                 });
             }
-            
+
             // Close modal with escape key or click outside
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') {
                     closeContactModal();
                 }
             });
-            
-            document.getElementById('contactModal').addEventListener('click', function(e) {
+
+            document.getElementById('contactModal').addEventListener('click', function (e) {
                 if (e.target === this) {
                     closeContactModal();
                 }
@@ -657,4 +690,5 @@
         });
     </script>
 </body>
+
 </html>
