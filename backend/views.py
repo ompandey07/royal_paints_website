@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -355,6 +356,7 @@ def manage_carriers(request):
     # ==================== POST Request Handling ====================
     if request.method == 'POST':
         action = request.POST.get('action', 'create')
+        is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
         
         # ========== Delete Carrier ==========
         if action == 'delete':
@@ -371,6 +373,7 @@ def manage_carriers(request):
                 messages.success(request, f'Carrier "{carrier_title}" has been deleted successfully.')
             except Exception as e:
                 messages.error(request, f'Error deleting carrier: {str(e)}')
+            return redirect('manage_carriers')
         
         # ========== Create/Update Carrier ==========
         else:
@@ -388,12 +391,11 @@ def manage_carriers(request):
             carrier_image = request.FILES.get('carrier_image')
             
             # Basic validation
-            if not carrier_title:
-                messages.error(request, 'Carrier title is required.')
-                return redirect('manage_carriers')
-            
-            if not deadline_date:
-                messages.error(request, 'Deadline date is required.')
+            if not carrier_title or not deadline_date:
+                error_msg = 'Carrier title and deadline date are required.'
+                if is_ajax:
+                    return JsonResponse({'status': 'error', 'message': error_msg}, status=400)
+                messages.error(request, error_msg)
                 return redirect('manage_carriers')
             
             try:
@@ -412,7 +414,7 @@ def manage_carriers(request):
                         carrier.carrier_image = carrier_image
                     
                     carrier.save()
-                    messages.success(request, f'Carrier "{carrier_title}" has been updated successfully.')
+                    msg = f'Carrier "{carrier_title}" has been updated successfully.'
                 
                 else:  # Create new carrier
                     carrier = CarrierModel.objects.create(
@@ -421,9 +423,15 @@ def manage_carriers(request):
                         deadline_date=deadline_date,
                         carrier_image=carrier_image
                     )
-                    messages.success(request, f'Carrier "{carrier_title}" has been created successfully.')
+                    msg = f'Carrier "{carrier_title}" has been created successfully.'
+                
+                if is_ajax:
+                    return JsonResponse({'status': 'success', 'message': msg})
+                messages.success(request, msg)
             
             except Exception as e:
+                if is_ajax:
+                    return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
                 messages.error(request, f'Error saving carrier: {str(e)}')
         
         return redirect('manage_carriers')

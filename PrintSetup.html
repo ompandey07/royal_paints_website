@@ -1,0 +1,730 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRINT SETUP</title>
+    <link rel="icon" type="image/png" href="{% static 'Logo/Software.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="{% static 'assets/item_setup/item_setup.css' %}">
+    <!-- CKEditor 5 Classic -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <style>
+        .split-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .form-panel {
+            width: 420px;
+            min-width: 320px;
+            max-width: 800px;
+            flex-shrink: 0;
+            border-right: 1px solid var(--border);
+            background: var(--surface);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Custom Scrollbar for Form Panel */
+        .form-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .form-panel::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        .form-panel::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .form-panel::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Resizer styles */
+        .resizer {
+            width: 8px;
+            cursor: col-resize;
+            z-index: 20;
+            background-color: transparent;
+            transition: background-color 0.2s;
+            margin-left: -4px;
+            margin-right: -4px;
+            position: relative;
+        }
+
+        .resizer:hover,
+        .resizer.dragging {
+            background-color: #3b82f6;
+            /* solid blue highlight */
+        }
+
+        .table-panel {
+            flex: 1;
+            background: #e5e7eb;
+            overflow: auto;
+            padding: 0;
+            position: relative;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 0;
+            font-size: 12px;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+            height: 30px;
+        }
+
+        .form-input:focus {
+            border-color: var(--black);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .section-divider {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 0 2px;
+            border-bottom: 1px solid var(--border);
+            margin-top: 12px;
+            margin-bottom: 16px;
+        }
+
+        /* Toggle Switch styling mimicking check-row but as a switch */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 0;
+            margin-bottom: 8px;
+        }
+
+        .toggle-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 36px;
+            height: 20px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--black);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(16px);
+        }
+
+        .ck-editor__editable {
+            min-height: 120px;
+            font-size: 12px;
+        }
+
+        .preview-header {
+            padding: 12px 16px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 1px 0 var(--border);
+        }
+
+        .preview-header h2 {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .preview-iframe-container {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #e5e7eb;
+        }
+
+        #spinner {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--black);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Left Nav Sidebar -->
+    <div class="sidebar">
+        <a href="{% url 'company_dashboard' %}" title="Go to Dashboard"
+            style="display: block; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'"
+            onmouseout="this.style.opacity='1'">
+            <img src="{% static LOGO_PATH %}" alt="Logo" class="sidebar-logo">
+        </a>
+        <button class="menu-trigger" onclick="openGlobalMenu()" title="Open Modules Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="2"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="2"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="2"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="2"></rect>
+            </svg>
+        </button>
+        <div class="sidebar-title">PRINT SETUP</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" style="border-left: 1px solid var(--border);">
+        <div class="split-layout">
+            <!-- ======= LEFT FORM PANEL ======= -->
+            <div class="form-panel" id="formPanel">
+
+                <div class="form-header"
+                    style="padding: 12px 20px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center;">
+                    <h2
+                        style="font-size: 12px; font-weight: 700; color: var(--text-main); text-transform: uppercase; margin: 0;">
+                        Configuration</h2>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-outline"
+                            style="background: none; border: 1px solid var(--border); padding: 4px 8px; display: flex; align-items: center; gap: 4px; cursor: pointer; border-radius: 4px;"
+                            onclick="loadPreview()">
+                            <i data-lucide="eye" style="width: 14px; height: 14px; color: var(--text-main);"></i>
+                            <span
+                                style="font-size: 11px; font-weight: 600; color: var(--text-main); text-transform: uppercase;">Load
+                                Preview</span>
+                        </button>
+                        <button class="btn btn-outline"
+                            style="background: none; border: 1px solid var(--border); padding: 4px 8px; display: flex; align-items: center; gap: 4px; cursor: pointer; border-radius: 4px;"
+                            onclick="saveSettings()">
+                            <i data-lucide="save" style="width: 14px; height: 14px; color: #10b981;"></i>
+                            <span
+                                style="font-size: 11px; font-weight: 700; color: var(--text-main); text-transform: uppercase;">Save</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="padding: 16px 20px;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Transaction Type</label>
+                            <select id="TRANSACTION_TYPE" class="form-input" onchange="fetchSettings()"
+                                style="height: 30px;">
+                                <option value="">Select Transaction Type</option>
+                                {% for val, name in transaction_type_choices %}
+                                <option value="{{ val }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Paper Size</label>
+                            <select id="PAPER_SIZE" class="form-input" style="height: 30px;">
+                                {% for val, name in paper_size_choices %}
+                                <option value="{{ val }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Print Format</label>
+                            <select id="PRINT_FORMAT" class="form-input" style="height: 30px;">
+                                <option value="">Select Format</option>
+                                {% for val, name in print_format_choices %}
+                                <option value="{{ val }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">No. of Copies</label>
+                            <select id="NO_OF_COPIES" class="form-input" style="height: 30px;">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section-divider">Print Options</div>
+
+                    <div class="toggle-row"><label class="toggle-label">Print Company Name</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_COMPANY_NAME" checked><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Company PAN</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_COMPANY_PAN" checked><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Company Address</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_COMPANY_ADDRESS" checked><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Logo</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_LOGO"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Nepali Currency</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_NEPALI_CURRENCY"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Received By</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_RECEIVED_BY"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Checked By</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_CHECKED_BY"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print HS Code</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_HS_CODE" checked><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Non-Taxable Column</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_NON_TAXABLE_COLUMN"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Alt Unit</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_ALT_UNIT"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Additional Info</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_ADDITIONAL_INFO"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Xsis Studio</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_XSIS_STUDIO"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Currency Ex. Rate</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_CURRENCY_EX_RATE"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Forex Amount</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_FOREX_AMOUNT"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Cost Center</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_COST_CENTER"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Mode of Payment</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_MODE_OF_PAYMENT" checked><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Bank Details</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_BANK_DETAILS"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Item Descriptions</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_ITEM_DESCRIPTIONS"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Reference No.</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_REFERENCE_NO"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Item Wise Discount</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_ITEM_WISE_DISCOUNT"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print User Name</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_USER_NAME" checked><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print E & O.E</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_E_AND_OE"><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Remarks</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_REMARKS" checked><span
+                                class="slider"></span></label></div>
+                    <div class="toggle-row"><label class="toggle-label">Print Title</label><label
+                            class="toggle-switch"><input type="checkbox" id="PRINT_TITLE"><span
+                                class="slider"></span></label></div>
+
+                    <div class="section-divider">Text Fields</div>
+
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label class="form-label">Bank Details Text</label>
+                        <textarea id="PRINT_BANK_DETAILS_TEXT"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label class="form-label">Terms & Conditions</label>
+                        <textarea id="PRINT_TERMS_AND_CONDITION"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label class="form-label">Footer Note</label>
+                        <textarea id="PRINT_FOOTER_NOTE"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label class="form-label">Declaration</label>
+                        <textarea id="PRINT_DECLARATION"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label class="form-label">Note</label>
+                        <textarea id="PRINT_NOTE"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizerHandle" title="Drag to resize"></div>
+
+            <!-- ======= RIGHT PREVIEW PANEL ======= -->
+            <div class="table-panel">
+                <div id="spinner">
+                    <div class="loader"></div>
+                </div>
+                <div class="preview-iframe-container">
+                    <p id="preview-placeholder" style="text-align:center; color:var(--text-muted); font-size: 13px;">
+                        Select a Transaction Type and Format, then click Load Preview</p>
+                    <iframe id="preview-iframe" class="preview-iframe" style="display: none;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div id="toastIconContainer" class="toast-icon"></div>
+        <span id="toastMsg" class="toast-msg"></span>
+    </div>
+
+    <!-- Include Menu if it exists in base -->
+    {% include 'Base/Layouts/Menu.html' %}
+
+    <script>
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const iconContainer = document.getElementById('toastIconContainer');
+            toastMsg.textContent = message;
+            iconContainer.innerHTML = isError
+                ? '<i data-lucide="alert-circle" style="color: #ef4444;"></i>'
+                : '<i data-lucide="check-circle" style="color: #4ade80;"></i>';
+            lucide.createIcons();
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        lucide.createIcons();
+
+        let editors = {};
+
+        const textFields = [
+            'PRINT_BANK_DETAILS_TEXT',
+            'PRINT_TERMS_AND_CONDITION',
+            'PRINT_FOOTER_NOTE',
+            'PRINT_DECLARATION',
+            'PRINT_NOTE'
+        ];
+
+        textFields.forEach(id => {
+            ClassicEditor
+                .create(document.querySelector(`#${id}`))
+                .then(editor => {
+                    editors[id] = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+
+        async function fetchSettings() {
+            const tranType = document.getElementById('TRANSACTION_TYPE').value;
+            if (!tranType) return;
+
+            const allToggles = document.querySelectorAll('.toggle-row');
+            const receiptVoucherToggles = [
+                'PRINT_COMPANY_NAME', 'PRINT_COMPANY_PAN', 'PRINT_COMPANY_ADDRESS', 'PRINT_LOGO',
+                'PRINT_NEPALI_CURRENCY', 'PRINT_RECEIVED_BY', 'PRINT_CHECKED_BY', 'PRINT_USER_NAME',
+                'PRINT_E_AND_OE', 'PRINT_REMARKS', 'PRINT_TITLE'
+            ];
+
+            allToggles.forEach(toggleRow => {
+                const input = toggleRow.querySelector('input[type="checkbox"]');
+                if (tranType === 'RECEIPT VOUCHER') {
+                    if (input && receiptVoucherToggles.includes(input.id)) {
+                        toggleRow.style.display = 'flex';
+                    } else {
+                        toggleRow.style.display = 'none';
+                    }
+                } else {
+                    toggleRow.style.display = 'flex';
+                }
+            });
+
+            try {
+                const res = await fetch('', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'get_setup', PRINT_TRANSACTION_TYPE: tranType })
+                });
+                const json = await res.json();
+                if (json.success && json.data) {
+                    const d = json.data;
+                    document.getElementById('PRINT_FORMAT').value = d.PRINT_FORMAT || '';
+                    document.getElementById('PAPER_SIZE').value = d.PRINT_PAPER_SIZE || 'A4';
+                    document.getElementById('NO_OF_COPIES').value = d.PRINT_NO_OF_COPIES || '1';
+
+                    const bools = [
+                        'PRINT_COMPANY_NAME', 'PRINT_COMPANY_PAN', 'PRINT_COMPANY_ADDRESS', 'PRINT_LOGO',
+                        'PRINT_NEPALI_CURRENCY', 'PRINT_RECEIVED_BY', 'PRINT_CHECKED_BY', 'PRINT_HS_CODE',
+                        'PRINT_NON_TAXABLE_COLUMN', 'PRINT_ALT_UNIT', 'PRINT_ADDITIONAL_INFO', 'PRINT_XSIS_STUDIO',
+                        'PRINT_CURRENCY_EX_RATE', 'PRINT_FOREX_AMOUNT', 'PRINT_COST_CENTER', 'PRINT_MODE_OF_PAYMENT',
+                        'PRINT_BANK_DETAILS', 'PRINT_ITEM_DESCRIPTIONS', 'PRINT_REFERENCE_NO', 'PRINT_ITEM_WISE_DISCOUNT', 'PRINT_USER_NAME', 'PRINT_E_AND_OE', 'PRINT_REMARKS', 'PRINT_TITLE'
+                    ];
+
+                    bools.forEach(b => {
+                        document.getElementById(b).checked = d[b];
+                    });
+
+                    textFields.forEach(t => {
+                        if (editors[t]) {
+                            editors[t].setData(d[t] || '');
+                        }
+                    });
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function saveSettings() {
+            const tranType = document.getElementById('TRANSACTION_TYPE').value;
+            const format = document.getElementById('PRINT_FORMAT').value;
+
+            if (!tranType || !format) {
+                showToast('Transaction Type and Print Format are required!', true);
+                return;
+            }
+
+            const payload = {
+                action: 'save_print_setup',
+                PRINT_TRANSACTION_TYPE: tranType,
+                PRINT_FORMAT: format,
+                PRINT_PAPER_SIZE: document.getElementById('PAPER_SIZE').value,
+                PRINT_NO_OF_COPIES: document.getElementById('NO_OF_COPIES').value,
+            };
+
+            const bools = [
+                'PRINT_COMPANY_NAME', 'PRINT_COMPANY_PAN', 'PRINT_COMPANY_ADDRESS', 'PRINT_LOGO',
+                'PRINT_NEPALI_CURRENCY', 'PRINT_RECEIVED_BY', 'PRINT_CHECKED_BY', 'PRINT_HS_CODE',
+                'PRINT_NON_TAXABLE_COLUMN', 'PRINT_ALT_UNIT', 'PRINT_ADDITIONAL_INFO', 'PRINT_XSIS_STUDIO',
+                'PRINT_CURRENCY_EX_RATE', 'PRINT_FOREX_AMOUNT', 'PRINT_COST_CENTER', 'PRINT_MODE_OF_PAYMENT',
+                'PRINT_BANK_DETAILS', 'PRINT_ITEM_DESCRIPTIONS', 'PRINT_REFERENCE_NO', 'PRINT_ITEM_WISE_DISCOUNT', 'PRINT_USER_NAME', 'PRINT_E_AND_OE', 'PRINT_REMARKS', 'PRINT_TITLE'
+            ];
+
+            bools.forEach(b => {
+                payload[b] = document.getElementById(b).checked;
+            });
+
+            textFields.forEach(t => {
+                if (editors[t]) {
+                    payload[t] = editors[t].getData();
+                }
+            });
+
+            try {
+                const res = await fetch('', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const json = await res.json();
+                if (json.success) {
+                    showToast(json.message || 'Settings saved successfully!', false);
+                } else {
+                    showToast(json.message || 'Error saving settings.', true);
+                }
+            } catch (e) {
+                showToast('Save failed: ' + e.message, true);
+            }
+        }
+
+        async function loadPreview() {
+            const tranType = document.getElementById('TRANSACTION_TYPE').value;
+            const format = document.getElementById('PRINT_FORMAT').value;
+
+            if (!tranType || !format) {
+                showToast('Select Transaction Type and Format first!', true);
+                return;
+            }
+
+            const spinner = document.getElementById('spinner');
+
+            spinner.style.display = 'flex';
+
+            try {
+                const res = await fetch('', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                    body: JSON.stringify({
+                        action: 'preview',
+                        transaction_type: tranType,
+                        format: format
+                    })
+                });
+                const json = await res.json();
+
+                const placeholder = document.getElementById('preview-placeholder');
+                const iframe = document.getElementById('preview-iframe');
+
+                if (json.success) {
+                    placeholder.style.display = 'none';
+                    iframe.style.display = 'block';
+                    iframe.srcdoc = json.html;
+                } else {
+                    placeholder.style.display = 'block';
+                    iframe.style.display = 'none';
+                    placeholder.innerHTML = `<span style="color:red;">Error: ${json.message}</span>`;
+                }
+            } catch (e) {
+                const placeholder = document.getElementById('preview-placeholder');
+                const iframe = document.getElementById('preview-iframe');
+                placeholder.style.display = 'block';
+                iframe.style.display = 'none';
+                placeholder.innerHTML = `<span style="color:red;">Error: ${e.message}</span>`;
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Resizable panel logic
+        const formPanel = document.getElementById('formPanel');
+        const resizerHandle = document.getElementById('resizerHandle');
+        let isResizing = false;
+
+        resizerHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            document.body.style.cursor = 'col-resize';
+            resizerHandle.classList.add('dragging');
+
+            // Prevent iframe from swallowing mouse events
+            const iframe = document.getElementById('preview-iframe');
+            if (iframe) iframe.style.pointerEvents = 'none';
+
+            // Prevent text selection while dragging
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+
+            const offsetLeft = formPanel.getBoundingClientRect().left;
+            let newWidth = e.clientX - offsetLeft;
+
+            // Apply limits
+            if (newWidth < 320) newWidth = 320;
+            if (newWidth > 800) newWidth = 800;
+
+            formPanel.style.width = `${newWidth}px`;
+            formPanel.style.minWidth = `${newWidth}px`;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = '';
+                resizerHandle.classList.remove('dragging');
+
+                const iframe = document.getElementById('preview-iframe');
+                if (iframe) iframe.style.pointerEvents = 'auto';
+            }
+        });
+    </script>
+</body>
+
+</html>
